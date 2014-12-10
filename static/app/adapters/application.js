@@ -1,7 +1,8 @@
-import DS from 'ember-data';
+import DS from "ember-data";
 
-var RESTAdapter = DS.RESTAdapter.extend({
+export default DS.ActiveModelAdapter.extend({
   namespace: 'api',
+  buildURL: function(type, id, record){
+    return this._super(type, id, record) + '/';
+  }
 });
-
-export default RESTAdapter;

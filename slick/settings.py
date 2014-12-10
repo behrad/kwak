@@ -92,5 +92,15 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'ember_drf.renderers.ActiveModelJSONRenderer',
+
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'ember_drf.parsers.ActiveModelJSONParser',
+
+        'rest_framework.parsers.MultiPartParser',
+    ),
 }
