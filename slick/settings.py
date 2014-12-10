@@ -84,7 +84,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/victor/Dropbox/slick/static/'
+STATIC_ROOT = '/var/www/slick/static/'
 
 
 REST_FRAMEWORK = {
