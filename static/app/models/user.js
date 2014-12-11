@@ -5,5 +5,11 @@ export default DS.Model.extend({
   first_name: DS.attr('string'),
   last_name: DS.attr('string'),
   email: DS.attr('string'),
-  is_staff: DS.attr('boolean')
+  url: DS.attr('string'),
+  is_staff: DS.attr('boolean'),
+  fullName: function() {
+    var firstName = this.get('first_name');
+    var lastName = this.get('last_name');
+    return firstName + ' ' + lastName;
+  }.property('first_name', 'last_name')
 });

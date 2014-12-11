@@ -1,0 +1,22 @@
+<aside class="channels">
+  <ul>
+  {{#each channel in channels}}
+    <li>{{#link-to 'channels.channel' channel.id channel.name}}{{channel.name}}{{/link-to}}</li>
+  {{/each}}
+  </ul>
+</aside>
+
+<div class="messages">
+  {{#each message in messages}}
+  <div class="message">
+    <div class="message-header">
+      <div class="channel-name">{{message.channel.name}}</div>
+      <div class="message-date">{{message.pubdate}}</div>
+    </div>
+    <div class="message-content">
+      <p class="message-author">{{message.author.fullname}}</p>
+      <p>{{message.content}}</p>
+    </div>
+  </div>
+  {{/each}}
+</div>
