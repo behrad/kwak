@@ -1,7 +1,7 @@
 <aside class="channels">
   <ul>
   {{#each channel in channels}}
-    <li>{{#link-to 'channel' channel.id channel.name}}{{channel.name}}{{/link-to}}</li>
+    <li>{{#link-to 'channels.channel' channel.id channel.name}}{{channel.name}}{{/link-to}}</li>
   {{/each}}
   </ul>
 </aside>
