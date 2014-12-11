@@ -1,3 +1,11 @@
 html, body {
   margin: 20px;
 }
+
+.channels {
+  width: 20%;
+}
+
+.messages {
+  width: 80%;
+}

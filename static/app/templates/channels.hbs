@@ -1,0 +1,11 @@
+<aside class="channels">
+  <ul>
+  {{#each channel in channels}}
+    <li>{{#link-to 'channel' channel.id channel.name}}{{channel.name}}{{/link-to}}</li>
+  {{/each}}
+  </ul>
+</aside>
+
+<div class="messages">
+  {{outlet}}
+</div>
