@@ -88,8 +88,9 @@ STATIC_ROOT = '/var/www/slick/static/'
 
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_FILTER_BACKENDS': (
+        'ember_drf.filters.CoallesceIDsFilterBackend',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
@@ -103,4 +104,5 @@ REST_FRAMEWORK = {
 
         'rest_framework.parsers.MultiPartParser',
     ),
+    'EXCEPTION_HANDLER': 'ember_drf.views.exception_handler'
 }

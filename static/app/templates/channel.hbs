@@ -1,1 +1,7 @@
-{{name}}
+{{channel.name}}
+
+{{channel.messages}}
+
+{{#each message in channel.messages}}
+  {{message.content}}
+{{/each}}

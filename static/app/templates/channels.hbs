@@ -7,5 +7,12 @@
 </aside>
 
 <div class="messages">
-  {{outlet}}
+  <ul>
+  {{#each message in messages}}
+    <li>
+      {{message.channel.name}}<br>
+      {{message.content}}
+    </li>
+  {{/each}}
+  </ul>
 </div>

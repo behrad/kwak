@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, HyperlinkedIdentityField
 from ember_drf.serializers import SideloadSerializer
 from django.contrib.auth.models import User
 from channel.models import Channel
@@ -7,7 +7,7 @@ from message.models import Message
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'url', 'username', 'email', 'is_staff')
+        fields = ('id', 'url', 'username', 'first_name', 'last_name', 'email', 'is_staff')
 
 class UserSideloadSerializer(SideloadSerializer):
     class Meta:
@@ -35,6 +35,5 @@ class MessageSideloadSerializer(SideloadSerializer):
     class Meta:
         base_serializer = MessageSerializer
         sideloads = [
-            (User, UserSerializer),
-            (Channel, ChannelSerializer),
+            (Channel, ChannelSerializer)
         ]
