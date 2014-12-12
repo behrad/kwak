@@ -2,9 +2,10 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <div class="well well-sm">
-          <h4>{{topic.channel.name}}&nbsp;» {{topic.name}}</h4>
-        </div>
+        <ol class="breadcrumb">
+          <li>{{#link-to 'channels.channel' topic.channel.id topic.channel.name}}{{topic.channel.name}}{{/link-to}}</li>
+          <li class="active">{{topic.name}}</li>
+        </ol>
       </div>
     </div>
     {{#each message in messages}}
