@@ -18,5 +18,11 @@ class ChannelViewSet(ModelViewSet):
 
 class MessageViewSet(ModelViewSet):
     model = Message
-    queryset = Message.objects.all()
     serializer_class = MessageSideloadSerializer
+
+    def get_queryset(self):
+        queryset = Message.objects.all()
+        channel_id = self.request.QUERY_PARAMS.get('channel_id', None)
+        if channel_id is not None:
+            queryset = queryset.filter(channel__id=channel_id)
+        return queryset
