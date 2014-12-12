@@ -21,11 +21,11 @@ class Topic(models.Model):
         verbose_name = 'Topic'
         verbose_name_plural = 'Topics'
 
-    name = models.CharField('name', max_length=120)
+    title = models.CharField('title', max_length=120)
     channel = models.ForeignKey(Channel, related_name='messages')
 
     def __unicode__(self):
-        return self.name
+        return self.title
 
 
 class Message(models.Model):
