@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'message',
 )
 
@@ -103,5 +104,13 @@ REST_FRAMEWORK = {
 
         'rest_framework.parsers.MultiPartParser',
     ),
-    'EXCEPTION_HANDLER': 'ember_drf.views.exception_handler'
+    'EXCEPTION_HANDLER': 'ember_drf.views.exception_handler',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
+
+if DEBUG:
+    REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += (
+        'rest_framework.authentication.SessionAuthentication',
+    )

@@ -14,6 +14,23 @@
       <ul class="nav navbar-nav">
         {{#link-to 'channels' tagName="li" href=false}}<a {{bind-attr href="view.href"}}>channels</a>{{/link-to}}
       </ul>
+
+      {{#if session.isAuthenticated}}
+        <div class="navbar-form navbar-right">
+          <a {{ action 'invalidateSession' }} class="btn btn-default">Logout</a>
+        </div>
+      {{else}}
+        <form class="navbar-form navbar-right" {{action 'authenticate' on='submit'}}>
+          <div class="form-group">
+            {{input id='identification' class='form-control' placeholder='Enter Login' value=identification}}
+          </div>
+          <div class="form-group">
+            {{input id='password' class='form-control' placeholder='Enter Password' type='password' value=password}}
+          </div>
+          <button type="submit" class="btn btn-default">Sign In</button>
+        </form>
+      {{/if}}
+
     </div><!-- /.navbar-collapse -->
   </div>
 </nav>
