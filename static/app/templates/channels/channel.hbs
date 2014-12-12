@@ -1,38 +1,36 @@
-<div class="col-md-11 col-sm-10 col-xs-12">
-    <div class="row">
-      <div class="col-md-12">
-        <ol class="breadcrumb">
-          <li class="active">{{channel.name}}</li>
-        </ol>
-      </div>
-    </div>
-  <div class="container-fluid">
-    {{#each message in messages}}
-    <div class="row">
-      <div class="col-md-12">
-        <div class="well well-sm">
-          <div class="message">
-            <div class="message-header">
-              <p>
-                {{#link-to 'channels.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.name}}
-                  <span class="label label-warning">{{message.topic.name}}</span>
-                {{/link-to}}
-                <span class="pull-right">{{message.pubdate}}</span>
-              </p>
+<div class="container-fluid">
+  {{#each message in messages}}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well well-sm">
+        <div class="message">
+          <div class="message-header">
+            <p>
+              {{#link-to 'channels.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.name}}
+                <span class="label label-warning">{{message.topic.name}}</span>
+              {{/link-to}}
+              <span class="pull-right">{{message.pubdate}}</span>
+            </p>
+          </div>
+          <div class="message-body">
+            <div class="pull-left">
+              <img class="profile-img" src="/assets/passed.png">
             </div>
-            <div class="message-body">
-              <div class="pull-left">
-                <img class="profile-img" src="/assets/passed.png">
-              </div>
-              <h5>{{message.author.fullName}}</h5>
-              <p>
-                {{message.content}}
-              </p>
-            </div>
+            <h5>{{message.author.fullName}}</h5>
+            <p>
+              {{message.content}}
+            </p>
           </div>
         </div>
       </div>
     </div>
-    {{/each}}
+  </div>
+  {{/each}}
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li class="active">{{channel.name}}</li>
+      </ol>
+    </div>
   </div>
 </div>

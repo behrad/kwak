@@ -20,3 +20,9 @@ a {
 h5 {
   font-weight: bold;
 }
+
+.breadcrumb > li+li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "»";
+}
