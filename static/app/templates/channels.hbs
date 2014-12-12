@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <div class="row">
+    <aside class="channels col-md-1 col-sm-2 hidden-xs">
+      <ul class="nav nav-pills nav-stacked">
+      {{#each channel in channels}}
+        {{#link-to 'channels.channel' channel.id channel.name tagName="li" href=false}}<a {{bind-attr href="view.href"}}>{{channel.name}}</a>{{/link-to}}
+      {{/each}}
+      </ul>
+    </aside>
+    {{outlet}}
+  </div>
+</div>

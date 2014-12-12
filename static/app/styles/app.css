@@ -1,4 +1,4 @@
-html, body {
+body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
@@ -6,35 +6,11 @@ html, body {
   background-color: #fff;
 }
 
-.channels {
+body {
+  padding-top: 70px;
+  padding-bottom: 70px;
 }
 
-.messages {
-}
-
-.message {
-  border: 2px solid #e3e3e3;
-  margin-bottom: 10px;
-  padding: 5px;
-}
-
-.message-header {
-  border-bottom: 1px solid black;
-  height: 20px;
-}
-
-.channel-name {
-  float: left;
-}
-
-.message-date {
-  float: right;
-}
-
-.message-content {
-  clear: both;
-}
-
-.message-author {
-    font-weight: bold;
+a {
+  cursor: pointer;
 }

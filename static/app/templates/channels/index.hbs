@@ -1,26 +1,30 @@
-<div class="container-fluid">
-  <div class="row">
-    <aside class="channels col-md-1 col-sm-2 hidden-xs">
-      <ul class="nav nav-pills nav-stacked">
-      {{#each channel in channels}}
-        {{#link-to 'channels.channel' channel.id channel.name tagName="li" href=false}}<a {{bind-attr href="view.href"}}>{{channel.name}}</a>{{/link-to}}
-      {{/each}}
-      </ul>
-    </aside>
-
-    <div class="messages col-md-11 col-sm-10 col-xs-12">
-      {{#each message in messages}}
-      <div class="message">
-        <div class="message-header">
-          <div class="channel-name">{{message.channel.name}}</div>
-          <div class="message-date">{{message.pubdate}}</div>
-        </div>
-        <div class="message-content">
-          <p class="message-author">{{message.author.username}}</p>
-          <p>{{message.content}}</p>
+<div class="col-md-11 col-sm-10 col-xs-12">
+  <div class="container-fluid">
+    {{#each message in messages}}
+    <div class="row">
+      <div class="col-md-12">
+        <div class="well well-sm">
+          <div class="message">
+            <div class="message-header">
+              <p>
+                {{#link-to 'channels.channel' message.topic.channel.id message.topic.channel.name}}<span class="label label-info">{{message.topic.channel.name}}</span>{{/link-to}}
+                <span class="label label-warning">{{message.topic.name}}</span>
+                <span class="pull-right">{{message.pubdate}}</span>
+              </p>
+            </div>
+            <div class="message-body">
+              <div class="pull-left">
+                <img height="50" width="50" src="http://roo.fmrp.usp.br/img/user.jpg">
+              </div>
+              <h5>{{message.author.fullName}}</h5>
+              <p>
+                {{message.content}}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-      {{/each}}
     </div>
+    {{/each}}
   </div>
 </div>

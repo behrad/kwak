@@ -1,8 +1,7 @@
 from rest_framework.serializers import ModelSerializer, HyperlinkedIdentityField
 from ember_drf.serializers import SideloadSerializer
 from django.contrib.auth.models import User
-from channel.models import Channel
-from message.models import Message
+from message.models import Channel, Topic, Message
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -26,14 +25,27 @@ class ChannelSideloadSerializer(SideloadSerializer):
         sideloads = []
 
 
+class TopicSerializer(ModelSerializer):
+    class Meta:
+        model = Topic
+        fields = ('id', 'name', 'channel')
+
+class TopicSideloadSerializer(SideloadSerializer):
+    class Meta:
+        base_serializer = TopicSerializer
+        sideloads = [
+            (Channel, ChannelSideloadSerializer),
+        ]
+
+
 class MessageSerializer(ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'pubdate', 'author', 'channel', 'content')
+        fields = ('id', 'pubdate', 'author', 'topic', 'content')
 
 class MessageSideloadSerializer(SideloadSerializer):
     class Meta:
         base_serializer = MessageSerializer
         sideloads = [
-            (Channel, ChannelSerializer)
+            (Topic, TopicSideloadSerializer),
         ]
