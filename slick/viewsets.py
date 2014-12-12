@@ -30,4 +30,8 @@ class MessageViewSet(ModelViewSet):
         channel_id = self.request.QUERY_PARAMS.get('channel_id', None)
         if channel_id is not None:
             queryset = queryset.filter(topic__channel__id=channel_id)
+
+        topic_id = self.request.QUERY_PARAMS.get('topic_id', None)
+        if topic_id is not None:
+            queryset = queryset.filter(topic__id=topic_id)
         return queryset

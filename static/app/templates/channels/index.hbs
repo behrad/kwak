@@ -7,14 +7,18 @@
           <div class="message">
             <div class="message-header">
               <p>
-                {{#link-to 'channels.channel' message.topic.channel.id message.topic.channel.name}}<span class="label label-info">{{message.topic.channel.name}}</span>{{/link-to}}
-                <span class="label label-warning">{{message.topic.name}}</span>
+                {{#link-to 'channels.channel' message.topic.channel.id message.topic.channel.name}}
+                  <span class="label label-info">{{message.topic.channel.name}}</span>
+                {{/link-to}}
+                {{#link-to 'channels.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.name}}
+                  <span class="label label-warning">{{message.topic.name}}</span>
+                {{/link-to}}
                 <span class="pull-right">{{message.pubdate}}</span>
               </p>
             </div>
             <div class="message-body">
               <div class="pull-left">
-                <img height="50" width="50" src="http://roo.fmrp.usp.br/img/user.jpg">
+                <img class="profile-img" src="/assets/passed.png">
               </div>
               <h5>{{message.author.fullName}}</h5>
               <p>
