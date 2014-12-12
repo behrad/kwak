@@ -7,13 +7,9 @@ html, body {
 }
 
 .channels {
-  float: left;
-  width: 20%;
 }
 
 .messages {
-  float: left;
-  width: 80%;
 }
 
 .message {
