@@ -6,7 +6,7 @@ export default Ember.ObjectController.extend({
   topicTitle: Ember.computed.oneWay('model.title'),
   currentUser: Ember.computed.alias('controllers.user'),
   actions: {
-    createMessage() {
+    createMessageFromTopic() {
       var content = this.get('message');
       if (!content.trim()) { return; }
 

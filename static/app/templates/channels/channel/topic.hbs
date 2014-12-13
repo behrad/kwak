@@ -27,7 +27,7 @@
 
 <footer class="row">
   <div class="col-xs-12">
-    <form {{action 'createMessage' on='submit' id='messageform'}}>
+    <form {{action 'createMessageFromTopic' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
         <span class="input-group-addon">{{model.channel.name}}&nbsp;»</span>
         {{input type="text" id="topic" value=topicTitle placeholder="topic" class="form-control"}}
