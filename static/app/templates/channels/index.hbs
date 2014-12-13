@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="message-list">
   {{#each message in messages}}
   <div class="row">
     <div class="col-md-12">
@@ -31,3 +31,22 @@
   </div>
   {{/each}}
 </div>
+
+<footer class="row">
+  <div class="col-xs-12">
+    <form {{action 'createMessage' on='submit' id='messageform'}}>
+      {{input type="hidden" id="channel" value=topic.channel.id}}
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon">
+
+          {{input type="text" id="channel" value=channel placeholder="channel" class="form-control"}}
+          &nbsp;»
+        </span>
+        {{input type="text" id="topic" value=topic.title placeholder="topic" class="form-control"}}
+      </div>
+      <div class="form-group">
+        {{textarea id="messagebox" class="form-control" value=message}}
+      </div>
+    </form>
+  </div>
+</footer>

@@ -27,3 +27,16 @@ h5 {
   content: "»";
 }
 
+footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+}
+
+#channel {
+  min-width: 100px;
+}
+
+.message-list {
+  padding-bottom: 43px;
+}

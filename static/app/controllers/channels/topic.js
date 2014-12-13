@@ -13,24 +13,28 @@ export default Ember.ObjectController.extend({
       var topic_title = this.get('topic.title');
       if (!topic_title.trim()) { return; }
 
-      //TODO fix this mess
-      var aSampleTopic = this.store.getById('topic', 3);
+      /**
 
-      $.getJSON( "/api/me", function( data ) {
-        var user_id = data['users'][0]['id'];
-        var user = this.store.getById('user', user_id);
+      1/ Get or create a Topic named topic_title in Channel channel_id
+      2/ Get the currently logged in User
+      3/ Save the message
+      4/ Update the view ?
 
-        var message = this.store.createRecord('message', {
-          content: content,
-          topic: aSampleTopic,
-          author: user
-        });
+      */
 
-        this.set('message', '');
+      var topic = '';
+      var user = '';
 
-        message.save();
-
+      var message = this.store.createRecord('message', {
+        content: content,
+        topic: topic,
+        author: user
       });
+
+      this.set('message', '');
+
+      message.save();
+
 
     }
   }
