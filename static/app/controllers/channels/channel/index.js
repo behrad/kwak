@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-
 export default Ember.ObjectController.extend({
   needs: ['user'],
   topicTitle: Ember.computed.oneWay('model.title'),
