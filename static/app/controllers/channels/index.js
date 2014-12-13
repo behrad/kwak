@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
-  model: 'channels',
-  sortProperties: ['name'],
-  sortAscending: true
+export default Ember.ArrayController.extend({
+  sortProperties: ['id'],
+  sortAscending: true,
+  sortFunction: function(a, b) {
+    return +a > +b ? 1 : -1;
+  }
 });
