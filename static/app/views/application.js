@@ -9,6 +9,7 @@ export default Ember.View.extend({
           $('#messageform').submit();
         }
       });
+      $("html, body").animate({ scrollTop: $(document).height() }, 1000);
     });
   }
 });

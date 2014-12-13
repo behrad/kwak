@@ -37,9 +37,8 @@
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       {{input type="hidden" id="channel" value=topic.channel.id}}
       <div class="input-group input-group-lg">
+        {{input type="text" id="channel" value=channel placeholder="channel" class="form-control"}}
         <span class="input-group-addon">
-
-          {{input type="text" id="channel" value=channel placeholder="channel" class="form-control"}}
           &nbsp;»
         </span>
         {{input type="text" id="topic" value=topic.title placeholder="topic" class="form-control"}}

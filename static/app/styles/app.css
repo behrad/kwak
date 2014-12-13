@@ -31,10 +31,7 @@ footer {
   position: fixed;
   bottom: 0;
   background-color: #fff;
-}
-
-#channel {
-  min-width: 100px;
+  padding-right: 14px;
 }
 
 .message-list {
