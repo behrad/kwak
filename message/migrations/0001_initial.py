@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=120, verbose_name=b'name')),
-                ('subscribers', models.ManyToManyField(related_name='channels', to=settings.AUTH_USER_MODEL)),
+                ('subscribers', models.ManyToManyField(related_name='subscriber_channels', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Channel',
@@ -40,11 +40,37 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Topic',
+            name='MessageSeen',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('message', models.ForeignKey(related_name='seen_by_user', to='message.Message')),
+                ('user', models.ForeignKey(related_name='saw_messages', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'MessageSeen',
+                'verbose_name_plural': 'MessagesSeen',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Team',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=120, verbose_name=b'name')),
-                ('channel', models.ForeignKey(related_name='messages', to='message.Channel')),
+                ('members', models.ManyToManyField(related_name='team_channels', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'Team',
+                'verbose_name_plural': 'Teams',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Topic',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=120, verbose_name=b'title')),
+                ('channel', models.ForeignKey(related_name='topics', to='message.Channel')),
             ],
             options={
                 'verbose_name': 'Topic',
@@ -56,6 +82,12 @@ class Migration(migrations.Migration):
             model_name='message',
             name='topic',
             field=models.ForeignKey(related_name='messages', to='message.Topic'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='channel',
+            name='team',
+            field=models.ForeignKey(related_name='team_channels', to='message.Team'),
             preserve_default=True,
         ),
     ]
