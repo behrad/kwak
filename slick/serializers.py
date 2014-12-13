@@ -49,3 +49,14 @@ class MessageSideloadSerializer(SideloadSerializer):
         sideloads = [
             (Topic, TopicSideloadSerializer),
         ]
+
+
+class MeSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = 'id',
+
+class MeSideloadSerializer(SideloadSerializer):
+    class Meta:
+        base_serializer = MeSerializer
+        sideloads = []
