@@ -2,7 +2,7 @@
   <aside class="channels col-md-2 col-sm-2 hidden-xs">
     <div class="affix" data-spy="affix">
       <ul class="nav nav-pills nav-stacked">
-      {{#each channel in channels}}
+      {{#each channel in model}}
         {{#link-to 'channels.channel' channel.id channel.name tagName="li" href=false}}<a {{bind-attr href="view.href"}}>{{channel.name}}</a>{{/link-to}}
       {{/each}}
       </ul>

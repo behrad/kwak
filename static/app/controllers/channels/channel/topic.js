@@ -36,7 +36,7 @@ export default Ember.Controller.extend({
             }).save().then(function (message) {
               message.get('topic').then(function (topic) {
                 console.log(topic);
-                this.transitionTo('channels.channel.topic', topic);
+                self.transitionToRoute('channels.channel.topic', topic);
 
               });
             });
