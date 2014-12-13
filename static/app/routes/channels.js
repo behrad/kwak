@@ -7,6 +7,7 @@ export default Ember.Route.extend({
       user: this.store.find('user', 'current')
     });
   },
+
   setupController: function(controller, model) {
     controller.set('model', model.channels);
     this.controllerFor('user').set('model', model.user);
