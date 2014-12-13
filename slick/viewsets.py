@@ -17,8 +17,19 @@ class ChannelViewSet(ModelViewSet):
 
 class TopicViewSet(ModelViewSet):
     model = Topic
-    queryset = Topic.objects.all()
     serializer_class = TopicSideloadSerializer
+
+    def get_queryset(self):
+        queryset = Topic.objects.all()
+        title = self.request.QUERY_PARAMS.get('title', None)
+        channel_id = self.request.QUERY_PARAMS.get('channel_id', None)
+        # TODO : check permission. Is user allowed to create a topic in channel_id ?
+        if title is not None and channel_id is not None:
+            queryset = queryset.filter(channel__id=channel_id).filter(title=title)
+            if not list(queryset): # if nothing found create topic
+                topic = Topic.objects.create(channel_id=channel_id, title=title)
+                queryset = Topic.objects.filter(pk=topic.pk)
+        return queryset
 
 
 class MessageViewSet(ModelViewSet):
