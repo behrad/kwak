@@ -110,7 +110,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-# if DEBUG:
-#     REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += (
-#         'rest_framework.authentication.SessionAuthentication',
-#     )
+if DEBUG:
+    REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += (
+        'rest_framework.authentication.SessionAuthentication',
+    )

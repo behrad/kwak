@@ -22,7 +22,7 @@ class Topic(models.Model):
         verbose_name_plural = 'Topics'
 
     title = models.CharField('title', max_length=120)
-    channel = models.ForeignKey(Channel, related_name='messages')
+    channel = models.ForeignKey(Channel, related_name='topics')
 
     def __unicode__(self):
         return self.title

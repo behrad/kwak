@@ -6,6 +6,9 @@
         <div class="message">
           <div class="message-header">
             <p>
+              {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}
+                <span class="label label-warning">{{message.topic.title}}</span>
+              {{/link-to}}
               <span class="pull-right">{{format-date message.pubdate}}</span>
             </p>
           </div>
@@ -30,7 +33,7 @@
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       {{input type="hidden" id="channel" value=topic.channel.id}}
       <div class="input-group input-group-lg">
-        <span class="input-group-addon">{{topic.channel.name}}&nbsp;»</span>
+        <span class="input-group-addon">{{channel.name}}&nbsp;»</span>
         {{input type="text" id="topic" value=topic.title placeholder="topic" class="form-control"}}
       </div>
       <div class="form-group">

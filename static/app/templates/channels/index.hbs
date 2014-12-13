@@ -10,7 +10,7 @@
                 <span class="label label-info">{{message.topic.channel.name}}</span>
               {{/link-to}}
               &nbsp;»
-              {{#link-to 'channels.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}
+              {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}
                 <span class="label label-warning">{{message.topic.title}}</span>
               {{/link-to}}
               <span class="pull-right">{{format-date message.pubdate}}</span>

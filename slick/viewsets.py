@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from message.models import Channel, Topic, Message
 from rest_framework.viewsets import ModelViewSet
-from slick.serializers import UserSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, MeSideloadSerializer
+from rest_framework.generics import RetrieveAPIView
+from slick.serializers import UserSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
 
 class UserViewSet(ModelViewSet):
     model = User
@@ -44,14 +45,12 @@ class MessageViewSet(ModelViewSet):
         return queryset
 
 
-class MeViewSet(ModelViewSet):
+class MeView(RetrieveAPIView):
     model = User
-    serializer_class = MeSideloadSerializer
+    serializer_class = UserSideloadSerializer
 
-    def get_queryset(self):
+    def get_object(self):
         if self.request.user.is_authenticated():
-
-            queryset = User.objects.filter(pk=self.request.user.pk)
-            return queryset
+            return User.objects.get(pk=self.request.user.pk)
         else:
-            return User.objects.filter(pk=-1)
+            raise Error

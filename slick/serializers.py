@@ -25,19 +25,6 @@ class ChannelSideloadSerializer(SideloadSerializer):
         sideloads = []
 
 
-class TopicSerializer(ModelSerializer):
-    class Meta:
-        model = Topic
-        fields = ('id', 'title', 'channel')
-
-class TopicSideloadSerializer(SideloadSerializer):
-    class Meta:
-        base_serializer = TopicSerializer
-        sideloads = [
-            (Channel, ChannelSideloadSerializer),
-        ]
-
-
 class MessageSerializer(ModelSerializer):
     class Meta:
         model = Message
@@ -46,17 +33,18 @@ class MessageSerializer(ModelSerializer):
 class MessageSideloadSerializer(SideloadSerializer):
     class Meta:
         base_serializer = MessageSerializer
-        sideloads = [
-            (Topic, TopicSideloadSerializer),
-        ]
-
-
-class MeSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = 'id',
-
-class MeSideloadSerializer(SideloadSerializer):
-    class Meta:
-        base_serializer = MeSerializer
         sideloads = []
+
+
+class TopicSerializer(ModelSerializer):
+    class Meta:
+        model = Topic
+        fields = ('id', 'title', 'channel', 'messages')
+        read_only_fields = 'messages',
+
+class TopicSideloadSerializer(SideloadSerializer):
+    class Meta:
+        base_serializer = TopicSerializer
+        sideloads = [
+            (Message, MessageSerializer),
+        ]
