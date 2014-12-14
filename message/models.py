@@ -51,20 +51,9 @@ class Message(models.Model):
     pubdate = models.DateTimeField('pubdate', auto_now_add=True, editable=False)
     author = models.ForeignKey(User, related_name='messages')
     topic = models.ForeignKey(Topic, related_name='messages')
+    seen_by = models.ManyToManyField(User, related_name='saw_message')
 
     content = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return "{} - {}…".format(self.author.username, self.content[0:10])
-
-
-class MessageSeen(models.Model):
-    class Meta:
-        verbose_name = 'MessageSeen'
-        verbose_name_plural = 'MessagesSeen'
-
-    user = models.ForeignKey(User, related_name='saw_messages')
-    message = models.ForeignKey(Message, related_name='seen_by_user')
-
-    def __unicode__(self):
-        return "{} has seen {}".format(self.user.username, self.message.content[0:10])
+        return "{} - {}".format(self.author.username, self.content[0:10])
