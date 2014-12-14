@@ -47,6 +47,7 @@ module.exports = function(environment) {
   ENV['simple-auth'] = {
     authorizer: 'simple-auth-authorizer:token',
     crossOriginWhitelist: ['http://localhost:8001'],
+    routeAfterAuthentication: 'channels',
   };
 
   ENV['simple-auth-token'] = {
