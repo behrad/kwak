@@ -22,6 +22,7 @@ export default Ember.ObjectController.extend({
             content: content,
             author: self.get('currentUser.model')
           }).save().then(function(message) {
+            setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
             self.get('controllers.channels/channel.messages').pushObject(message);
           });
         } else {

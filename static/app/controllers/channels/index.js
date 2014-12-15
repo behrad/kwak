@@ -10,6 +10,7 @@ export default Ember.ArrayController.extend({
   },
   actions: {
     createMessage: function() {
+      console.log(document.body.scrollHeight);
       var content = this.get('message');
       if (!content.trim()) { return; }
 
@@ -25,7 +26,9 @@ export default Ember.ArrayController.extend({
           topic.get('messages').createRecord({
             content: content,
             author: self.get('currentUser.model')
-          }).save();
+          }).save().then(function() {
+            setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
+          });
         } else {
           self.store.find('channel', channelId).then(function(channel) {
             self.store.createRecord('topic', {
@@ -35,7 +38,9 @@ export default Ember.ArrayController.extend({
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
-              }).save();
+              }).save().then(function() {
+                setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
+              });
             });
           });
         }
