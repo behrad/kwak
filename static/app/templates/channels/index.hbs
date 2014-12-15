@@ -7,11 +7,11 @@
           <div class="message-header">
             <p>
               {{#link-to 'channels.channel' message.topic.channel.id message.topic.channel.name}}
-                <span class="label label-info">{{message.topic.channel.name}}</span>
+                <span class="channel-name">{{message.topic.channel.name}}</span>
               {{/link-to}}
               &nbsp;»
               {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}
-                <span class="label label-warning">{{message.topic.title}}</span>
+                <span class="topic-title">{{message.topic.title}}</span>
               {{/link-to}}
               <span class="pull-right">{{format-date message.pubdate}}</span>
             </p>
