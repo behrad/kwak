@@ -10,7 +10,6 @@ export default Ember.ArrayController.extend({
   },
   actions: {
     createMessage: function() {
-      console.log(document.body.scrollHeight);
       var content = this.get('message');
       if (!content.trim()) { return; }
 
