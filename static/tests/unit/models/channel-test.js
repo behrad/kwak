@@ -5,7 +5,7 @@ import {
 
 moduleForModel('channel', 'Channel', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:topic', 'model:message']
 });
 
 test('it exists', function() {
