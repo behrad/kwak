@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, HyperlinkedIdentityField
+from rest_framework.serializers import ModelSerializer
 from ember_drf.serializers import SideloadSerializer
 from django.contrib.auth.models import User
 from message.models import Channel, Topic, Message

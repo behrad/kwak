@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from message.models import Channel, Topic, Message
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
@@ -12,8 +12,18 @@ class UserViewSet(ModelViewSet):
 
 class ChannelViewSet(ModelViewSet):
     model = Channel
-    queryset = Channel.objects.all()
     serializer_class = ChannelSideloadSerializer
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return []
+        queryset = Channel.objects.filter(team__members=self.request.user)
+
+        subscribed = self.request.QUERY_PARAMS.get('subscribed', None)
+        if subscribed:
+            queryset = queryset.filter(subscribers=self.request.user)
+
+        return queryset
 
 
 class TopicViewSet(ModelViewSet):
@@ -53,4 +63,4 @@ class MeView(RetrieveAPIView):
         if self.request.user.is_authenticated():
             return User.objects.get(pk=self.request.user.pk)
         else:
-            raise Error
+            raise Exception("User does not exist")

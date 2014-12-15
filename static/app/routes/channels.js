@@ -4,7 +4,7 @@ import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixi
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model: function() {
     return Ember.RSVP.hash({
-      channels: this.store.find('channel'),
+      channels: this.store.find('channel', {subscribed: true}),
       user: this.store.find('user', 'current'),
     });
   },
