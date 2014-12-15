@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: ['user'],
+  needs: ['user', 'channels/channel'],
   topicTitle: Ember.computed.oneWay('model.title'),
   currentUser: Ember.computed.alias('controllers.user'),
   actions: {
@@ -15,13 +15,17 @@ export default Ember.ObjectController.extend({
       if (!topicTitle.trim()) { return; }
 
       var self = this;
+
       this.store.find('topic', {title: topicTitle, channel_id: channelId}).then(function(topics) {
         var topic = topics.get('lastObject');
         if (topic) {
           topic.get('messages').createRecord({
             content: content,
             author: self.get('currentUser.model')
-          }).save();
+          }).save().then(function(message) {
+            self.get('controllers.channels/channel.messages').pushObject(message);
+          });
+
         } else {
           self.store.createRecord('topic', {
             title: topicTitle,
@@ -32,6 +36,7 @@ export default Ember.ObjectController.extend({
               author: self.get('currentUser.model')
             }).save().then(function (message) {
               message.get('topic').then(function (topic) {
+                self.get('controllers.channels/channel.messages').pushObject(message);
                 self.transitionToRoute('channels.channel.topic', topic);
               });
             });
