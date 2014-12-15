@@ -2,13 +2,24 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class UserProfile(models.Model):
+
+    class Meta:
+        verbose_name = 'UserProfile'
+        verbose_name_plural = 'UserProfiles'
+
+    user = models.OneToOneField(User, related_name='profile')
+
+    def __unicode__(self):
+        return self.user.username
+
 class Team(models.Model):
 
     class Meta:
         verbose_name = 'Team'
         verbose_name_plural = 'Teams'
 
-    members = models.ManyToManyField(User, related_name='team_channels')
+    members = models.ManyToManyField(UserProfile, related_name='team_channels')
     name = models.CharField('name', max_length=120)
 
     def __unicode__(self):
@@ -22,8 +33,8 @@ class Channel(models.Model):
         verbose_name_plural = 'Channels'
 
     name = models.CharField('name', max_length=120)
-    subscribers = models.ManyToManyField(User, related_name='subscriber_channels')
     team = models.ForeignKey(Team, related_name='team_channels')
+    readers = models.ForeignKey(UserProfile, related_name='channels')
 
     def __unicode__(self):
         return self.name
@@ -49,9 +60,9 @@ class Message(models.Model):
         verbose_name_plural = 'Messages'
 
     pubdate = models.DateTimeField('pubdate', auto_now_add=True, editable=False)
-    author = models.ForeignKey(User, related_name='messages')
+    author = models.ForeignKey(UserProfile, related_name='messages')
     topic = models.ForeignKey(Topic, related_name='messages')
-    seen_by = models.ManyToManyField(User, related_name='saw_message')
+    seen_by = models.ManyToManyField(UserProfile, related_name='saw_message')
 
     content = models.TextField(null=True, blank=True)
 

@@ -1,16 +1,15 @@
 from rest_framework.serializers import ModelSerializer
 from ember_drf.serializers import SideloadSerializer
-from django.contrib.auth.models import User
-from message.models import Channel, Topic, Message
+from message.models import Channel, Topic, Message, UserProfile
 
-class UserSerializer(ModelSerializer):
+class UserProfileSerializer(ModelSerializer):
     class Meta:
-        model = User
+        model = UserProfile
         fields = ('id', 'url', 'username', 'first_name', 'last_name', 'email', 'is_staff')
 
-class UserSideloadSerializer(SideloadSerializer):
+class UserProfileSideloadSerializer(SideloadSerializer):
     class Meta:
-        base_serializer = UserSerializer
+        base_serializer = UserProfileSerializer
         sideloads = []
 
 

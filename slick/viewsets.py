@@ -1,13 +1,13 @@
-from django.contrib.auth.models import User, AnonymousUser
-from message.models import Channel, Topic, Message
+from django.contrib.auth.models import User
+from message.models import Channel, Topic, Message, UserProfile
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
-from slick.serializers import UserSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
+from slick.serializers import UserProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
 
-class UserViewSet(ModelViewSet):
-    model = User
-    queryset = User.objects.all()
-    serializer_class = UserSideloadSerializer
+class UserProfileViewSet(ModelViewSet):
+    model = UserProfile
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSideloadSerializer
 
 
 class ChannelViewSet(ModelViewSet):
@@ -56,11 +56,11 @@ class MessageViewSet(ModelViewSet):
 
 
 class MeView(RetrieveAPIView):
-    model = User
-    serializer_class = UserSideloadSerializer
+    model = UserProfile
+    serializer_class = UserProfileSideloadSerializer
 
     def get_object(self):
         if self.request.user.is_authenticated():
-            return User.objects.get(pk=self.request.user.pk)
+            return UserProfile.objects.get(pk=self.request.user.pk)
         else:
             raise Exception("User does not exist")
