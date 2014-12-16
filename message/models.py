@@ -10,7 +10,7 @@ class Profile(models.Model):
         verbose_name_plural = 'Profiles'
 
     user = models.OneToOneField(User, related_name='profile')
-    email = models.CharField('email', max_length=120)
+    email = models.EmailField('email')
     name = models.CharField('name', max_length=120)
 
     def __unicode__(self):
