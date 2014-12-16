@@ -7,7 +7,7 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   seenBy: DS.belongsTo('profile', {async: true}),
   contentHtml: function() {
-    var converter = new Showdown.converter({ extensions: ['github'] });
+    var converter = new window.Showdown.converter({ extensions: ['github'] });
     return converter.makeHtml(this.get('content'));
   }.property()
 });

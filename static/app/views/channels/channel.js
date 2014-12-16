@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ScrollTo from '../../mixins/scroll-to';
+import SetupView from '../../mixins/setup-view';
 
-export default Ember.View.extend(ScrollTo, {
+export default Ember.View.extend(SetupView, {
 });

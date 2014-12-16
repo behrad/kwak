@@ -26,6 +26,7 @@ export default Ember.ArrayController.extend({
             content: content,
             author: self.get('currentUser.model')
           }).save().then(function() {
+            window.prettyPrint();
             setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
           });
         } else {
@@ -38,6 +39,7 @@ export default Ember.ArrayController.extend({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function() {
+                window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
             });

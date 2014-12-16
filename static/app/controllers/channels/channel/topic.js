@@ -22,6 +22,7 @@ export default Ember.ObjectController.extend({
             content: content,
             author: self.get('currentUser.model')
           }).save().then(function(message) {
+            window.prettyPrint();
             setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
             self.get('controllers.channels/channel.messages').pushObject(message);
           });
@@ -35,6 +36,7 @@ export default Ember.ObjectController.extend({
               author: self.get('currentUser.model')
             }).save().then(function (message) {
               message.get('topic').then(function (topic) {
+                window.prettyPrint();
                 self.get('controllers.channels/channel.messages').pushObject(message);
                 self.transitionToRoute('channels.channel.topic', topic);
               });
