@@ -11,6 +11,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   setupController: function(controller, model) {
     controller.set('model', model.channels);
-    this.controllerFor('profile').set('model', model.user);
+    this.controllerFor('profile').set('model', model.profile);
   },
 });

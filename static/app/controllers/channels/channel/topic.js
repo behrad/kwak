@@ -15,7 +15,6 @@ export default Ember.ObjectController.extend({
       if (!topicTitle.trim()) { return; }
 
       var self = this;
-
       this.store.find('topic', {title: topicTitle, channel_id: channelId}).then(function(topics) {
         var topic = topics.get('lastObject');
         if (topic) {
