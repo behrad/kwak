@@ -6,4 +6,8 @@ export default DS.Model.extend({
   topic: DS.belongsTo('topic', {async: true}),
   content: DS.attr('string'),
   seenBy: DS.belongsTo('profile', {async: true}),
+  contentHtml: function() {
+    var converter = new Showdown.converter({ extensions: ['github'] });
+    return converter.makeHtml(this.get('content'));
+  }.property()
 });
