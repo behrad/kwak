@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  needs: ['user', 'channels'],
-  currentUser: Ember.computed.alias('controllers.user'),
+  needs: ['profile', 'channels'],
+  currentUser: Ember.computed.alias('controllers.profile'),
   sortProperties: ['id'],
   sortAscending: true,
   sortFunction: function(a, b) {

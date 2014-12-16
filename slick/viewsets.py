@@ -1,13 +1,13 @@
 from django.contrib.auth.models import User
-from message.models import Channel, Topic, Message, UserProfile
+from message.models import Channel, Topic, Message, Profile
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
-from slick.serializers import UserProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
+from slick.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
 
-class UserProfileViewSet(ModelViewSet):
-    model = UserProfile
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSideloadSerializer
+class ProfileViewSet(ModelViewSet):
+    model = Profile
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSideloadSerializer
 
 
 class ChannelViewSet(ModelViewSet):
@@ -21,7 +21,7 @@ class ChannelViewSet(ModelViewSet):
 
         subscribed = self.request.QUERY_PARAMS.get('subscribed', None)
         if subscribed:
-            queryset = queryset.filter(subscribers=self.request.user)
+            queryset = queryset.filter(readers=self.request.user)
 
         return queryset
 
@@ -56,11 +56,11 @@ class MessageViewSet(ModelViewSet):
 
 
 class MeView(RetrieveAPIView):
-    model = UserProfile
-    serializer_class = UserProfileSideloadSerializer
+    model = Profile
+    serializer_class = ProfileSideloadSerializer
 
     def get_object(self):
         if self.request.user.is_authenticated():
-            return UserProfile.objects.get(pk=self.request.user.pk)
+            return Profile.objects.get(pk=self.request.user.pk)
         else:
             raise Exception("User does not exist")

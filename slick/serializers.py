@@ -1,15 +1,16 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Field, BooleanField
 from ember_drf.serializers import SideloadSerializer
-from message.models import Channel, Topic, Message, UserProfile
+from message.models import Channel, Topic, Message, Profile
 
-class UserProfileSerializer(ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ('id', 'url', 'username', 'first_name', 'last_name', 'email', 'is_staff')
+class ProfileSerializer(ModelSerializer):
 
-class UserProfileSideloadSerializer(SideloadSerializer):
     class Meta:
-        base_serializer = UserProfileSerializer
+        model = Profile
+        fields = ('id', 'name', 'email')
+
+class ProfileSideloadSerializer(SideloadSerializer):
+    class Meta:
+        base_serializer = ProfileSerializer
         sideloads = []
 
 

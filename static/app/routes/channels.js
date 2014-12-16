@@ -5,12 +5,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model: function() {
     return Ember.RSVP.hash({
       channels: this.store.find('channel', {subscribed: true}),
-      user: this.store.find('user', 'current'),
+      profile: this.store.find('profile', 'current'),
     });
   },
 
   setupController: function(controller, model) {
     controller.set('model', model.channels);
-    this.controllerFor('user').set('model', model.user);
+    this.controllerFor('profile').set('model', model.user);
   },
 });

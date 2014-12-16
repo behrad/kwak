@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: ['user', 'channels/channel'],
+  needs: ['profile', 'channels/channel'],
   topicTitle: Ember.computed.oneWay('model.title'),
-  currentUser: Ember.computed.alias('controllers.user'),
+  currentUser: Ember.computed.alias('controllers.profile'),
   actions: {
     createMessage: function() {
       var content = this.get('message');
