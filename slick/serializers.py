@@ -40,7 +40,7 @@ class TopicSerializer(ModelSerializer):
     class Meta:
         model = Topic
         fields = ('id', 'title', 'channel', 'messages')
-        read_only_fields = 'messages',
+        read_only_fields = ('messages',)
 
 class TopicSideloadSerializer(SideloadSerializer):
     class Meta:

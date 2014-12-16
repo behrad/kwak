@@ -25,7 +25,6 @@ export default Ember.ObjectController.extend({
             setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
             self.get('controllers.channels/channel.messages').pushObject(message);
           });
-
         } else {
           self.store.createRecord('topic', {
             title: topicTitle,
