@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, Field, BooleanField
+from rest_framework.serializers import ModelSerializer
 from ember_drf.serializers import SideloadSerializer
 from message.models import Channel, Topic, Message, Profile
 
