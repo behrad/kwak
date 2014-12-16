@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from message.models import Channel, Topic, Message, Profile
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
