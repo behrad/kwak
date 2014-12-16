@@ -39,6 +39,9 @@ class Channel(models.Model):
     team = models.ForeignKey(Team, related_name='team_channels')
     readers = models.ManyToManyField(Profile, null=True, blank=True, related_name='reading')
 
+    def subscribed(self):
+        pass
+
     def __unicode__(self):
         return self.name
 

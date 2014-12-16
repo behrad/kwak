@@ -19,11 +19,14 @@ class ChannelViewSet(ModelViewSet):
             return []
         queryset = Channel.objects.filter(team__members=self.request.user)
 
-        subscribed = self.request.QUERY_PARAMS.get('subscribed', None)
-        if subscribed:
-            queryset = queryset.filter(readers=self.request.user)
+        subscribed = Channel.objects.filter(readers=self.request.user)
 
-        return queryset
+        new_queryset = []
+        for channel in list(queryset):
+            channel.subscribed = channel in subscribed
+            new_queryset.append(channel)
+
+        return new_queryset
 
 
 class TopicViewSet(ModelViewSet):
