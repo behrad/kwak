@@ -49,3 +49,13 @@ footer {
 
 .topic-title {
 }
+
+.bg-blue {
+  background-color: #337ab7;
+  color: #fff;
+}
+
+.subscribe-icon {
+  margin-top: 3px;
+  width: 24px;
+}

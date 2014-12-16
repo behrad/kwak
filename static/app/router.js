@@ -13,6 +13,7 @@ Router.map(function() {
     this.route('channel', {path: '/:channel_id/:channel_name'}, function () {
       this.route('topic', {path: '/:topic_id/:topic_title'});
     });
+    this.route('subscribe');
   });
 
 });

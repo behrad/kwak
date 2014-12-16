@@ -1,0 +1,11 @@
+<ul id="channel-list" class="list-group">
+  {{#each channel in model itemController="channels.subscribe"}}
+    <li {{bind-attr class=":list-group-item channel.subscribed:bg-blue"}}>
+      <label>
+        {{input type="checkbox" checked=channel.subscribed}} {{channel.name}}
+      </label>
+    </li>
+  {{/each}}
+</ul>
+
+{{outlet}}

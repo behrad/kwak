@@ -1,6 +1,7 @@
 from message.models import Channel, Topic, Message, Profile
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.response import Response
 from slick.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
 
 class ProfileViewSet(ModelViewSet):
@@ -21,11 +22,25 @@ class ChannelViewSet(ModelViewSet):
         subscribed = Channel.objects.filter(readers=self.request.user)
 
         new_queryset = []
-        for channel in list(queryset):
+        for channel in list(queryset.order_by('name')):
             channel.subscribed = channel in subscribed
             new_queryset.append(channel)
 
         return new_queryset
+
+    def update(self, request, pk=None):
+        channel = Channel.objects.get(pk=pk)
+        name = request.data['channel']['name']
+        subscribed = request.data['channel']['subscribed']
+        if channel.name != name:
+            channel.name = name
+        if subscribed:
+            channel.readers.add(self.request.user.profile)
+        else:
+            channel.readers.remove(self.request.user.profile)
+        channel.save()
+        return Response()
+
 
 
 class TopicViewSet(ModelViewSet):
