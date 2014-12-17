@@ -44,7 +44,7 @@ export default Ember.ArrayController.extend({
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
-              }).save().then(function(message) {
+              }).save().then(function() {
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
