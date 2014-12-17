@@ -54,9 +54,16 @@ footer {
   margin-left: 15px;
 }
 .channel-color {
-  width: 10px;
+  width: 18px;
   height: 20px;
+  margin-right: 6px;
   display: inline-block;
+}
+.channel-color > i {
+  color: white;
+  font-size: 10px;
+  padding: 0 3px;
+  top: 0;
 }
 .channel-name {
 }
@@ -85,58 +92,87 @@ ul.nav.nav-pills.nav-stacked li a i {
   -moz-osx-font-smoothing: grayscale;
 }
 
-div._01 { border-left: 2px solid #A0522D; border-bottom: 2px solid #A0522D; }
-span._01 { float:left; background-color: #A0522D; }
-i._01 { color: #A0522D; }
-div._02 { border-left: 2px solid #CD5C5C; border-bottom: 2px solid #CD5C5C; }
-span._02 { float:left; background-color: #CD5C5C; }
-i._02 { color: #CD5C5C; }
-div._03 { border-left: 2px solid #FF4500; border-bottom: 2px solid #FF4500; }
-span._03 { float:left; background-color: #FF4500; }
-i._03 { color: #FF4500; }
-div._04 { border-left: 2px solid #008B8B; border-bottom: 2px solid #008B8B; }
-span._04 { float:left; background-color: #008B8B; }
-i._04 { color: #008B8B; }
-div._05 { border-left: 2px solid #B8860B; border-bottom: 2px solid #B8860B; }
-span._05 { float:left; background-color: #B8860B; }
-i._05 { color: #B8860B; }
-div._06 { border-left: 2px solid #32CD32; border-bottom: 2px solid #32CD32; }
-span._06 { float:left; background-color: #32CD32; }
-i._06 { color: #32CD32; }
-div._07 { border-left: 2px solid #FFD700; border-bottom: 2px solid #FFD700; }
-span._07 { float:left; background-color: #FFD700; }
-i._07 { color: #FFD700; }
-div._08 { border-left: 2px solid #48D1CC; border-bottom: 2px solid #48D1CC; }
-span._08 { float:left; background-color: #48D1CC; }
-i._08 { color: #48D1CC; }
-div._09 { border-left: 2px solid #87CEEB; border-bottom: 2px solid #87CEEB; }
-span._09 { float:left; background-color: #87CEEB; }
-i._09 { color: #87CEEB; }
-div._10 { border-left: 2px solid #FF69B4; border-bottom: 2px solid #FF69B4; }
-span._10 { float:left; background-color: #FF69B4; }
-i._10 { color: #FF69B4; }
-div._11 { border-left: 2px solid #CD5C5C; border-bottom: 2px solid #CD5C5C; }
-span._11 { float:left; background-color: #CD5C5C; }
-i._11 { color: #CD5C5C; }
-div._12 { border-left: 2px solid #87CEFA; border-bottom: 2px solid #87CEFA; }
-span._12 { float:left; background-color: #87CEFA; }
-i._12 { color: #87CEFA; }
-div._13 { border-left: 2px solid #6495ED; border-bottom: 2px solid #6495ED; }
-span._13 { float:left; background-color: #6495ED; }
-i._13 { color: #6495ED; }
-div._14 { border-left: 2px solid #DC143C; border-bottom: 2px solid #DC143C; }
-span._14 { float:left; background-color: #DC143C; }
-i._14 { color: #DC143C; }
-div._15 { border-left: 2px solid #FF8C00; border-bottom: 2px solid #FF8C00; }
-span._15 { float:left; background-color: #FF8C00; }
-i._15 { color: #FF8C00; }
-div._16 { border-left: 2px solid #C71585; border-bottom: 2px solid #C71585; }
-span._16 { float:left; background-color: #C71585; }
-i._16 { color: #C71585; }
-div._17 { border-left: 2px solid #000000; border-bottom: 2px solid #000000; }
-span._17 { float:left; background-color: #000000; }
-i._17 { color: #000000; }
-
 .dropdown-colorselector {
   float: left;
 }
+
+div._01 { border-left: 2px solid #f44336; border-bottom: 2px solid #f44336; }
+span._01 { float: left; background-color: #f44336; }
+i._01 { color: #f44336; }
+
+div._02 { border-left: 2px solid #e91e63; border-bottom: 2px solid #e91e63; }
+span._02 { float: left; background-color: #e91e63; }
+i._02 { color: #e91e63; }
+
+div._03 { border-left: 2px solid #9c27b0; border-bottom: 2px solid #9c27b0; }
+span._03 { float: left; background-color: #9c27b0; }
+i._03 { color: #9c27b0; }
+
+div._04 { border-left: 2px solid #673ab7; border-bottom: 2px solid #673ab7; }
+span._04 { float: left; background-color: #673ab7; }
+i._04 { color: #673ab7; }
+
+div._05 { border-left: 2px solid #3f51b5; border-bottom: 2px solid #3f51b5; }
+span._05 { float: left; background-color: #3f51b5; }
+i._05 { color: #3f51b5; }
+
+div._06 { border-left: 2px solid #2196f3; border-bottom: 2px solid #2196f3; }
+span._06 { float: left; background-color: #2196f3; }
+i._06 { color: #2196f3; }
+
+div._07 { border-left: 2px solid #03a9f4; border-bottom: 2px solid #03a9f4; }
+span._07 { float: left; background-color: #03a9f4; }
+i._07 { color: #03a9f4; }
+
+div._08 { border-left: 2px solid #00bcd4; border-bottom: 2px solid #00bcd4; }
+span._08 { float: left; background-color: #00bcd4; }
+i._08 { color: #00bcd4; }
+
+div._09 { border-left: 2px solid #009688; border-bottom: 2px solid #009688; }
+span._09 { float: left; background-color: #009688; }
+i._09 { color: #009688; }
+
+div._10 { border-left: 2px solid #4caf50; border-bottom: 2px solid #4caf50; }
+span._10 { float: left; background-color: #4caf50; }
+i._10 { color: #4caf50; }
+
+div._11 { border-left: 2px solid #8bc34a; border-bottom: 2px solid #8bc34a; }
+span._11 { float: left; background-color: #8bc34a; }
+i._11 { color: #8bc34a; }
+
+div._12 { border-left: 2px solid #cddc39; border-bottom: 2px solid #cddc39; }
+span._12 { float: left; background-color: #cddc39; }
+i._12 { color: #cddc39; }
+
+div._13 { border-left: 2px solid #ffeb3b; border-bottom: 2px solid #ffeb3b; }
+span._13 { float: left; background-color: #ffeb3b; }
+i._13 { color: #ffeb3b; }
+
+div._14 { border-left: 2px solid #ffc107; border-bottom: 2px solid #ffc107; }
+span._14 { float: left; background-color: #ffc107; }
+i._14 { color: #ffc107; }
+
+div._15 { border-left: 2px solid #ff9800; border-bottom: 2px solid #ff9800; }
+span._15 { float: left; background-color: #ff9800; }
+i._15 { color: #ff9800; }
+
+div._16 { border-left: 2px solid #ff5722; border-bottom: 2px solid #ff5722; }
+span._16 { float: left; background-color: #ff5722; }
+i._16 { color: #ff5722; }
+
+div._17 { border-left: 2px solid #795548; border-bottom: 2px solid #795548; }
+span._17 { float: left; background-color: #795548; }
+i._17 { color: #795548; }
+
+div._18 { border-left: 2px solid #9e9e9e; border-bottom: 2px solid #9e9e9e; }
+span._18 { float: left; background-color: #9e9e9e; }
+i._18 { color: #9e9e9e; }
+
+div._19 { border-left: 2px solid #607d8b; border-bottom: 2px solid #607d8b; }
+span._19 { float: left; background-color: #607d8b; }
+i._19 { color: #607d8b; }
+
+div._20 { border-left: 2px solid #000000; border-bottom: 2px solid #000000; }
+span._20 { float: left; background-color: #000000; }
+i._20 { color: #000000; }
+
