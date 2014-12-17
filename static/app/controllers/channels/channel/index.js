@@ -23,7 +23,6 @@ export default Ember.ObjectController.extend({
             var message = topic.get('messages.lastObject');
             message.set('content', message.get('content') + "\n\n" + content);
             message.save().then(function() {
-              message.set('contentHtml', new window.Showdown.converter({ extensions: ['github'] }).makeHtml(message.get('content')));
               window.prettyPrint();
               setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
             });

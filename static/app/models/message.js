@@ -9,5 +9,5 @@ export default DS.Model.extend({
   contentHtml: function() {
     var converter = new window.Showdown.converter({ extensions: ['github'] });
     return converter.makeHtml(this.get('content'));
-  }.property()
+  }.property('content')
 });
