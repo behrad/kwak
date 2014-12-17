@@ -62,6 +62,11 @@ footer {
 }
 .topic-title {
 }
+.subscribe-channel-color {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
 
 .bg-blue {
   background-color: #337ab7;
