@@ -2,7 +2,7 @@ from message.models import Channel, Topic, Message, Profile
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
-from slick.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
+from slick.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, ChannelSerializer
 
 class ProfileViewSet(ModelViewSet):
     model = Profile
@@ -31,7 +31,10 @@ class ChannelViewSet(ModelViewSet):
     def update(self, request, pk=None):
         channel = Channel.objects.get(pk=pk)
         name = request.data['channel']['name']
+        color = request.data['channel']['color']
         subscribed = request.data['channel']['subscribed']
+        if channel.color != color:
+            channel.color = color
         if channel.name != name:
             channel.name = name
         if subscribed:
@@ -39,6 +42,8 @@ class ChannelViewSet(ModelViewSet):
         else:
             channel.readers.remove(self.request.user.profile)
         channel.save()
+        #TODO : fix this mess
+        #return Response(ChannelSideloadSerializer(channel).data)
         return Response()
 
 

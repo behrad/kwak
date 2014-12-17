@@ -62,11 +62,6 @@ footer {
 }
 .topic-title {
 }
-.subscribe-channel-color {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-}
 
 .bg-blue {
   background-color: #337ab7;
@@ -141,3 +136,7 @@ i._16 { color: #C71585; }
 div._17 { border-left: 2px solid #000000; border-bottom: 2px solid #000000; }
 span._17 { float:left; background-color: #000000; }
 i._17 { color: #000000; }
+
+.dropdown-colorselector {
+  float: left;
+}
