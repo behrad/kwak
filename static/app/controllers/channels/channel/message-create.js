@@ -11,16 +11,10 @@ export default Ember.ObjectController.extend({
         var topic = topics.get('lastObject');
         if (topic) {
           Ember.$.getJSON('/api/messages/last', function(data) {
-            var last_message_posted_by = data['message']['author_id']+'';
-            var last_topic_posted_in = data['message']['topic_id']+'';
+            var last_message_posted_by = data['message']['author_id'];
+            var last_topic_posted_in = data['message']['topic_id'];
 
-            console.log(topic.id);
-            console.log(last_topic_posted_in);
-
-            console.log(self.get('currentUser.model.id'));
-            console.log(last_message_posted_by);
-
-            if (topic.id === last_topic_posted_in && self.get('currentUser.model.id') === last_message_posted_by) {
+            if (+topic.id === last_topic_posted_in && +self.get('currentUser.model.id') === last_message_posted_by) {
               console.log('save to last message');
               // save content to last message
               var message = topic.get('messages.lastObject');
