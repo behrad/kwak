@@ -10,25 +10,38 @@ export default Ember.ObjectController.extend({
       self.store.find('topic', {title: topicTitle, channel_id: channel.id}).then(function(topics) {
         var topic = topics.get('lastObject');
         if (topic) {
-          if (self.get('currentUser.model.name') === topic.get('messages.lastObject.author.name')) {
-            // save content to last message
-            var message = topic.get('messages.lastObject');
-            message.set('content', message.get('content') + "\n\n" + content);
-            message.save().then(function() {
-              window.prettyPrint();
-              setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
-            });
-          } else {
-            // create new message
-            topic.get('messages').createRecord({
-              content: content,
-              author: self.get('currentUser.model')
-            }).save().then(function(message) {
-              window.prettyPrint();
-              setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
-              self.get('controllers.channels/channel.messages').pushObject(message);
-            });
-          }
+          Ember.$.getJSON('/api/messages/last', function(data) {
+            var last_message_posted_by = data['message']['author_id']+'';
+            var last_topic_posted_in = data['message']['topic_id']+'';
+
+            console.log(topic.id);
+            console.log(last_topic_posted_in);
+
+            console.log(self.get('currentUser.model.id'));
+            console.log(last_message_posted_by);
+
+            if (topic.id === last_topic_posted_in && self.get('currentUser.model.id') === last_message_posted_by) {
+              console.log('save to last message');
+              // save content to last message
+              var message = topic.get('messages.lastObject');
+              message.set('content', message.get('content') + "\n\n" + content);
+              message.save().then(function() {
+                window.prettyPrint();
+                setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
+              });
+            } else {
+              console.log('create new message');
+              // create new message
+              topic.get('messages').createRecord({
+                content: content,
+                author: self.get('currentUser.model')
+              }).save().then(function(message) {
+                window.prettyPrint();
+                setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
+                self.get('controllers.channels/channel.messages').pushObject(message);
+              });
+            }
+          });
         } else {
           self.store.createRecord('topic', {
             title: topicTitle,
