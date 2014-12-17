@@ -1,8 +1,9 @@
 from message.models import Channel, Topic, Message, Profile
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
-from slick.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, ChannelSerializer
+from slick.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
 
 class ProfileViewSet(ModelViewSet):
     model = Profile
@@ -42,9 +43,7 @@ class ChannelViewSet(ModelViewSet):
         else:
             channel.readers.remove(self.request.user.profile)
         channel.save()
-        #TODO : fix this mess
-        #return Response(ChannelSideloadSerializer(channel).data)
-        return Response()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
