@@ -1,5 +1,5 @@
 <div class="message-list">
-  {{#each message in controller.arrangedContent}}
+  {{#each message in controller.subscribed}}
   <div class="row message">
     <div class="col-md-12">
       <div class="message-header">
@@ -15,9 +15,6 @@
         </small>
       </div>
       <div class="message-body">
-        <div class="pull-left">
-          <img class="profile-img" src="/assets/passed.png">
-        </div>
         <h5>{{message.author.name}}</h5>
         {{{message.contentHtml}}}
       </div>

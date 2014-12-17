@@ -8,6 +8,11 @@ export default Ember.ArrayController.extend({
   sortFunction: function(a, b) {
     return +a > +b ? 1 : -1;
   },
+
+  subscribed: function() {
+    return this.get('arrangedContent').filterBy('topic.channel.subscribed', true);
+  }.property('model.@each.topic.channel.subscribed'),
+
   actions: {
     createMessage: function() {
       var content = this.get('message');

@@ -5,7 +5,7 @@ export default Ember.ObjectController.extend({
   topicTitle: Ember.computed.oneWay('model.title'),
   actions: {
     createMessage: function() {
-      var channelId = this.get('model.channel.id');
+      var channel = this.get('model.channel');
 
       var content = this.get('message');
       if (!content.trim()) { return; }
@@ -15,7 +15,7 @@ export default Ember.ObjectController.extend({
 
       this.get('controllers.channels/channel/message-create').send(
         'createMessage',
-        channelId,
+        channel,
         content,
         topicTitle
       );

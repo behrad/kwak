@@ -4,10 +4,10 @@ export default Ember.ObjectController.extend({
   needs: ['profile', 'channels/channel'],
   currentUser: Ember.computed.alias('controllers.profile'),
   actions: {
-    createMessage: function(channelId, content, topicTitle) {
+    createMessage: function(channel, content, topicTitle) {
 
       var self = this;
-      self.store.find('topic', {title: topicTitle, channel_id: channelId}).then(function(topics) {
+      self.store.find('topic', {title: topicTitle, channel_id: channel.id}).then(function(topics) {
         var topic = topics.get('lastObject');
         if (topic) {
           if (self.get('currentUser.model.name') === topic.get('messages.lastObject.author.name')) {
@@ -32,7 +32,7 @@ export default Ember.ObjectController.extend({
         } else {
           self.store.createRecord('topic', {
             title: topicTitle,
-            channel: self.get('model.channel')
+            channel: channel
           }).save().then(function(topic) {
             topic.get('messages').createRecord({
               content: content,

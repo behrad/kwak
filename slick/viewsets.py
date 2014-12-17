@@ -61,7 +61,7 @@ class MessageViewSet(ModelViewSet):
     serializer_class = MessageSideloadSerializer
 
     def get_queryset(self):
-        queryset = Message.objects.all().order_by('id')
+        queryset = Message.objects.filter(topic__channel__readers=self.request.user.profile).order_by('id')
         channel_id = self.request.QUERY_PARAMS.get('channel_id', None)
         if channel_id is not None:
             queryset = queryset.filter(topic__channel__id=channel_id)
@@ -72,7 +72,7 @@ class MessageViewSet(ModelViewSet):
         return queryset
 
 
-class MeView(RetrieveAPIView):
+class CurrentUser(RetrieveAPIView):
     model = Profile
     serializer_class = ProfileSideloadSerializer
 
@@ -81,3 +81,14 @@ class MeView(RetrieveAPIView):
             return Profile.objects.get(pk=self.request.user.pk)
         else:
             raise Exception("User does not exist")
+
+
+class LastMessage(RetrieveAPIView):
+    model = Message
+    serializer_class = MessageSideloadSerializer
+
+    def get_object(self):
+        if self.request.user.is_authenticated():
+            return Message.objects.filter(topic__channel__readers=self.request.user.profile).order_by('-id')[0]
+        else:
+            raise Exception("Message does not exist")
