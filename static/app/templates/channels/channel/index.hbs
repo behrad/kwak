@@ -1,25 +1,21 @@
 <div class="message-list">
   {{#each message in model.messages}}
-  <div class="row">
+  <div class="row message">
     <div class="col-md-12">
-      <div class="well well-sm">
-        <div class="message">
-          <div class="message-header">
-            <p>
-              {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}
-                <span class="topic-title">{{message.topic.title}}</span>
-              {{/link-to}}
-              <span class="pull-right">{{format-date message.pubdate}}</span>
-            </p>
-          </div>
-          <div class="message-body">
-            <div class="pull-left">
-              <img class="profile-img" src="/assets/passed.png">
-            </div>
-            <h5>{{message.author.name}}</h5>
-            {{{message.contentHtml}}}
-          </div>
+      <div class="message-header">
+        {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}
+          <span class="topic-title">{{message.topic.title}}</span>
+        {{/link-to}}
+        <small class="pull-right text-muted">
+          {{format-date message.pubdate}}
+        </small>
+      </div>
+      <div class="message-body">
+        <div class="pull-left">
+          <img class="profile-img" src="/assets/passed.png">
         </div>
+        <h5>{{message.author.name}}</h5>
+        {{{message.contentHtml}}}
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 body {
   padding-top: 70px;
-  padding-bottom: 70px;
+  padding-bottom: 75px;
 }
 
 a {
@@ -38,10 +38,15 @@ footer {
   padding-bottom: 43px;
 }
 
+.message {
+  margin: 0px 0px 10px 0px;
+}
+
+.message > div {
+  border-left: 1px dotted #B3A9A9;
+  border-bottom: 1px dotted #B3A9A9;
+}
 .message-header {
-  color: #31708f;
-  background-color: #d9edf7;
-  border-color: #bce8f1;
 }
 
 .channel-name {
