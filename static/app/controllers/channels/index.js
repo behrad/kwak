@@ -22,13 +22,24 @@ export default Ember.ArrayController.extend({
       this.store.find('topic', {title: topicTitle, channel_id: channelId}).then(function(topics) {
         var topic = topics.get('lastObject');
         if (topic) {
-          topic.get('messages').createRecord({
-            content: content,
-            author: self.get('currentUser.model')
-          }).save().then(function() {
-            window.prettyPrint();
-            setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
-          });
+          if (self.get('currentUser.model.name') === topic.get('messages.lastObject.author.name')) {
+            // save content to last message
+            var message = topic.get('messages.lastObject');
+            message.set('content', message.get('content') + "\n\n" + content);
+            message.save().then(function() {
+              message.set('contentHtml', new window.Showdown.converter({ extensions: ['github'] }).makeHtml(message.get('content')));
+              window.prettyPrint();
+              setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
+            });
+          } else {
+            topic.get('messages').createRecord({
+              content: content,
+              author: self.get('currentUser.model')
+            }).save().then(function() {
+              window.prettyPrint();
+              setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
+            });
+          }
         } else {
           self.store.find('channel', channelId).then(function(channel) {
             self.store.createRecord('topic', {
