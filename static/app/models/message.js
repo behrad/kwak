@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 export default DS.Model.extend({
   pubdate: DS.attr('date'),
@@ -8,6 +9,11 @@ export default DS.Model.extend({
   seenBy: DS.belongsTo('profile', {async: true}),
   contentHtml: function() {
     var converter = new window.Showdown.converter({ extensions: ['github'] });
+    // re scroll and re colorize whenever we recompute the value
+    Ember.run.scheduleOnce('afterRender', this, function(){
+      window.scrollTo(0, document.body.scrollHeight);
+      window.prettyPrint();
+    });
     return converter.makeHtml(this.get('content'));
   }.property('content')
 });
