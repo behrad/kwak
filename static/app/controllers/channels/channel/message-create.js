@@ -15,7 +15,6 @@ export default Ember.ObjectController.extend({
             var last_topic_posted_in = data['message']['topic_id'];
 
             if (+topic.id === last_topic_posted_in && +self.get('currentUser.model.id') === last_message_posted_by) {
-              console.log('save to last message');
               // save content to last message
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
@@ -24,7 +23,6 @@ export default Ember.ObjectController.extend({
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
             } else {
-              console.log('create new message');
               // create new message
               topic.get('messages').createRecord({
                 content: content,
