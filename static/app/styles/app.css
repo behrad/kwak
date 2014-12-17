@@ -69,6 +69,10 @@ footer {
 }
 .topic-title {
 }
+#channel-list li label {
+  margin-left: 10px;
+  font-weight: normal;
+}
 
 .bg-blue {
   background-color: #337ab7;

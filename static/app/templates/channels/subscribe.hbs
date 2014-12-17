@@ -2,7 +2,7 @@
   {{#each channel in model itemController="channels.subscribe"}}
     <li {{bind-attr class=":list-group-item"}}>
       {{view "select" classNames="colorselector" content=colors value=channel.color optionValuePath="content.id" optionLabelPath="content.name" code="content.code"}}
-      <label style="margin-left: 10px">
+      <label>
         {{input type="checkbox" checked=channel.subscribed}} {{channel.name}}
       </label>
     </li>
