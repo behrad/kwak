@@ -36,6 +36,7 @@ class Channel(models.Model):
         verbose_name_plural = 'Channels'
 
     name = models.CharField('name', max_length=120)
+    color = models.CharField('color', max_length=3)
     team = models.ForeignKey(Team, related_name='team_channels')
     readers = models.ManyToManyField(Profile, null=True, blank=True, related_name='reading')
 

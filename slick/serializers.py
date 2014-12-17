@@ -17,7 +17,7 @@ class ProfileSideloadSerializer(SideloadSerializer):
 class ChannelSerializer(ModelSerializer):
     class Meta:
         model = Channel
-        fields = ('id', 'name', 'subscribed')
+        fields = ('id', 'name', 'color', 'subscribed')
 
 class ChannelSideloadSerializer(SideloadSerializer):
     class Meta:
