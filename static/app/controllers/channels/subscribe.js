@@ -44,6 +44,9 @@ export default Ember.ObjectController.extend({
   }.property('model.subscribed'),
 
   onSelectedColor: function() {
+    if (this.get('model.content.length')) {
+      return;
+    }
     this.get('model').save();
   }.observes('model.color'),
 
