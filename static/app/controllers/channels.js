@@ -7,8 +7,4 @@ export default Ember.ArrayController.extend({
   subscribed: function() {
     return this.get('arrangedContent').filterProperty('subscribed', true);
   }.property('model.@each.subscribed'),
-
-  unsubscribed: function() {
-    return this.get('arrangedContent').filterProperty('subscribed', false);
-  }.property('model.@each.subscribed')
 });
