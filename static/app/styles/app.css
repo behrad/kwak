@@ -35,6 +35,9 @@ footer {
 .message {
   margin: 0 0 10px 0;
 }
+.message.unfocused {
+  opacity: 0.5;
+}
 .message > div {
   border-left: 2px solid #ddd;
   border-bottom: 2px solid #ddd;

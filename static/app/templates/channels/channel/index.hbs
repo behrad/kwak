@@ -1,20 +1,22 @@
 <div class="message-list">
   {{#each message in model.messages}}
-  <div class="row message">
+  <div class="row message" {{bind-attr data-topic-id=message.topic.id}}>
     <div {{bind-attr class=":col-md-12 message.topic.channel.color"}}>
-      <span {{bind-attr class=":channel-color message.topic.channel.color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-share-alt"></i>{{/view}}</span>
-      <div class="message-header">
-        {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}
-          <span class="topic-title">{{message.topic.title}}</span>
-        {{/link-to}}
-        <small class="pull-right text-muted">
-          {{format-date message.pubdate}}
-        </small>
-      </div>
-      <div class="message-body">
-        <h5>{{message.author.name}}</h5>
-        {{{message.contentHtml}}}
-      </div>
+      {{#view "channels/message"}}
+        <span {{bind-attr class=":channel-color message.topic.channel.color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-share-alt"></i>{{/view}}</span>
+        <div class="message-header">
+          {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title class="topic-title"}}
+            {{message.topic.title}}
+          {{/link-to}}
+          <small class="pull-right text-muted">
+            {{format-date message.pubdate}}
+          </small>
+        </div>
+        <div class="message-body">
+          <h5>{{message.author.name}}</h5>
+          {{{message.contentHtml}}}
+        </div>
+      {{/view}}
     </div>
   </div>
   {{/each}}
