@@ -33,11 +33,7 @@
     "ember-data": "1.0.0-beta.12",
     "ember-export-application-global": "^1.0.0",
     "express": "^4.8.5",
-    "glob": "^4.0.5",
-    "gulp": "^3.8.10",
-    "gulp-concat": "^2.4.2",
-    "gulp-ember-handlebars": "^0.7.0",
-    "gulp-uglify": "^1.0.2"
+    "glob": "^4.0.5"
   },
   "dependencies": {
     "moment": "~2.8.4"
