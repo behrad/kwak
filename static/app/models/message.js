@@ -6,7 +6,6 @@ export default DS.Model.extend({
   author: DS.belongsTo('profile', {async: true}),
   topic: DS.belongsTo('topic', {async: true}),
   content: DS.attr('string'),
-  seenBy: DS.belongsTo('profile', {async: true}),
   contentHtml: function() {
     var converter = new window.Showdown.converter({ extensions: ['github'] });
     // re scroll and re colorize whenever we recompute the value
@@ -15,5 +14,6 @@ export default DS.Model.extend({
       window.prettyPrint();
     });
     return converter.makeHtml(this.get('content'));
-  }.property('content')
+  }.property('content'),
+  seen: DS.attr('boolean', {defaultValue: true})
 });
