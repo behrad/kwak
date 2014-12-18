@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  needs: ['profile', 'channels'],
+  needs: ['profile', 'channels', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
   sortProperties: ['id'],
   sortAscending: true,
@@ -68,6 +68,12 @@ export default Ember.ArrayController.extend({
         }
         self.set('message', '');
       });
+    },
+    markAsRead: function(messageId) {
+      this.get('controllers.channels/channel/mark-as-read').send(
+        'markAsRead',
+        messageId
+      );
     }
   }
 });

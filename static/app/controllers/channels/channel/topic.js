@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: ['channels/channel/message-create'],
+  needs: ['channels/channel/message-create', 'channels/channel/mark-as-read'],
   topicTitle: Ember.computed.oneWay('model.title'),
   actions: {
     createMessage: function() {
@@ -20,6 +20,12 @@ export default Ember.ObjectController.extend({
         topicTitle
       );
       this.set('message', '');
+    },
+    markAsRead: function(messageId) {
+      this.get('controllers.channels/channel/mark-as-read').send(
+        'markAsRead',
+        messageId
+      );
     }
   }
 });
