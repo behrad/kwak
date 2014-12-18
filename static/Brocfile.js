@@ -11,6 +11,7 @@ app.import('vendor/colorselector/bootstrap-colorselector.js');
 app.import('vendor/markdown/showdown.js');
 app.import('vendor/markdown/extensions/github.js');
 app.import('vendor/markdown/prettify/prettify.js');
+app.import('vendor/jquery.visible.js');
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
