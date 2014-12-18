@@ -4,7 +4,7 @@ from rest_framework import routers
 from slick.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet, MessageViewSet, CurrentUser, LastMessage
 
 router = routers.DefaultRouter()
-router.register(r'users', ProfileViewSet)
+router.register(r'profiles', ProfileViewSet)
 router.register(r'channels', ChannelViewSet)
 router.register(r'topics', TopicViewSet)
 router.register(r'messages', MessageViewSet)
