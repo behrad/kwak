@@ -93,6 +93,10 @@ footer {
   width: 24px;
 }
 
+.channel-create {
+  margin-left: 10px;
+}
+
 ul.nav.nav-pills.nav-stacked li a i {
   position: relative;
   top: 1px;

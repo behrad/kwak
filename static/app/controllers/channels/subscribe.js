@@ -1,22 +1,50 @@
 import Ember from 'ember';
 
+var $ = Ember.$;
+
 export default Ember.ObjectController.extend({
+  actions: {
+    createChannel: function() {
+      var self = this;
+      self.store.createRecord('channel', {
+        name: self.get('name'),
+        color: self.get('color'),
+        team: self.store.getById('team', self.get('team'))
+      }).save().then(function() {
+        Ember.run.scheduleOnce('afterRender', this, function() {
+          var colors = self.colors;
+          $('.colorselector').each(function() {
+            var i = 0;
+            $(this).find('option').each(function() {
+              $(this).attr('data-color', colors[i++]['code']);
+            });
+            $(this).colorselector();
+          });
+        });
+      });
+    },
+  },
+
+  teams: function() {
+    return this.store.all('team');
+  }.property(),
+
   subscribed: function(key, value){
     var model = this.get('model');
 
     if (value === undefined) {
       return model.get('subscribed');
     } else {
-      model.set('subscribed', value);
-      model.save();
+      if (model.get('subscribed') !== value) {
+        model.set('subscribed', value);
+        model.save();
+      }
       return value;
     }
   }.property('model.subscribed'),
 
-  onSelectedColor:function() {
-    if(this.get('model.color') !== this.get('channel.color')) {
-      this.get('model').save();
-    }
+  onSelectedColor: function() {
+    this.get('model').save();
   }.observes('model.color'),
 
   colors: [
