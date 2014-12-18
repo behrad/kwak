@@ -36,7 +36,7 @@ export default Ember.Component.extend({
     if(this.config) {
       var configFile = this.emberSpinnerPrefixConfig.modulePrefix + '/config/ember-spinner/' + this.config;
 
-      configArgs = require( configFile ).default;
+      configArgs = window.require( configFile ).default;
     }
 
     this.spinnerArgs = Ember.$.extend(opts, configArgs);
@@ -44,7 +44,7 @@ export default Ember.Component.extend({
   }.on('willInsertElement'),
 
   didInsertElement: function() {
-    this.spinner = new Spinner(this.spinnerArgs).spin(this.$()[0]);
+    this.spinner = new window.Spinner(this.spinnerArgs).spin(this.$()[0]);
   },
 
   willRemoveElement: function() {
