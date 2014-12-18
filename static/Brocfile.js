@@ -4,6 +4,7 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp();
 
+// JS files
 app.import('bower_components/momentjs/moment.js');
 app.import('bower_components/spin.js/spin.js');
 app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
@@ -12,6 +13,17 @@ app.import('vendor/markdown/showdown.js');
 app.import('vendor/markdown/extensions/github.js');
 app.import('vendor/markdown/prettify/prettify.js');
 app.import('vendor/jquery.visible.js');
+
+// CSS files
+app.import('bower_components/bootstrap/dist/css/bootstrap.min.css');
+app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', {
+  destDir: 'fonts'
+});
+app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf', {
+  destDir: 'fonts'
+});
+app.import('vendor/colorselector/bootstrap-colorselector.css');
+app.import('vendor/markdown/prettify/prettify.css');
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
