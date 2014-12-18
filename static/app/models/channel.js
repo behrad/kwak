@@ -4,8 +4,5 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   color: DS.attr('string'),
   topics: DS.hasMany('topic'),
-  subscribed: DS.attr('boolean'),
-  save: function(){
-    return this._super();
-  }
+  subscribed: DS.attr('boolean')
 });
