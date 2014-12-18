@@ -2,7 +2,7 @@
   {{#each message in model.messages}}
   <div class="row message">
     <div {{bind-attr class=":col-md-12 message.topic.channel.color"}}>
-      <span {{bind-attr class=":channel-color message.topic.channel.color"}}><i class="glyphicon glyphicon-tag"></i></span>
+      <span {{bind-attr class=":channel-color message.topic.channel.color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-share-alt"></i>{{/view}}</span>
       <div class="message-header">
         <span class="topic-title">{{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title}}{{message.topic.title}}{{/link-to}}</span>
         <small class="pull-right text-muted">
@@ -22,7 +22,7 @@
   <div class="col-xs-12">
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
-        <span class="input-group-addon">{{channel.name}}&nbsp;»</span>
+        <span class="input-group-addon">{{channel.name}} <i class="glyphicon glyphicon-chevron-right"></i></span>
         {{input type="text" id="topic" value=topicTitle placeholder="topic" class="form-control"}}
       </div>
       <div class="form-group">

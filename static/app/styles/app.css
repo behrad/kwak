@@ -21,12 +21,6 @@ h5 {
   font-weight: bold;
 }
 
-.breadcrumb > li+li:before {
-  padding: 0 5px;
-  color: #ccc;
-  content: "»";
-}
-
 footer {
   position: fixed;
   bottom: 0;
@@ -41,7 +35,6 @@ footer {
 .message {
   margin: 0 0 10px 0;
 }
-
 .message > div {
   border-left: 2px solid #ddd;
   border-bottom: 2px solid #ddd;
@@ -50,20 +43,29 @@ footer {
 .message-header {
   margin-left: 15px;
 }
+.message-header .glyphicon {
+  font-size: 10px;
+  top: 0;
+}
 .message-body {
   margin-left: 15px;
 }
+.input-group-addon > i {
+  font-size: 14px;
+}
+
 .channel-color {
   width: 18px;
   height: 20px;
   margin-right: 6px;
   display: inline-block;
 }
-.channel-color > i {
+.channel-color i {
   color: white;
   font-size: 10px;
   padding: 0 3px;
   top: 0;
+  cursor: pointer;
 }
 .channel-name {
 }
