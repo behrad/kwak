@@ -5,10 +5,23 @@ import config from './config/environment';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
+var Socket = EmberSockets.extend({
+    host: 'localhost',
+    port: 8080,
+    controllers: [
+        'channels/index',
+        'channels/channel/index',
+        'channels/channel/topic',
+    ],
+    autoConnect: true,
+});
+
+
 var App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
-  Resolver: Resolver
+  Resolver: Resolver,
+  Socket: Socket
 });
 
 loadInitializers(App, config.modulePrefix);

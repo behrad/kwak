@@ -32,20 +32,21 @@ export default Ember.ArrayController.extend({
             var last_topic_posted_in = data['message']['topic_id'];
 
             if (+topic.id === last_topic_posted_in && +self.get('currentUser.model.id') === last_message_posted_by) {
-              // save content to last message
+              // append to last message
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function() {
-                //TODOwss self.get('controllers.channels').send('emit', 'ping');
+                self.socket.emit('message', message.toJSON());
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
             } else {
-              // create new message
+              // create new message in existing topic
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function() {
+                self.socket.emit('message', message.toJSON());
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -53,14 +54,18 @@ export default Ember.ArrayController.extend({
           });
         } else {
           self.store.find('channel', channelId).then(function(channel) {
+            // create topic
             self.store.createRecord('topic', {
               title: topicTitle,
               channel: channel
             }).save().then(function(topic) {
+              // create message in new topic
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
-              }).save().then(function() {
+              }).save().then(function(message) {
+                self.socket.emit('topic', topic.toJSON());
+                self.socket.emit('message', message.toJSON());
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
