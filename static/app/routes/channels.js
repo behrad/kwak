@@ -1,10 +1,7 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixin';
-import socketMixin from 'ember-websockets/mixins/sockets';
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, socketMixin, {
-  socketURL: 'ws://127.0.0.1:8080/websocket',
-  keepSocketAlive: true,
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   model: function() {
     return Ember.RSVP.hash({

@@ -21,19 +21,6 @@ class TeamSerializer(ModelSerializer):
         read_only_fields = ('name',)
 
 
-class ChannelSerializer(ModelSerializer):
-    class Meta:
-        model = Channel
-        fields = ('id', 'name', 'color', 'subscribed', 'team')
-
-class ChannelSideloadSerializer(SideloadSerializer):
-    class Meta:
-        base_serializer = ChannelSerializer
-        sideloads = [
-            (Team, TeamSerializer)
-        ]
-
-
 class MessageSerializer(ModelSerializer):
     class Meta:
         model = Message
@@ -56,4 +43,18 @@ class TopicSideloadSerializer(SideloadSerializer):
         base_serializer = TopicSerializer
         sideloads = [
             (Message, MessageSerializer),
+        ]
+
+
+class ChannelSerializer(ModelSerializer):
+    class Meta:
+        model = Channel
+        fields = ('id', 'name', 'color', 'subscribed', 'team', 'topics')
+
+class ChannelSideloadSerializer(SideloadSerializer):
+    class Meta:
+        base_serializer = ChannelSerializer
+        sideloads = [
+            (Team, TeamSerializer),
+            (Topic, TopicSerializer)
         ]
