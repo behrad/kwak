@@ -5,11 +5,11 @@ var io = require('socket.io')(http);
 app.get('/', function(req, res) {
   io.emit('message', {
     id: 57,
-    content: "content from socketio",
+    content: "content from socketia",
     topic_id: 1,
     author_id: 1
   });
-  res.send({'message': 'sent'});
+  res.send();
 });
 
 io.on('connection', function(socket){

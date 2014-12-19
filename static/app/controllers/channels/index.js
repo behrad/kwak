@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  needs: ['profile', 'channels', 'channels/channel/mark-as-read'],
+  needs: ['profile', 'channels', 'channels/channel/index', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
   sortProperties: ['id'],
   sortAscending: true,
@@ -36,7 +36,7 @@ export default Ember.ArrayController.extend({
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function() {
-                self.socket.emit('message', message.toJSON());
+                self.socket.emit('message', message.toJSON({includeId: true}));
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -81,5 +81,30 @@ export default Ember.ArrayController.extend({
         messageId
       );
     }
-  }
+  },
+  sockets: {
+    topic: function(data) {
+
+    },
+    message: function(data) {
+      var self = this;
+      if (self.store.hasRecordForId('message', data.id)) {
+        var message = self.store.getById('message', data.id);
+        message.set('content', data.content);
+        self.get('controllers.channels/channel/index.messages').pushObject(message);
+      } else {
+        self.store.find('topic', data.topic_id).then(function(topic) {
+          self.store.find('profile', data.author_id).then(function(author) {
+            var message = self.store.createRecord('message', {
+              id: data.id,
+              content: data.content,
+              topic: topic,
+              author: author
+            });
+            self.get('controllers.channels/channel/index.messages').pushObject(message);
+          });
+        });
+      }
+    }
+  },
 });

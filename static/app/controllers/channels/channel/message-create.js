@@ -19,7 +19,7 @@ export default Ember.ObjectController.extend({
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function(message) {
-                self.socket.emit('message', message.toJSON());
+                self.socket.emit('message', message.toJSON({includeId: true}));
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
