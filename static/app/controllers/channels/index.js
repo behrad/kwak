@@ -36,6 +36,7 @@ export default Ember.ArrayController.extend({
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function() {
+                //TODOwss self.get('controllers.channels').send('emit', 'ping');
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
