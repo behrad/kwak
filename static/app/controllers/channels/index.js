@@ -36,7 +36,6 @@ export default Ember.ArrayController.extend({
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function() {
-                self.socket.emit('message', message.toJSON({includeId: true}));
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -46,7 +45,6 @@ export default Ember.ArrayController.extend({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function(message) {
-                self.socket.emit('message', message.toJSON({includeId: true}));
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -64,8 +62,6 @@ export default Ember.ArrayController.extend({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function(message) {
-                self.socket.emit('topic', topic.toJSON({includeId: true}));
-                self.socket.emit('message', message.toJSON({includeId: true}));
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -104,7 +100,6 @@ export default Ember.ArrayController.extend({
               topic: topic,
               author: author
             });
-            console.log('ab');
             var channelIndex = self.get('controllers.channels/channel/index.messages');
             if (channelIndex) {
               channelIndex.pushObject(message);

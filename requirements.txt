@@ -6,3 +6,4 @@ djangorestframework==3.0.0
 emberdrf==0.1.4
 inflection==0.2.1
 wsgiref==0.1.2
+requests==2.5.0

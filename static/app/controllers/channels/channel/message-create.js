@@ -18,8 +18,7 @@ export default Ember.ObjectController.extend({
               // append to last message
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
-              message.save().then(function(message) {
-                self.socket.emit('message', message.toJSON({includeId: true}));
+              message.save().then(function() {
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -29,7 +28,6 @@ export default Ember.ObjectController.extend({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function(message) {
-                self.socket.emit('message', message.toJSON({includeId: true}));
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
                 self.get('controllers.channels/channel.messages').pushObject(message);
@@ -48,8 +46,6 @@ export default Ember.ObjectController.extend({
               author: self.get('currentUser.model')
             }).save().then(function (message) {
               message.get('topic').then(function (topic) {
-                self.socket.emit('topic', topic.toJSON({includeId: true}));
-                self.socket.emit('message', message.toJSON({includeId: true}));
                 window.prettyPrint();
                 self.get('controllers.channels/channel.messages').pushObject(message);
                 self.transitionToRoute('channels.channel.topic', topic);

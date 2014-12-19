@@ -86,6 +86,8 @@ class Message(models.Model):
         return "{} - {}".format(self.author.name, self.content[0:10])
 
 
+
+
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
@@ -96,5 +98,20 @@ def create_profile(sender, **kw):
         profile.email = user.email
         profile.name = "{} {}".format(user.first_name, user.last_name)
         profile.save()
-
 post_save.connect(create_profile, sender=User, dispatch_uid="users-profilecreation-signal")
+
+import requests
+from django.core.serializers import serialize
+def broadcast_message(sender, **kw):
+    message = kw["instance"]
+    if kw["created"]:
+        payload = {
+            'id': message.id,
+            'pubdate': message.pubdate,
+            'content': message.content,
+            'author': message.author.id,
+            'topic': message.topic.id,
+        }
+        r = requests.post('http://localhost:8080/message', data=payload)
+        print payload
+post_save.connect(broadcast_message, sender=Message)
