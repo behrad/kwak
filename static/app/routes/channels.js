@@ -3,7 +3,7 @@ import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixi
 import socketMixin from 'ember-websockets/mixins/sockets';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, socketMixin, {
-  socketURL: 'ws://echo.websocket.org',
+  socketURL: 'ws://127.0.0.1:8080/websocket',
   keepSocketAlive: true,
 
   model: function() {
