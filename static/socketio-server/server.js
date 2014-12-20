@@ -7,29 +7,42 @@ var io = require('socket.io')(http);
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', function(req, res) {
+/* controllers */
+var messagesController = function(req, res) {
+  var body = req.body;
   io.emit('message', {
-    id: 57,
-    content: "content from socketia",
-    topic_id: 1,
-    author_id: 1
+    id: body.id,
+    content: body.content,
+    topic: body.topic,
+    author: body.author
   });
-  res.send('hello');
-});
-
-app.post('/message', function(req, res) {
-  //include channel in req.body, and broadcast to the right namespace/room
-  console.log(req.body);
   res.send();
-});
+};
 
-io.on('connection', function(socket){
-  socket.on('message', function(msg){
+var topicsController = function(req, res) {
+  var body = req.body;
+  io.emit('topic', {
+    id: body.id,
+    title: body.title,
+    channel: body.channel,
+  });
+  res.send();
+};
+
+/* routes */
+app.post('/message', messagesController);
+app.post('/topic', topicsController);
+
+
+/* stuff */
+io.on('connection', function(socket) {
+  socket.on('message', function(msg) {
     console.log(msg);
     io.emit('message', msg);
   });
 });
 
-http.listen(8080, function(){
-  console.log('listening on *:8080');
+http.listen(8080, 'localhost', function() {
+  console.log('listening on localhost:8080');
 });
+

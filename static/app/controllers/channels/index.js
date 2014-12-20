@@ -44,7 +44,7 @@ export default Ember.ArrayController.extend({
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
-              }).save().then(function(message) {
+              }).save().then(function() {
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -61,7 +61,7 @@ export default Ember.ArrayController.extend({
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
-              }).save().then(function(message) {
+              }).save().then(function() {
                 window.prettyPrint();
                 setTimeout(function() { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
@@ -80,20 +80,31 @@ export default Ember.ArrayController.extend({
   },
   sockets: {
     topic: function(data) {
-
+      var self = this;
+      if (!self.store.hasRecordForId('topic', data.id)) {
+        self.store.find('channel', data.channel).then(function(channel) {
+          Ember.Logger.debug('createRecord topic', data);
+          self.store.createRecord('topic', {
+            id: data.id,
+            title: data.title,
+            channel: channel
+          });
+        });
+      }
     },
     message: function(data) {
       var self = this;
       if (self.store.hasRecordForId('message', data.id)) {
         var message = self.store.getById('message', data.id);
         message.set('content', data.content);
-        var channelIndex = self.get('controllers.channels/channel/index.messages');
-        if (channelIndex) {
-          channelIndex.pushObject(message);
-        }
+        // var channelIndex = self.get('controllers.channels/channel/index.messages');
+        // if (channelIndex) {
+        //   channelIndex.pushObject(message);
+        // }
       } else {
         self.store.find('topic', data.topic).then(function(topic) {
           self.store.find('profile', data.author).then(function(author) {
+            Ember.Logger.debug('createRecord message', data);
             var message = self.store.createRecord('message', {
               id: data.id,
               content: data.content,
@@ -102,6 +113,7 @@ export default Ember.ArrayController.extend({
             });
             var channelIndex = self.get('controllers.channels/channel/index.messages');
             if (channelIndex) {
+              Ember.Logger.debug('pushObject message', message);
               channelIndex.pushObject(message);
             }
           });
