@@ -76,10 +76,13 @@ export default Ember.ArrayController.extend({
       });
     },
     markAsRead: function(messageId) {
-      this.get('controllers.channels/channel/mark-as-read').send(
-        'markAsRead',
-        messageId
-      );
+      var controller = this.get('controllers.channels/channel/mark-as-read');
+      if (controller) {
+        controller.send(
+          'markAsRead',
+          messageId
+        );
+      }
     }
   },
   sockets: {
