@@ -11,8 +11,7 @@ var Socket = EmberSockets.extend({
     controllers: [
         'channels/index',
     ],
-    autoConnect: true,
-    path: '/',
+    autoConnect: true
 });
 
 
