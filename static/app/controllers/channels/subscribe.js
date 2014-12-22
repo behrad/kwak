@@ -4,18 +4,18 @@ var $ = Ember.$;
 
 export default Ember.ObjectController.extend({
   actions: {
-    createChannel: function() {
+    createChannel: function () {
       var self = this;
       self.store.createRecord('channel', {
         name: self.get('name').trim(),
         color: self.get('color'),
         team: self.store.getById('team', self.get('team'))
-      }).save().then(function() {
-        Ember.run.scheduleOnce('afterRender', this, function() {
+      }).save().then(function () {
+        Ember.run.scheduleOnce('afterRender', this, function () {
           var colors = self.colors;
-          $('.colorselector').each(function() {
+          $('.colorselector').each(function () {
             var i = 0;
-            $(this).find('option').each(function() {
+            $(this).find('option').each(function () {
               $(this).attr('data-color', colors[i++]['code']);
             });
             $(this).colorselector();
@@ -25,11 +25,11 @@ export default Ember.ObjectController.extend({
     },
   },
 
-  teams: function() {
+  teams: function () {
     return this.store.all('team');
   }.property(),
 
-  subscribed: function(key, value){
+  subscribed: function (key, value) {
     var model = this.get('model');
 
     if (value === undefined) {
@@ -44,7 +44,7 @@ export default Ember.ObjectController.extend({
     }
   }.property('model.subscribed'),
 
-  onSelectedColor: function() {
+  onSelectedColor: function () {
     if (this.get('model.content.length')) {
       return;
     }

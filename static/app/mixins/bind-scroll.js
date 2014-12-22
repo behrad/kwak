@@ -3,15 +3,15 @@ import Ember from 'ember';
 var $ = Ember.$;
 
 export default Ember.Mixin.create({
-  bindScrolling: function() {
+  bindScrolling: function () {
     var onScroll;
     var _this = this;
 
-    var scrollFunc = function() {
+    var scrollFunc = function () {
        return _this.scrolled();
     };
 
-    onScroll = function() {
+    onScroll = function () {
       Ember.run.debounce(_this, scrollFunc, 200);
     };
 
@@ -19,7 +19,7 @@ export default Ember.Mixin.create({
     $(window).bind('scroll', onScroll);
   },
 
-  unbindScrolling: function() {
+  unbindScrolling: function () {
     $(window).unbind('scroll');
     $(document).unbind('touchmove');
   }

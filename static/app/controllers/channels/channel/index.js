@@ -4,7 +4,7 @@ export default Ember.ObjectController.extend({
   needs: ['channels/channel/message-create', 'channels/channel/mark-as-read'],
   topicTitle: Ember.computed.oneWay('model.title'),
   actions: {
-    createMessage: function() {
+    createMessage: function () {
       var channel = this.get('model.channel');
 
       var content = this.get('message');
@@ -21,7 +21,7 @@ export default Ember.ObjectController.extend({
       );
       this.set('message', '');
     },
-    markAsRead: function(messageId) {
+    markAsRead: function (messageId) {
       var controller = this.get('controllers.channels/channel/mark-as-read');
       if (controller) {
         controller.send(

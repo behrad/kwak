@@ -3,7 +3,7 @@ import Ember from 'ember';
 var $ = Ember.$;
 
 export default Ember.View.extend({
-  click: function(evt) {
+  click: function (evt) {
     var $target = $(evt.target);
     // <i> is used to collapse a message, <a> to transition to somewhere
     if ($.inArray($target.prop('tagName'), ['A', 'I']) === -1) {
@@ -13,7 +13,7 @@ export default Ember.View.extend({
         this.noFocus();
       } else { // if there's no focus, focus clicked element
         var $message = $('.message[data-topic-id!='+topicId+']');
-        $message.each(function() {
+        $message.each(function () {
           $(this).addClass('unfocused');
           $('#topic').val();
         });
@@ -23,11 +23,11 @@ export default Ember.View.extend({
       }
     }
   },
-  doubleClick: function() {
+  doubleClick: function () {
     $('#messageformdiv').collapse('toggle');
   },
-  noFocus: function() {
-    $('.unfocused').each(function() {
+  noFocus: function () {
+    $('.unfocused').each(function () {
       $(this).removeClass('unfocused');
     });
   }

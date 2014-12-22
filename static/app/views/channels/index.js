@@ -5,23 +5,23 @@ import BindScroll from '../../mixins/bind-scroll';
 var $ = Ember.$;
 
 export default Ember.View.extend(SetupView, BindScroll, {
-  rerender: function() {
+  rerender: function () {
     this.messageSeen();
   },
-  didInsertElement: function() {
+  didInsertElement: function () {
     this.bindScrolling();
   },
-  willRemoveElement: function() {
+  willRemoveElement: function () {
     this.unbindScrolling();
   },
-  scrolled: function() {
+  scrolled: function () {
     this.messageSeen();
   },
-  messageSeen: function() {
+  messageSeen: function () {
     var self = this;
-    $('.message:visible:not(.seen)').filter(function() {
+    $('.message:visible:not(.seen)').filter(function () {
       return $(this).visible();
-    }).each(function() {
+    }).each(function () {
       var controller = self.get('controller');
       if (controller) {
         self.get('controller').send('markAsRead', $(this).attr('data-message-id'));

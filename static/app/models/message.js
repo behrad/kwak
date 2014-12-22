@@ -6,10 +6,10 @@ export default DS.Model.extend({
   author: DS.belongsTo('profile', {async: true}),
   topic: DS.belongsTo('topic', {async: true}),
   content: DS.attr('string'),
-  contentHtml: function() {
+  contentHtml: function () {
     var converter = new window.Showdown.converter({ extensions: ['github'] });
     // re scroll and re colorize whenever we recompute the value
-    Ember.run.scheduleOnce('afterRender', this, function(){
+    Ember.run.scheduleOnce('afterRender', this, function () {
       window.scrollTo(0, document.body.scrollHeight);
       window.prettyPrint();
     });
