@@ -7,7 +7,7 @@ export default Ember.ObjectController.extend({
     createChannel: function() {
       var self = this;
       self.store.createRecord('channel', {
-        name: self.get('name'),
+        name: self.get('name').trim(),
         color: self.get('color'),
         team: self.store.getById('team', self.get('team'))
       }).save().then(function() {

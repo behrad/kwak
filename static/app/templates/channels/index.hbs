@@ -30,7 +30,7 @@
   <div class="col-xs-12">
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
-        {{view "select" content=controllers.channels.subscribed class="form-control" value=channel optionValuePath="content.id" optionLabelPath="content.name"}}
+        {{view "select" id="channel-select" content=controllers.channels.subscribed class="form-control" value=channel optionValuePath="content.id" optionLabelPath="content.name"}}
         <span class="input-group-addon glyphicon glyphicon-chevron-right"></span>
         {{input type="text" id="topic" value=topicTitle placeholder="topic" class="form-control"}}
       </div>
