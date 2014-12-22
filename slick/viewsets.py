@@ -55,6 +55,7 @@ class ChannelViewSet(ModelViewSet):
             channel = Channel.objects.create(name=d['name'], color=d['color'], team=d['team'])
 
             return Response({'channel': {
+                'id': channel.id,
                 'name': channel.name,
                 'color': channel.color,
                 'topics': [],
