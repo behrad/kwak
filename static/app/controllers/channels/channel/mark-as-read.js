@@ -6,7 +6,7 @@ export default Ember.ObjectController.extend({
       if (messageId) {
         this.store.find('message', messageId).then(function(message) {
           message.set('seen', true);
-          Ember.Logger.debug('TODO: save somehow');
+          Ember.Logger.debug('TODO: save somehow. Read:', messageId);
         });
       }
     }
