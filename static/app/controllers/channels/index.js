@@ -101,7 +101,7 @@ export default Ember.ArrayController.extend({
             });
           });
         }
-      }, 1000);
+      }, 100);
     },
     message: function(data) {
       console.log('received message');
@@ -136,7 +136,7 @@ export default Ember.ArrayController.extend({
             });
           });
         }
-      }, 3000);
+      }, 200);
     }
   },
 });

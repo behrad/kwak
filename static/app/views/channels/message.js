@@ -19,7 +19,7 @@ export default Ember.View.extend({
         });
         // pre-fill messagebox select and input
         $('#topic').val($topic.find('a.topic-title').html().trim());
-        $('#channel-select').val($topic.attr('data-topic-id'));
+        $('#channel-select').val($topic.attr('data-channel-id'));
       }
     }
   },

@@ -7,7 +7,7 @@ a {
   cursor: pointer;
 }
 
-.profile-img {
+/*.profile-img {
   width: 50px;
   height: 50px;
   margin: 0 5px 10px;
@@ -15,7 +15,7 @@ a {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
-}
+}*/
 
 h5 {
   font-weight: bold;
