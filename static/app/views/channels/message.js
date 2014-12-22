@@ -17,11 +17,14 @@ export default Ember.View.extend({
           $(this).addClass('unfocused');
           $('#topic').val();
         });
-
+        // pre-fill messagebox select and input
         $('#topic').val($topic.find('a.topic-title').html().trim());
         $('#channel-select').val($topic.attr('data-topic-id'));
       }
     }
+  },
+  doubleClick: function() {
+    $('#messageformdiv').collapse('toggle');
   },
   noFocus: function() {
     $('.unfocused').each(function() {
