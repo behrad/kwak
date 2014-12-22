@@ -28,9 +28,9 @@
 
 <footer class="row">
   <div class="col-xs-12">
-    <p>
-      <a data-toggle="collapse" data-parent="#accordion" href="#messageformdiv" aria-expanded="true"><span class="glyphicon glyphicon-send"></span> Write a message</a>
-    </p>
+    <ul class="nav nav-pills">
+      <li class="active"><a data-toggle="collapse" data-parent="#accordion" href="#messageformdiv" aria-expanded="true"><span class="glyphicon glyphicon-send"></span> Write a message</a></li>
+    </ul>
     <div id="messageformdiv" class="collapse">
       <form {{action 'createMessage' on='submit' id='messageform'}}>
         <div class="input-group input-group-lg">
