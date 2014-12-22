@@ -30,6 +30,7 @@ class ChannelViewSet(ModelViewSet):
         return new_queryset
 
     def update(self, request, pk=None):
+        #TODO : check if current_user has permission to update CHANNEL in TEAM
         channel = Channel.objects.get(pk=pk)
         name = request.data['channel']['name']
         color = request.data['channel']['color']
@@ -45,6 +46,25 @@ class ChannelViewSet(ModelViewSet):
         channel.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def create(self, request):
+        #TODO : check if current_user has permission to create CHANNEL in TEAM
+        request.data['channel']['topics'] = []
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            d = serializer.validated_data
+            channel = Channel.objects.create(name=d['name'], color=d['color'], team=d['team'])
+
+            return Response({'channel': {
+                'name': channel.name,
+                'color': channel.color,
+                'topics': [],
+                'team': channel.team.id,
+                'subscribed': False
+            }}, status=status.HTTP_201_CREATED)
+        return Response({
+            'status': 'Bad request',
+            'message': 'Channel could not be created with received data.'
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TopicViewSet(ModelViewSet):

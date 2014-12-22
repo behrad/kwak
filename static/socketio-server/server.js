@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* controllers */
 var messagesController = function(req, res) {
   var body = req.body;
-  io.to('myroom').emit('message', {
+  io.to(body.channel).emit('message', {
     id: body.id,
     content: body.content,
     topic: body.topic,
@@ -21,7 +21,7 @@ var messagesController = function(req, res) {
 
 var topicsController = function(req, res) {
   var body = req.body;
-  io.to('myroom').emit('topic', {
+  io.to(body.channel).emit('topic', {
     id: body.id,
     title: body.title,
     channel: body.channel,
@@ -38,7 +38,11 @@ app.post('/topic', topicsController);
 io.on('connection', function(socket) {
   socket.on('join', function(room) {
     console.log('request to join ', room);
-    socket.join('myroom');
+    socket.join(room);
+  });
+  socket.on('leave', function(room) {
+    console.log('request to leave ', room);
+    socket.leave(room);
   });
 });
 

@@ -108,6 +108,7 @@ def broadcast_message(sender, **kw):
         'content': message.content,
         'author': message.author.id,
         'topic': message.topic.id,
+        'channel': message.topic.channel.id,
     }
     r = requests.post('http://localhost:8080/message', data=payload)
 post_save.connect(broadcast_message, sender=Message)
