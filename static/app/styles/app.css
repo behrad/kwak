@@ -111,6 +111,7 @@ ul.nav.nav-pills.nav-stacked li a i {
   float: left;
 }
 
+/* colors */
 div._01 { border-left: 2px solid #f44336; border-bottom: 2px solid #f44336; }
 span._01 { float: left; background-color: #f44336; }
 i._01 { color: #f44336; }
@@ -190,4 +191,3 @@ i._19 { color: #607d8b; }
 div._20 { border-left: 2px solid #000000; border-bottom: 2px solid #000000; }
 span._20 { float: left; background-color: #000000; }
 i._20 { color: #000000; }
-
