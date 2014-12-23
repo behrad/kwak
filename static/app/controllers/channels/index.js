@@ -81,6 +81,10 @@ export default Ember.ArrayController.extend({
           messageId
         );
       }
+    },
+    setupMessagebox: function(topicTitle, channelId) {
+      this.set('channel', channelId);
+      this.set('topicTitle', topicTitle);
     }
   },
   sockets: {

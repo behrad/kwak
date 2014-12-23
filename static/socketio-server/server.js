@@ -9,6 +9,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 /* controllers */
 var messagesController = function(req, res) {
+  if (req.ip !== '127.0.0.1') {
+    console.log('Unauthorized POST message');
+    res.send();
+  }
   var body = req.body;
   io.to(body.channel).emit('message', {
     id: body.id,
@@ -20,6 +24,10 @@ var messagesController = function(req, res) {
 };
 
 var topicsController = function(req, res) {
+  if (req.ip !== '127.0.0.1') {
+    console.log('Unauthorized POST message');
+    res.send();
+  }
   var body = req.body;
   io.to(body.channel).emit('topic', {
     id: body.id,

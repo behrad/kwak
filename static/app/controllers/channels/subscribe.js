@@ -5,12 +5,15 @@ var $ = Ember.$;
 export default Ember.ObjectController.extend({
   actions: {
     createChannel: function () {
+      var name = this.get('name');
+      if (!name || !name.trim()) { return; }
       var self = this;
       self.store.createRecord('channel', {
-        name: self.get('name').trim(),
+        name: name.trim(),
         color: self.get('color'),
         team: self.store.getById('team', self.get('team'))
       }).save().then(function () {
+        self.set('name', '');
         Ember.run.scheduleOnce('afterRender', this, function () {
           var colors = self.colors;
           $('.colorselector').each(function () {

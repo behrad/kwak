@@ -29,6 +29,9 @@ export default Ember.ObjectController.extend({
           messageId
         );
       }
+    },
+    setupMessagebox: function(topicTitle) {
+      this.set('topicTitle', topicTitle);
     }
   }
 });

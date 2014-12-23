@@ -17,14 +17,12 @@ export default Ember.View.extend({
           $(this).addClass('unfocused');
           $('#topic').val();
         });
+        var topicTitle = $topic.find('a.topic-title').html().trim();
+        var channelId = $topic.attr('data-channel-id');
         // pre-fill messagebox select and input
-        $('#topic').val($topic.find('a.topic-title').html().trim());
-        $('#channel-select').val($topic.attr('data-channel-id'));
+        this.get('controller').send('setupMessagebox', topicTitle, channelId);
       }
     }
-  },
-  doubleClick: function () {
-    $('#messageformdiv').collapse('toggle');
   },
   noFocus: function () {
     $('.unfocused').each(function () {
