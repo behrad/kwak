@@ -61,6 +61,51 @@ footer {
   font-size: 14px;
 }
 
+/* left column, containing channels */
+.channels {
+  width: 200px;
+  margin-top: 51px;
+  padding: 10px 5px;
+
+  border-right: 1px solid #e7e7e7;
+  background-color: #f8f8f8;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 1050;
+  overflow-y: auto;
+  border-radius: 0;
+
+  right: auto;
+  left: 0;
+}
+
+#hide-channels {
+  display: none;
+}
+
+ul.nav.nav-pills.nav-stacked li a i {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.channels .nav>li>a {
+  padding: 5px 15px;
+}
+
+/* right container, containing messages */
+.right-container {
+  margin-left: 200px;
+}
+
 .channel-color {
   width: 18px;
   height: 20px;
@@ -78,6 +123,23 @@ footer {
 }
 .topic-title {
 }
+
+/* for smaller screens */
+@media (max-width: 768px) {
+  #hide-channels {
+    display: block;
+  }
+  #channels-list {
+    display: none;
+  }
+  .channels {
+    left: -175px;
+  }
+  .right-container {
+    margin-left: 20px;
+  }
+}
+
 #channel-list li label {
   margin-left: 10px;
   font-weight: normal;
@@ -90,21 +152,6 @@ footer {
 
 .channel-create {
   margin-left: 10px;
-}
-
-ul.nav.nav-pills.nav-stacked li a i {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.nav>li>a {
-  padding: 0 15px;
 }
 
 .dropdown-colorselector {

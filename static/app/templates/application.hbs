@@ -13,6 +13,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
         {{#link-to 'channels' tagName="li" href=false}}<a {{bind-attr href="view.href"}}>channels</a>{{/link-to}}
+        <li>
+          {{#link-to 'channels.subscribe'}}
+            <i class="glyphicon glyphicon-tags subscribe-icon pull-left"></i>
+          {{/link-to}}
+        </li>
       </ul>
 
       {{#if session.isAuthenticated}}
@@ -35,6 +40,4 @@
   </div>
 </nav>
 
-<div class="container-fluid">
-  {{outlet}}
-</div>
+{{outlet}}
