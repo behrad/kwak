@@ -12,11 +12,11 @@
           {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title class="topic-title"}}
             {{message.topic.title}}
           {{/link-to}}
+        </div>
+        <div class="message-body">
           <small class="pull-right text-muted">
             {{format-date message.pubdate}}
           </small>
-        </div>
-        <div class="message-body">
           <h5>{{message.author.name}}</h5>
           {{{message.contentHtml}}}
         </div>

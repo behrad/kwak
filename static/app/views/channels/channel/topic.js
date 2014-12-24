@@ -6,20 +6,24 @@ var $ = Ember.$;
 
 export default Ember.View.extend(SetupView, BindScroll, {
   rerender: function () {
+    this._super();
     this.messageSeen();
   },
   didInsertElement: function () {
+    this._super();
     this.bindScrolling();
   },
   willRemoveElement: function () {
+    this._super();
     this.unbindScrolling();
   },
   scrolled: function () {
+    this._super();
     this.messageSeen();
   },
   messageSeen: function () {
     var self = this;
-    $('.message:visible:not(.seen)').filter(function () {
+    $('.message:not(.seen)').filter(function () {
       return $(this).visible();
     }).each(function () {
       self.get('controller').send('markAsRead', $(this).attr('data-message-id'));
