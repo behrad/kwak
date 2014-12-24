@@ -19,7 +19,7 @@ export default Ember.View.extend(SetupView, BindScroll, {
   },
   messageSeen: function () {
     var self = this;
-    $('.message:visible:not(.seen)').filter(function () {
+    $('.message:not(.seen)').filter(function () {
       return $(this).visible();
     }).each(function () {
       var controller = self.get('controller');

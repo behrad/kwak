@@ -10,7 +10,6 @@ export default DS.Model.extend({
     var converter = new window.Showdown.converter({ extensions: ['github'] });
     // re scroll and re colorize whenever we recompute the value
     Ember.run.scheduleOnce('afterRender', this, function () {
-      window.scrollTo(0, document.body.scrollHeight);
       window.prettyPrint();
     });
     return converter.makeHtml(this.get('content'));

@@ -20,7 +20,6 @@ export default Ember.ObjectController.extend({
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function () {
                 window.prettyPrint();
-                setTimeout(function () { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
             } else {
               // create new message in existing topic
@@ -29,7 +28,6 @@ export default Ember.ObjectController.extend({
                 author: self.get('currentUser.model')
               }).save().then(function (message) {
                 window.prettyPrint();
-                setTimeout(function () { window.scrollTo(0, document.body.scrollHeight); }, 50);
                 self.get('controllers.channels/channel.messages').pushObject(message);
               });
             }

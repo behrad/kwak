@@ -37,7 +37,6 @@ export default Ember.ArrayController.extend({
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function () {
                 window.prettyPrint();
-                setTimeout(function () { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
             } else {
               // create new message in existing topic
@@ -47,7 +46,6 @@ export default Ember.ArrayController.extend({
               }).save().then(function () {
                 self.set('topicCreated', topic.get('id'));
                 window.prettyPrint();
-                setTimeout(function () { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
             }
           });
@@ -65,7 +63,6 @@ export default Ember.ArrayController.extend({
                 author: self.get('currentUser.model')
               }).save().then(function () {
                 window.prettyPrint();
-                setTimeout(function () { window.scrollTo(0, document.body.scrollHeight); }, 50);
               });
             });
           });
@@ -92,12 +89,11 @@ export default Ember.ArrayController.extend({
       var self = this;
       setTimeout(function () {
         if (data.id === self.get('topicCreated')) {
-          // Ember.Logger.debug('it\'s my topic!');
+          // It's my own topic coming back like a boomerang
           return;
         }
         if (!self.store.hasRecordForId('topic', data.id)) {
           self.store.find('channel', data.channel).then(function (channel) {
-            // Ember.Logger.debug('createRecord topic', data);
             self.store.createRecord('topic', {
               id: data.id,
               title: data.title,
@@ -108,24 +104,18 @@ export default Ember.ArrayController.extend({
       }, 100);
     },
     message: function (data) {
-      console.log('received message');
       var self = this;
       setTimeout(function () {
         if (data.author === self.get('currentUser.id')) {
-          // Ember.Logger.debug('it\'s me message!');
+          // It's my own message coming back like a boomerang
           return;
         }
         if (self.store.hasRecordForId('message', data.id)) {
           var message = self.store.getById('message', data.id);
           message.set('content', data.content);
-          // var channelIndex = self.get('controllers.channels/channel/index.messages');
-          // if (channelIndex) {
-          //   channelIndex.pushObject(message);
-          // }
         } else {
           self.store.find('topic', data.topic).then(function (topic) {
             self.store.find('profile', data.author).then(function (author) {
-              // Ember.Logger.debug('createRecord message', data);
               var message = self.store.createRecord('message', {
                 id: data.id,
                 content: data.content,
@@ -134,7 +124,6 @@ export default Ember.ArrayController.extend({
               });
               var channelIndex = self.get('controllers.channels/channel/index.messages');
               if (channelIndex) {
-                // Ember.Logger.debug('pushObject message', message);
                 channelIndex.pushObject(message);
               }
             });
