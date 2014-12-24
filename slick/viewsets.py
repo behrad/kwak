@@ -1,4 +1,4 @@
-from message.models import Channel, Topic, Message, Profile
+from message.models import Team, Channel, Topic, Message, Profile
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
@@ -30,8 +30,9 @@ class ChannelViewSet(ModelViewSet):
         return new_queryset
 
     def update(self, request, pk=None):
-        #TODO : check if current_user has permission to update CHANNEL in TEAM
         channel = Channel.objects.get(pk=pk)
+        if request.user.profile not in channel.team.members.all():
+            return Response(status=status.HTTP_403_FORBIDDEN)
         name = request.data['channel']['name']
         color = request.data['channel']['color']
         subscribed = request.data['channel']['subscribed']
@@ -47,11 +48,14 @@ class ChannelViewSet(ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def create(self, request):
-        #TODO : check if current_user has permission to create CHANNEL in TEAM
         request.data['channel']['topics'] = []
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             d = serializer.validated_data
+
+            if request.user.profile not in Team.objects.get(pk=d['team'].id).members.all():
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
             channel = Channel.objects.create(name=d['name'], color=d['color'], team=d['team'])
 
             return Response({'channel': {
