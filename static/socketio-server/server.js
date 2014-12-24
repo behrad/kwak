@@ -54,7 +54,7 @@ io.on('connection', function(socket) {
   });
 });
 
-http.listen(8080, 'localhost', function() {
+http.listen(8080, function() {
   console.log('listening on localhost:8080');
 });
 
