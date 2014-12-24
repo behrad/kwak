@@ -10,13 +10,14 @@ export default Ember.View.extend({
       var $channelsList = $('#channels-list');
       $hideChannels.find('span').toggleClass('glyphicon-chevron-left');
       $hideChannels.find('span').toggleClass('glyphicon-chevron-right');
+      $this.find('h5').toggle();
       $channelsList.toggle();
       if ($channelsList.is(':visible')) {
-        $this.css('left', 0);
-        $('.right-container').css('margin-left', '200px');
+        $this.animate({'left': 0});
+        $('.right-container').animate({'margin-left': '200px'});
       } else {
-        $this.css('left', '-175px');
-        $('.right-container').css('margin-left', '20px');
+        $this.animate({'left': '-175px'});
+        $('.right-container').animate({'margin-left': '20px'});
       }
     }
   }

@@ -1,8 +1,9 @@
 {{#view 'channel-list'}}
 <aside class="channels">
   <ul id="hide-channels" class="nav nav-pills nav-stacked">
-    <li><span class="glyphicon glyphicon-chevron-right pull-right"></span><br></li>
+    <li><span class="glyphicon glyphicon-chevron-right pull-right"></span></li>
   </ul>
+  <h5>{{#link-to "channels"}}Channels{{/link-to}} {{#link-to 'channels.subscribe'}}<span class="pull-right glyphicon glyphicon-tags"></span>{{/link-to}}</h5>
   <ul id="channels-list" class="nav nav-pills nav-stacked">
   {{#each channel in controller.subscribed}}
     {{#link-to 'channels.channel' channel.id channel.name tagName="li" href=false}}<a {{bind-attr href="view.href"}}><i {{bind-attr class=":glyphicon-tag channel.color"}}></i> {{channel.name}}</a>{{/link-to}}
