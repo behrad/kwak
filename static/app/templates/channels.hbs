@@ -3,10 +3,15 @@
   <ul id="hide-channels" class="nav nav-pills nav-stacked">
     <li><span class="glyphicon glyphicon-chevron-right pull-right"></span></li>
   </ul>
-  <h5>{{#link-to "channels"}}Channels{{/link-to}} {{#link-to 'channels.subscribe'}}<span class="pull-right glyphicon glyphicon-tags"></span>{{/link-to}}</h5>
+  <h5>
+    {{#link-to "channels"}}Channels{{/link-to}}
+    {{#link-to 'channels.subscribe'}}<span class="pull-right glyphicon glyphicon-tags"></span>{{/link-to}}
+  </h5>
   <ul id="channels-list" class="nav nav-pills nav-stacked">
   {{#each channel in controller.subscribed}}
-    {{#link-to 'channels.channel' channel.id channel.name tagName="li" href=false}}<a {{bind-attr href="view.href"}}><i {{bind-attr class=":glyphicon-tag channel.color"}}></i> {{channel.name}}</a>{{/link-to}}
+    {{#link-to 'channels.channel' channel.id channel.name tagName="li" href=false}}
+      <a {{bind-attr href="view.href"}}><i {{bind-attr class=":glyphicon-tag channel.color"}}></i> {{channel.name}} <span class="label label-default pull-right">{{channel.unread}}</span></a>
+    {{/link-to}}
   {{/each}}
   </ul>
 </aside>
