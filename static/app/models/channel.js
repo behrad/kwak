@@ -6,8 +6,8 @@ export default DS.Model.extend({
   topics: DS.hasMany('topic'),
   team: DS.belongsTo('team'),
   subscribed: DS.attr('boolean'),
+  cursor: DS.attr('integer'),
   unread: function () {
-    var cursor = 25;
     var topics = this.get('topics');
     var messages;
     var ids = [];
@@ -17,6 +17,8 @@ export default DS.Model.extend({
         ids.push(messages.objectAt(j).get('id'));
       }
     }
-    return ids.filter(function(i) { return i > cursor; }).length;
-  }.property('profile.cursor')
+    var unreadIds = ids.filter(function(i) { return i > window.cursor; });
+    console.log(unreadIds);
+    return unreadIds.length;
+  }.property('cursor')
 });
