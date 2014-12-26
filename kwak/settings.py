@@ -1,5 +1,5 @@
 """
-Django settings for slick project.
+Django settings for kwak project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -51,9 +51,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'slick.urls'
+ROOT_URLCONF = 'kwak.urls'
 
-WSGI_APPLICATION = 'slick.wsgi.application'
+WSGI_APPLICATION = 'kwak.wsgi.application'
 
 
 # Database
@@ -84,7 +84,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/slick/static/'
+STATIC_ROOT = '/var/www/kwak/static/'
 
 
 REST_FRAMEWORK = {

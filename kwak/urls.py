@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework import routers
-from slick.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet, MessageViewSet, CurrentUser, LastMessage
+from kwak.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet, MessageViewSet, CurrentUser, LastMessage
 
 router = routers.DefaultRouter()
 router.register(r'profiles', ProfileViewSet)

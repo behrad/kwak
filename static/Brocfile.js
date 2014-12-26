@@ -9,6 +9,7 @@ app.import('bower_components/momentjs/moment.js');
 app.import('bower_components/spin.js/spin.js');
 app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
 app.import('vendor/colorselector/bootstrap-colorselector.js');
+app.import('vendor/bootstrap-suggest/js/bootstrap-suggest.js');
 app.import('vendor/markdown/showdown.js');
 app.import('vendor/markdown/extensions/github.js');
 app.import('vendor/markdown/prettify/prettify.js');
@@ -25,6 +26,7 @@ app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.t
   destDir: 'fonts'
 });
 app.import('vendor/colorselector/bootstrap-colorselector.css');
+app.import('vendor/bootstrap-suggest/css/bootstrap-suggest.css');
 app.import('vendor/markdown/prettify/prettify.css');
 
 // Use `app.import` to add additional libraries to the generated
