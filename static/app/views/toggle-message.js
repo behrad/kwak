@@ -4,6 +4,9 @@ var $ = Ember.$;
 
 export default Ember.View.extend({
   click: function (evt) {
-    $(evt.target).parents('.message').find('.message-body').toggle();
+    var $target = $(evt.target);
+    $target.parents('.message').find('.message-body').toggle();
+    $target.select('i').toggleClass('glyphicon-minus');
+    $target.select('i').toggleClass('glyphicon-plus');
   }
 });

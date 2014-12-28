@@ -2,7 +2,7 @@
   {{#each message in model.messages}}
   <div {{bind-attr class="message.seen:seen :row :message"}} {{bind-attr data-message-id=message.id}}>
     <div {{bind-attr class=":col-md-12 message.topic.channel.color"}}>
-      <span {{bind-attr class=":channel-color message.topic.channel.color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-share-alt"></i>{{/view}}</span>
+      <span {{bind-attr class=":channel-color message.topic.channel.color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-minus"></i>{{/view}}</span>
       <div class="message-header">
         {{#link-to 'channels.channel.topic' message.topic.channel.id message.topic.channel.name message.topic.id message.topic.title class="topic-title"}}{{message.topic.title}}{{/link-to}}
       </div>

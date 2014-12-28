@@ -76,4 +76,8 @@ export default Ember.ObjectController.extend({
     {id: '_19', code: '#607d8b', name: 'blue grey'},
     {id: '_20', code: '#000000', name: 'black'},
   ],
+
+  hasMultipleTeams: function() {
+    return this.get('teams.length') > 1;
+  }.property('teams.length')
 });

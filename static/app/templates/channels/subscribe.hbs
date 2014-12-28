@@ -10,7 +10,9 @@
     <li class="list-group-item">
       {{view "select" classNames="colorselector" content=colors optionValuePath="content.id" optionLabelPath="content.name" value=color}}
       {{input action="createChannel" class="channel-create" value=name}}
-      {{view "select" content=teams optionValuePath="content.id" optionLabelPath="content.name" value=team}}
+      {{#if hasMultipleTeams}}
+        {{view "select" content=teams optionValuePath="content.id" optionLabelPath="content.name" value=team}}
+      {{/if}}
     </li>
 </ul>
 
