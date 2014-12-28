@@ -15,4 +15,11 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     controller.set('model', model.channels);
     this.controllerFor('profile').set('model', model.profile);
   },
+
+  afterModel: function (model) {
+    var channels = model.channels.filterProperty('subscribed', true);
+    for (var i = 0; i < channels.length; i++) {
+      this.socket.emit('join', channels[i].id);
+    }
+  }
 });
