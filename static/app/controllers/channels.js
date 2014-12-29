@@ -8,4 +8,8 @@ export default Ember.ArrayController.extend({
     return this.get('arrangedContent').filterProperty('subscribed', true);
   }.property('model.@each.subscribed'),
 
+  saveRead: function () {
+    console.log('save', window.saveRead);
+    window.saveRead = [];
+  }
 });
