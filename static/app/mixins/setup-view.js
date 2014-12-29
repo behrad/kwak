@@ -8,8 +8,6 @@ export default Ember.Mixin.create({
     Ember.run.scheduleOnce('afterRender', this, function () {
       window.prettyPrint();
 
-      window.scroll(0, $('div.message:not(.seen)').eq(0).top());
-
       $('.message').each(function() {
         var $this = $(this);
         var $next = $this.next();
