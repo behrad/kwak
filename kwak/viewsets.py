@@ -100,8 +100,6 @@ class MessageViewSet(ModelViewSet):
         if topic_id is not None:
             queryset = queryset.filter(topic__id=topic_id)
 
-        queryset = list(queryset)
-
         for message in queryset:
             if message.seen_by.filter(user_id=self.request.user.id):
                 message.seen = True
