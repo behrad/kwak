@@ -15,7 +15,7 @@ export default Ember.ObjectController.extend({
           window.saveRead = window.saveRead || [];
           window.saveRead.push(messageId);
 
-          Ember.run.debounce(self, self.get('controllers.channels').saveRead, 1500);
+          Ember.run.debounce(self, self.get('controllers.channels').saveRead, 2500);
           message.set('seen', true);
         });
       }
