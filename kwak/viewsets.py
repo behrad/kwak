@@ -105,6 +105,8 @@ class MessageViewSet(ModelViewSet):
                 message.seen = True
             else:
                 message.seen = False
+        if self.action == 'list':
+            queryset = list(queryset)
         return queryset
 
 
