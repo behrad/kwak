@@ -2,6 +2,7 @@ from message.models import Team, Channel, Topic, Message, Profile
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
 
@@ -98,6 +99,14 @@ class MessageViewSet(ModelViewSet):
         topic_id = self.request.QUERY_PARAMS.get('topic_id', None)
         if topic_id is not None:
             queryset = queryset.filter(topic__id=topic_id)
+
+        queryset = list(queryset)
+
+        for message in queryset:
+            if message.seen_by.filter(user_id=self.request.user.id):
+                message.seen = True
+            else:
+                message.seen = False
         return queryset
 
 
@@ -121,3 +130,14 @@ class LastMessage(RetrieveAPIView):
             return Message.objects.filter(topic__channel__readers=self.request.user.profile).order_by('-id')[0]
         else:
             raise Exception("Message does not exist")
+
+
+class MarkMessageRead(APIView):
+    model = Message
+
+    def post(self, request):
+        messages = Message.objects.filter(id__in=self.request.POST.getlist('messages[]'))
+        for message in messages:
+            message.seen_by.add(self.request.user.profile)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

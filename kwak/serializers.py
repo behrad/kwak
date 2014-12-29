@@ -24,7 +24,7 @@ class TeamSerializer(ModelSerializer):
 class MessageSerializer(ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'pubdate', 'author', 'topic', 'content')
+        fields = ('id', 'pubdate', 'author', 'topic', 'content', 'seen')
 
 class MessageSideloadSerializer(SideloadSerializer):
     class Meta:

@@ -24,10 +24,13 @@ export default Ember.ObjectController.extend({
     markAsRead: function (messageId) {
       var controller = this.get('controllers.channels/channel/mark-as-read');
       if (controller) {
-        controller.send(
-          'markAsRead',
-          messageId
-        );
+        controller.send('markAsRead', messageId);
+      }
+    },
+    recountUnread: function () {
+      var controller = this.get('controllers.channels/channel/mark-as-read');
+      if (controller) {
+        controller.send('recountUnread');
       }
     },
     setupMessagebox: function(topicTitle) {

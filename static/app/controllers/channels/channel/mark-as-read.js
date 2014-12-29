@@ -16,12 +16,22 @@ export default Ember.ObjectController.extend({
           window.saveRead.push(messageId);
 
           Ember.run.debounce(self, self.get('controllers.channels').saveRead, 1500);
-
-          Ember.Logger.debug('TODO: save somehow. Read:', messageId);
-
           message.set('seen', true);
         });
       }
+    },
+    recountUnread: function () {
+      var channels = this.get('controllers.channels.model.content');
+      $(channels).each(function (idx, el) {
+        var topics = el.get('topics');
+        var unreadMessages;
+        var count = 0;
+        for (var i = 0; i < topics.get('length'); i++) {
+          unreadMessages = topics.objectAt(i).get('messages').filterBy('seen', false);
+          count += unreadMessages.get('length');
+        }
+        el.set('unread', count);
+      });
     }
   }
 });

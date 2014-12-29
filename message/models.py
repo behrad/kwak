@@ -78,6 +78,9 @@ class Message(models.Model):
 
     content = models.TextField(null=True, blank=True)
 
+    def seen(self):
+        return False
+
     def channel(self):
         return self.topic.channel
 
