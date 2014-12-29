@@ -13,6 +13,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     email = models.EmailField('email')
     name = models.CharField('name', max_length=120)
+    cursor = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.name

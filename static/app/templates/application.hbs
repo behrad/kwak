@@ -16,6 +16,7 @@
 
       {{#if session.isAuthenticated}}
         <div class="navbar-form navbar-right">
+          <small class="text-muted">{{model.email}}</small>
           <a {{ action 'invalidateSession' }} class="btn btn-default">Logout</a>
         </div>
       {{/if}}

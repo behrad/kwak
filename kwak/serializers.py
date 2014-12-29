@@ -6,7 +6,7 @@ class ProfileSerializer(ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'name', 'email')
+        fields = ('id', 'name', 'email', 'cursor')
 
 class ProfileSideloadSerializer(SideloadSerializer):
     class Meta:
