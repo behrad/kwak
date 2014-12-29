@@ -14,5 +14,5 @@ export default DS.Model.extend({
     });
     return converter.makeHtml(this.get('content'));
   }.property('content'),
-  seen: DS.attr('boolean', {defaultValue: false}) //TODO : wat do here?
+  seen: DS.attr('boolean', {defaultValue: false}),
 });

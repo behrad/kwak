@@ -30,7 +30,6 @@ export default Ember.View.extend(SetupView, BindScroll, {
       if (controller) {
         controller.send('markAsRead', $(this).attr('data-message-id'));
       }
-      $(this).addClass('seen');
     });
   }
 });

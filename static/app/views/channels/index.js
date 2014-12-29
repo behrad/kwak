@@ -29,7 +29,6 @@ export default Ember.View.extend(SetupView, BindScroll, {
       var controller = self.get('controller');
       if (controller) {
         self.get('controller').send('markAsRead', $(this).attr('data-message-id'));
-        $(this).addClass('seen');
       }
     });
   }

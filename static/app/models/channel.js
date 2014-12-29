@@ -6,4 +6,7 @@ export default DS.Model.extend({
   topics: DS.hasMany('topic'),
   team: DS.belongsTo('team'),
   subscribed: DS.attr('boolean'),
+  unread: function () {
+    return '∞';
+  }.property()
 });
