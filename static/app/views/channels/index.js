@@ -12,6 +12,20 @@ export default Ember.View.extend(SetupView, BindScroll, {
   didInsertElement: function () {
     this._super();
     this.bindScrolling();
+    Ember.run.later(function () {
+      var seens = $('div.message.seen');
+      var unseens = $('div.message:not(.seen)');
+      var position;
+      if (unseens.length) {
+        position = unseens.eq(0).position().top;
+      } else if (seens.length) {
+        position = seens.eq(-1).position().bottom;
+      }
+      if (position) {
+        console.log('scroll to ', position);
+        window.scroll(0, position);
+      }
+    }, 1000);
   },
   willRemoveElement: function () {
     this._super();
@@ -29,6 +43,8 @@ export default Ember.View.extend(SetupView, BindScroll, {
     }).each(function () {
       controller.send('markAsRead', $(this).attr('data-message-id'));
     });
-    controller.send('recountUnread');
+    if (controller) {
+      controller.send('recountUnread');
+    }
   }
 });
