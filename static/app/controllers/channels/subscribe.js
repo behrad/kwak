@@ -40,10 +40,11 @@ export default Ember.ObjectController.extend({
     } else {
       if (model.get('subscribed') !== value) {
         model.set('subscribed', value);
-        model.save();
-        this.socket.emit(value ? 'join' : 'leave', model.id);
-
-        this.store.find('message');
+        var self = this;
+        model.save().then(function () {
+          self.store.find('message');
+          self.socket.emit(value ? 'join' : 'leave', model.id);
+        });
       }
       return value;
     }
