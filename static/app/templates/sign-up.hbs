@@ -8,10 +8,14 @@
     <div class="login-container">
       <div class="avatar"></div>
       <div class="form-box">
-        <form method="post" {{action 'authenticate' on='submit'}}>
-          {{input class='form-control' placeholder='username' value=identification}}
-          {{input class='form-control' placeholder='Enter Password' type='password' value=password}}
-          <button class="btn btn-info btn-block login" type="submit">Login</button>
+        <form method="post" {{action 'signUp' on='submit'}}>
+          {{input class='form-control' placeholder='username, used for login' value=identification}}
+          {{input class='form-control' placeholder='first name' value=first_name}}
+          {{input class='form-control' placeholder='last name' value=last_name}}
+          {{input class='form-control' placeholder='email' value=email}}
+          {{input id="password"  class='form-control' placeholder='password' type='password' value=password}}
+          {{input id="password2" class='form-control' placeholder='password, again' type='password' value=password2}}
+          <button class="btn btn-info btn-block login" type="submit">Sign-Up</button>
         </form>
       </div>
     </div>

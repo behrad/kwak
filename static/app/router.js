@@ -8,6 +8,7 @@ var Router = Ember.Router.extend({
 Router.map(function () {
 
   this.route('login');
+  this.route('sign-up');
 
   this.route('channels', function () {
     this.route('channel', {path: '/:channel_id/:channel_name'}, function () {

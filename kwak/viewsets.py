@@ -1,4 +1,5 @@
 from message.models import Team, Channel, Topic, Message, Profile
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
@@ -10,6 +11,13 @@ class ProfileViewSet(ModelViewSet):
     model = Profile
     queryset = Profile.objects.all()
     serializer_class = ProfileSideloadSerializer
+
+    def create(self, request):
+        # user = User.objects.create_user(username='john',
+        #                                 email='jlennon@beatles.com',
+        #                                 password='glass onion')
+        from pprint import pprint
+        pprint(request.data['profile'])
 
 
 class ChannelViewSet(ModelViewSet):
