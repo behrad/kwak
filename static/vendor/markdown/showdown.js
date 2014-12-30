@@ -136,6 +136,7 @@ if (typeof module !== 'undefind' && typeof exports !== 'undefined' && typeof req
 }
 
 this.makeHtml = function(text) {
+	if (!text) return text;
 //
 // Main function. The order in which other subs are called here is
 // essential. Link and image substitutions need to happen before
