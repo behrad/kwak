@@ -42,6 +42,8 @@ export default Ember.ObjectController.extend({
         model.set('subscribed', value);
         model.save();
         this.socket.emit(value ? 'join' : 'leave', model.id);
+
+        this.store.find('message');
       }
       return value;
     }
