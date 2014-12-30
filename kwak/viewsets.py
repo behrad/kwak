@@ -112,6 +112,23 @@ class MessageViewSet(ModelViewSet):
             queryset = list(queryset)
         return queryset
 
+    def update(self, request, pk=None):
+        message = Message.objects.get(pk=pk)
+        if request.user.profile.id != message.author.id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        from pprint import pprint
+        message.content = request.data['message']['content']
+        message.save()
+
+        return Response({'message': {
+            'id': message.id,
+            'pubdate': message.pubdate,
+            'seen': 'true',
+            'author_id': message.author.id,
+            'content': message.content,
+        }}, status=status.HTTP_202_ACCEPTED)
+
 
 class CurrentUser(RetrieveAPIView):
     model = Profile

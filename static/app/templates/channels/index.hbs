@@ -1,5 +1,5 @@
 <div class="message-list">
-  {{#each message in controller.subscribed}}
+  {{#each message in controller.subscribed itemController="message"}}
   <div {{bind-attr class="message.seen:seen :row :message"}} {{bind-attr data-topic-id=message.topic.id}} {{bind-attr data-channel-id=message.topic.channel.id}} {{bind-attr data-message-id=message.id}}>
     <div {{bind-attr class=":col-md-12 message.topic.channel.color"}}>
       {{#view "channels/message"}}
@@ -13,12 +13,16 @@
             {{message.topic.title}}
           {{/link-to}}
         </div>
-        <div class="message-body">
+        <div class="message-body" {{action "editMessage" on="doubleClick"}}>
           <small class="pull-right text-muted">
             {{format-date message.pubdate}}
           </small>
           <h5>{{message.author.name}}</h5>
+          {{#if message.isEditing}}
+          {{message-box class="form-control" value=message.content.content focus-out="acceptChanges" insert-newline="acceptChanges"}}
+          {{else}}
           {{{message.contentHtml}}}
+          {{/if}}
         </div>
       {{/view}}
     </div>
