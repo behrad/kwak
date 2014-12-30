@@ -27,8 +27,11 @@ export default Ember.ObjectController.extend({
         var unreadMessages;
         var count = 0;
         for (var i = 0; i < topics.get('length'); i++) {
-          unreadMessages = topics.objectAt(i).get('messages').filterBy('seen', false);
-          count += unreadMessages.get('length');
+          var topic = topics.objectAt(i);
+          if (topic.get('channel.subscribed')) {
+            unreadMessages = topic.get('messages').filterBy('seen', false);
+            count += unreadMessages.get('length');
+          }
         }
         el.set('unread', count);
       });
