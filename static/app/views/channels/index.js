@@ -16,6 +16,8 @@ export default Ember.View.extend(SetupView, BindScroll, {
         position = unseens.eq(0).position().top-150;
       } else if (seens.length) {
         position = seens.eq(-1).position().bottom-150;
+      } else {
+        position = $(window).height();
       }
       if (position) {
         console.log('scroll to ', position);
