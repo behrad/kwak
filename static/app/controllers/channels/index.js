@@ -35,7 +35,8 @@ export default Ember.ArrayController.extend({
               // append to last message
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
-              message.save().then(function () {
+              message.save().then(function (message) {
+                message.set('seen', true);
                 window.prettyPrint();
               });
             } else {
@@ -43,7 +44,8 @@ export default Ember.ArrayController.extend({
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
-              }).save().then(function () {
+              }).save().then(function (message) {
+                message.set('seen', true);
                 self.set('topicCreated', topic.get('id'));
                 window.prettyPrint();
               });
@@ -61,7 +63,8 @@ export default Ember.ArrayController.extend({
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
-              }).save().then(function () {
+              }).save().then(function (message) {
+                message.set('seen', true);
                 window.prettyPrint();
               });
             });

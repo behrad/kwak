@@ -18,8 +18,9 @@ export default Ember.ObjectController.extend({
               // append to last message
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
-              message.save().then(function () {
+              message.save().then(function (message) {
                 window.prettyPrint();
+                message.set('seen', true);
               });
             } else {
               // create new message in existing topic
@@ -27,6 +28,7 @@ export default Ember.ObjectController.extend({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function (message) {
+                message.set('seen', true);
                 window.prettyPrint();
                 self.get('controllers.channels/channel.messages').pushObject(message);
               });
@@ -41,8 +43,9 @@ export default Ember.ObjectController.extend({
             // create message in new topic
             topic.get('messages').createRecord({
               content: content,
-              author: self.get('currentUser.model')
+              author: self.get('currentUser.model'),
             }).save().then(function (message) {
+              message.set('seen', true);
               message.get('topic').then(function (topic) {
                 window.prettyPrint();
                 self.get('controllers.channels/channel.messages').pushObject(message);
