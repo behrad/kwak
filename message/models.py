@@ -24,7 +24,7 @@ class Team(models.Model):
         verbose_name = 'Team'
         verbose_name_plural = 'Teams'
 
-    members = models.ManyToManyField(Profile, null=True, blank=True, related_name='team_channels')
+    members = models.ManyToManyField(Profile, null=True, blank=True, related_name='teams')
     name = models.CharField('name', max_length=120)
 
     def __unicode__(self):
