@@ -1,12 +1,14 @@
 import Ember from 'ember';
 
+var $ = Ember.$;
+
 export default Ember.TextArea.extend({
 
   keyDown: function (event) {
     if (event.which === 13 && ! event.shiftKey) {
       // Don't insert newlines when submitting with enter
       event.preventDefault();
-      Ember.$('#messagebox').parent().submit();
+      $('#messagebox').parent().submit();
     }
   },
 
@@ -17,6 +19,10 @@ export default Ember.TextArea.extend({
       // SHIFT+ENTER, because that should just insert a new line
       this._super(event);
     }
-  }
+  },
+
+  becomeFocused: function() {
+    $('#'+this.id).focus();
+  }.on('didInsertElement')
 
 });
