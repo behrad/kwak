@@ -9,11 +9,16 @@
       <div class="avatar"></div>
       <div class="form-box">
         <form method="post" {{action 'signUp' on='submit'}}>
-          {{input class='form-control' placeholder='username, used for login' value=identification}}
-          {{input class='form-control' placeholder='first name' value=first_name}}
-          {{input class='form-control' placeholder='last name' value=last_name}}
+          {{input class='form-control' placeholder='login' value=identification}}
+          <small>{{eidentification}}</small>
+          {{input class='form-control' placeholder='first name' value=firstName}}
+          <small>{{efirstName}}</small>
+          {{input class='form-control' placeholder='last name' value=lastName}}
+          <small>{{elastName}}</small>
           {{input class='form-control' placeholder='email' value=email}}
+          <small>{{eemail}}</small>
           {{input id="password"  class='form-control' placeholder='password' type='password' value=password}}
+          <small>{{epassword}}</small>
           {{input id="password2" class='form-control' placeholder='password, again' type='password' value=password2}}
           <button class="btn btn-info btn-block login" type="submit">Sign-Up</button>
         </form>

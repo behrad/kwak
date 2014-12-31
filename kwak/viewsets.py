@@ -1,10 +1,12 @@
 from message.models import Team, Channel, Topic, Message, Profile
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
 
 class ProfileViewSet(ModelViewSet):
@@ -12,12 +14,8 @@ class ProfileViewSet(ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSideloadSerializer
 
-    def create(self, request):
-        # user = User.objects.create_user(username='john',
-        #                                 email='jlennon@beatles.com',
-        #                                 password='glass onion')
-        from pprint import pprint
-        pprint(request.data['profile'])
+    def get_queryset(self):
+        return Profile.objects.filter(teams__in=self.request.user.profile.teams.all())
 
 
 class ChannelViewSet(ModelViewSet):
@@ -25,8 +23,6 @@ class ChannelViewSet(ModelViewSet):
     serializer_class = ChannelSideloadSerializer
 
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
-            return []
         queryset = Channel.objects.filter(team__members=self.request.user)
 
         subscribed = Channel.objects.filter(readers=self.request.user)
@@ -169,3 +165,20 @@ class MarkMessageRead(APIView):
             message.seen_by.add(self.request.user.profile)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserView(APIView):
+    model = User
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        try:
+            user = User.objects.create_user(
+                username=request.data['user[identification]'],
+                first_name=request.data['user[firstName]'],
+                last_name=request.data['user[lastName]'],
+                email=request.data['user[email]'],
+                password=request.data['user[password]']
+            )
+        except IntegrityError:
+            return Response({'error' : 'username already taken'}, status=status.HTTP_409_CONFLICT)

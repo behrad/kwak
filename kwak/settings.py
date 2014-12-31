@@ -92,7 +92,7 @@ REST_FRAMEWORK = {
         'ember_drf.filters.CoallesceIDsFilterBackend',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.DjangoModelPermissions'
     ],
     'DEFAULT_RENDERER_CLASSES': (
         'ember_drf.renderers.ActiveModelJSONRenderer',
