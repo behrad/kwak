@@ -182,3 +182,5 @@ class UserView(APIView):
             )
         except IntegrityError:
             return Response({'error' : 'username already taken'}, status=status.HTTP_409_CONFLICT)
+
+        return Response(status=status.HTTP_201_CREATED)

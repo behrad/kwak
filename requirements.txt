@@ -7,3 +7,4 @@ emberdrf==0.1.4
 inflection==0.2.1
 wsgiref==0.1.2
 requests==2.5.0
+django-mailgun==0.2.2

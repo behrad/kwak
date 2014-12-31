@@ -9,14 +9,14 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
       this.validate().then(function() {
         var data = self.getProperties('identification', 'firstName', 'lastName', 'email', 'password');
         Ember.$.post('api/users/', { user: data }, function() {
-          self.send('authenticate');
-        }).fail(function(jqxhr) {
+          self.transitionTo('login');
+        }).fail(function (jqxhr) {
           if (jqxhr.status === 409) {
             var errs = JSON.parse(jqxhr.responseText);
             self.set('eidentification', errs.error);
           }
         });
-      }).catch(function() {
+      }).catch(function () {
         console.log(self.errors);
         // validation failed
         for (var prop in self.errors) {

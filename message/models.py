@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-:
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save, post_save
+import requests
 
-import broadcast
 
 class Profile(models.Model):
 
@@ -91,9 +92,6 @@ class Message(models.Model):
         return "{} - {}".format(self.author.name, self.content[0:10])
 
 
-from django.db.models.signals import post_save
-from django.contrib.auth.models import User
-
 def create_profile(sender, **kw):
     user = kw["instance"]
     if kw["created"]:
@@ -103,7 +101,7 @@ def create_profile(sender, **kw):
         profile.save()
 post_save.connect(create_profile, sender=User, dispatch_uid="users-profilecreation-signal")
 
-import requests
+
 def broadcast_message(sender, **kw):
     message = kw["instance"]
     payload = {
@@ -127,3 +125,9 @@ def broadcast_topic(sender, **kw):
     }
     r = requests.post('http://localhost:8080/topic', data=payload)
 post_save.connect(broadcast_topic, sender=Topic)
+
+
+def user_inactive(sender, instance, **kw):
+    instance.is_active = False
+
+pre_save.connect(user_inactive, sender=User)
