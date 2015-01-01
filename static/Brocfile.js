@@ -29,6 +29,9 @@ app.import('vendor/colorselector/bootstrap-colorselector.css');
 app.import('vendor/bootstrap-suggest/css/bootstrap-suggest.css');
 app.import('vendor/markdown/prettify/prettify.css');
 
+// Other assets
+app.import('vendor/assets/images/kwak.png');
+
 // Use `app.import` to add additional libraries to the generated
 // output files.
 //

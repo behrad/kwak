@@ -23,6 +23,10 @@ footer {
   margin-left: 20px !important;
 }
 
+.navbar-brand img {
+  height: 24px;
+}
+
 /* left column, containing channels */
 .channels {
   width: 200px;
