@@ -122,7 +122,7 @@ def broadcast_message(sender, instance, **kw):
     for mention in mentions:
         try:
             mentionned = Profile.objects.get(name=mention)
-            send_mail('new mention on kwak', 'Someone just mentionned you on kwak:<br><br>{} wrote<blockquote>{}</blockquote>'.format(message_author.name, message.content), 'no-reply@kwak.io', [mentionned.email], fail_silently=True)
+            send_mail('new mention on kwak', 'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n'.format(message_author.name, message.content), 'no-reply@kwak.io', [mentionned.email], fail_silently=True)
         except Profile.DoesNotExist:
             pass
 post_save.connect(broadcast_message, sender=Message)
