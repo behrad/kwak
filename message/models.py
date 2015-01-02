@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save
 import requests
-
+import re
 
 class Profile(models.Model):
 
@@ -102,8 +102,8 @@ def create_profile(sender, **kw):
 post_save.connect(create_profile, sender=User, dispatch_uid="users-profilecreation-signal")
 
 
-def broadcast_message(sender, **kw):
-    message = kw["instance"]
+def broadcast_message(sender, instance, **kw):
+    message = instance
     payload = {
         'id': message.id,
         'pubdate': message.pubdate,
@@ -113,11 +113,18 @@ def broadcast_message(sender, **kw):
         'channel': message.topic.channel.id,
     }
     r = requests.post('http://localhost:8080/message', data=payload)
+
+    mentions = re.findall('@\*\*([^*]*)\*\*', message.content)
+    for mention in mentions:
+        try:
+            print Profile.objects.get(name=mention)
+        except Profile.DoesNotExist:
+            pass
 post_save.connect(broadcast_message, sender=Message)
 
 
-def broadcast_topic(sender, **kw):
-    topic = kw["instance"]
+def broadcast_topic(sender, instance, **kw):
+    topic = instance
     payload = {
         'id': topic.id,
         'title': topic.title,
@@ -129,5 +136,4 @@ post_save.connect(broadcast_topic, sender=Topic)
 
 def user_inactive(sender, instance, **kw):
     instance.is_active = False
-
 pre_save.connect(user_inactive, sender=User)
