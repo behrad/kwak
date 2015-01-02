@@ -114,10 +114,13 @@ def broadcast_message(sender, instance, **kw):
     }
     r = requests.post('http://localhost:8080/message', data=payload)
 
+    message_author = Profile.objects.get(pk=message.author.id)
+
     mentions = re.findall('@\*\*([^*]*)\*\*', message.content)
     for mention in mentions:
         try:
-            print Profile.objects.get(name=mention)
+            mentionned = Profile.objects.get(name=mention)
+            send_mail('new mention on kwak', 'Someone just mentionned you on kwak:<br><br>{} wrote<blockquote>{}</blockquote>'.format(message_author.name, message.content), 'no-reply@kwak.io', [mentionned.email], fail_silently=False)
         except Profile.DoesNotExist:
             pass
 post_save.connect(broadcast_message, sender=Message)

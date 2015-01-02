@@ -40,12 +40,12 @@ export default Ember.TextArea.extend({
       }
     }
 
-    console.log(profilesArray);
+    console.log(profilesArray.toArray());
 
     $('#'+self.id).suggest('@', {
       data: profilesArray,
       map: function (profile) {
-        if (profile && profile.hasOwnProperty('name')) {
+        if (profile && profile.hasOwnProperty('name') && profile.hasOwnProperty('email')) {
           return {
             value: '**'+profile.name+'**',
             text: '<strong>'+profile.name+'</strong> <small>'+profile.email+'</small>'
