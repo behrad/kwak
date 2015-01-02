@@ -120,7 +120,7 @@ def broadcast_message(sender, instance, **kw):
     for mention in mentions:
         try:
             mentionned = Profile.objects.get(name=mention)
-            send_mail('new mention on kwak', 'Someone just mentionned you on kwak:<br><br>{} wrote<blockquote>{}</blockquote>'.format(message_author.name, message.content), 'no-reply@kwak.io', [mentionned.email], fail_silently=False)
+            send_mail('new mention on kwak', 'Someone just mentionned you on kwak:<br><br>{} wrote<blockquote>{}</blockquote>'.format(message_author.name, message.content), 'no-reply@kwak.io', [mentionned.email], fail_silently=True)
         except Profile.DoesNotExist:
             pass
 post_save.connect(broadcast_message, sender=Message)
@@ -138,5 +138,6 @@ post_save.connect(broadcast_topic, sender=Topic)
 
 
 def user_inactive(sender, instance, **kw):
-    instance.is_active = False
+    if instance.pk is None:
+        instance.is_active = False
 pre_save.connect(user_inactive, sender=User)
