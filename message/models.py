@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save
 import requests
 import re
+from django.core.mail import send_mail
+
 
 class Profile(models.Model):
 
