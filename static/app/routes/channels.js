@@ -7,6 +7,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     return Ember.RSVP.hash({
       channels: this.store.find('channel'),
       profile: this.store.find('profile', 'current'),
+      profiles: this.store.find('profile'),
       messages: this.store.find('message'),
     });
   },
@@ -16,6 +17,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     controller.set('model', model.channels);
 
     this.controllerFor('profile').set('model', model.profile);
+
+    this.controllerFor('profiles').set('model', model.profiles);
 
     // to display email address in header
     this.controllerFor('application').set('model', model.profile);

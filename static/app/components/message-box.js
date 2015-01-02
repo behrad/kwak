@@ -21,8 +21,47 @@ export default Ember.TextArea.extend({
     }
   },
 
-  becomeFocused: function() {
+  becomeFocused: function () {
     $('#'+this.id).focus();
-  }.on('didInsertElement')
+  }.on('didInsertElement'),
+
+  suggest: function () {
+    var self = this;
+    var profilesArray = [];
+    var $profiles = this.get('profiles.content.content');
+
+    for (var i = 0; i < $profiles.get('length'); i++) {
+      var profile = $profiles.objectAt(i);
+      if (profile.get('name')) {
+        profilesArray.push({
+          name: profile.get('name'),
+          email: profile.get('email'),
+        });
+      }
+    }
+
+    console.log(profilesArray);
+
+    $('#'+self.id).suggest('@', {
+      data: profilesArray,
+      map: function (profile) {
+        if (profile && profile.hasOwnProperty('name')) {
+          return {
+            value: '**'+profile.name+'**',
+            text: '<strong>'+profile.name+'</strong> <small>'+profile.email+'</small>'
+          };
+        }
+      },
+      onshow: function () {
+        var $dropdown = $('.dropdown-menu');
+        $dropdown.css('top', -$dropdown.height());
+      },
+      onlookup: function () {
+        var $dropdown = $('.dropdown-menu');
+        $dropdown.css('top', -$dropdown.height());
+      }
+    });
+
+  }.on('didInsertElement'),
 
 });
