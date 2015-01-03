@@ -29,7 +29,9 @@ export default Ember.TextArea.extend({
     var self = this;
     var profilesArray = [];
     var $profiles = this.get('profiles.content.content');
-
+    if (! $profiles) {
+      return;
+    }
     for (var i = 0; i < $profiles.get('length'); i++) {
       var profile = $profiles.objectAt(i);
       if (profile.get('name')) {
@@ -39,8 +41,6 @@ export default Ember.TextArea.extend({
         });
       }
     }
-
-    console.log(profilesArray.toArray());
 
     $('#'+self.id).suggest('@', {
       data: profilesArray,

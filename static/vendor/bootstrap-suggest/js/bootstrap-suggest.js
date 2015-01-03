@@ -170,6 +170,8 @@
 				case 27:
 					this.hide();
 					return;
+				case 13:
+					return true;
 			}
 
 			if ($.inArray(e.keyCode, specialChars) !== -1) return true;
