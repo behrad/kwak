@@ -21,10 +21,6 @@ export default Ember.TextArea.extend({
     }
   },
 
-  becomeFocused: function () {
-    $('#'+this.id).focus();
-  }.on('didInsertElement'),
-
   suggest: function () {
     var self = this;
     var profilesArray = [];
