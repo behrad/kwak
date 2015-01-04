@@ -17,13 +17,13 @@ function findClientsSocket(roomId, namespace) {
       if(roomId) {
         var index = ns.connected[id].rooms.indexOf(roomId) ;
         if(index !== -1) {
-          if (ns.connected[id].nickname) {
-            res.push(ns.connected[id].nickname);
+          if (ns.connected[id].name) {
+            res.push(ns.connected[id].name);
           }
         }
       } else {
-        if (ns.connected[id].nickname) {
-          res.push(ns.connected[id].nickname);
+        if (ns.connected[id].name) {
+          res.push(ns.connected[id].name);
         }
       }
     }
@@ -77,7 +77,7 @@ io.on('connection', function (socket) {
     socket.leave(room);
   });
   socket.on('name', function (name) {
-    socket.nickname = name;
+    socket.name = name;
   });
 });
 
