@@ -10,7 +10,7 @@
   <ul id="channels-list" class="nav nav-pills nav-stacked">
   {{#each channel in controller.subscribed}}
     {{#link-to 'channels.channel' channel.id channel.name tagName="li" href=false}}
-      <a {{bind-attr href="view.href"}}><i {{bind-attr class=":glyphicon-tag channel.color"}}></i> {{channel.name}} <span class="label label-default pull-right">{{channel.unread}}</span></a>
+      <a {{bind-attr href="view.href"}}><i {{bind-attr class=":glyphicon-tag channel.color"}}></i>{{#if hasMultipleTeams}}{{channel.team.name}} -{{/if}} {{channel.name}} <span class="label label-default pull-right">{{channel.unread}}</span></a>
     {{/link-to}}
   {{/each}}
   </ul>

@@ -11,5 +11,13 @@ export default Ember.ArrayController.extend({
   saveRead: function () {
     Ember.$.post('/api/messages/read', {messages: window.saveRead});
     window.saveRead = [];
-  }
+  },
+
+  teams: function () {
+    return this.store.all('team');
+  }.property(),
+
+  hasMultipleTeams: function() {
+    return this.get('teams.length') > 1;
+  }.property('teams.length')
 });
