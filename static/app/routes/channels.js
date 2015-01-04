@@ -32,6 +32,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     for (var i = 0; i < channels.length; i++) {
       this.socket.emit('join', channels[i].id);
     }
+    this.socket.emit('name', model.profile.get('name'));
 
     window.cursor = model.profile.get('cursor');
   }
