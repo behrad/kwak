@@ -112,6 +112,8 @@ export default Ember.ArrayController.extend({
       }, 100);
     },
     message: function (data) {
+      var now = new Date();
+      window.localStorage['timestamp'] = now.getTime();
       var self = this;
       setTimeout(function () {
         if (data.author === self.get('currentUser.id')) {
