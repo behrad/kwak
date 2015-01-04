@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 /* helpers */
 function findClientsSocket(roomId, namespace) {
-  var res = [],
+  var names = [],
   ns = io.of(namespace || "/"); // the default namespace is "/"
 
   if (ns) {
@@ -18,17 +18,17 @@ function findClientsSocket(roomId, namespace) {
         var index = ns.connected[id].rooms.indexOf(roomId) ;
         if(index !== -1) {
           if (ns.connected[id].name) {
-            res.push(ns.connected[id].name);
+            names.push(ns.connected[id].name);
           }
         }
       } else {
         if (ns.connected[id].name) {
-          res.push(ns.connected[id].name);
+          names.push(ns.connected[id].name);
         }
       }
     }
   }
-  return res;
+  return names;
 }
 
 /* controllers */
