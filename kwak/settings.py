@@ -80,7 +80,7 @@ USE_L10N = True
 USE_TZ = True
 
 EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-MAILGUN_ACCESS_KEY = 'key-c99b1acac1c648b0c694e4f5daf85387'
+MAILGUN_ACCESS_KEY = 'secret'
 MAILGUN_SERVER_NAME = 'kwak.io'
 
 # Static files (CSS, JavaScript, Images)
