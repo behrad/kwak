@@ -29,11 +29,18 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   afterModel: function (model) {
     var channels = model.channels.filterProperty('subscribed', true);
+    var channels_ids = [];
+    var self = this;
+
     for (var i = 0; i < channels.length; i++) {
+      channels_ids.push(channels[i].id);
       this.socket.emit('join', channels[i].id);
     }
     this.socket.emit('name', model.profile.get('name'));
 
-    this.socket.emit('names');
+    self.socket.emit('names', channels_ids);
+    setInterval(function () {
+      self.socket.emit('names', channels_ids);
+    }, 15000);
   }
 });

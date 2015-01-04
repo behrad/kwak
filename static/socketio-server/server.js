@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var _ = require('underscore');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -72,16 +73,30 @@ io.on('connection', function (socket) {
     console.log('request to join ', room);
     socket.join(room);
   });
+
   socket.on('leave', function (room) {
     console.log('request to leave ', room);
     socket.leave(room);
   });
+
   socket.on('name', function (name) {
     socket.name = name;
   });
-  socket.on('names', function () {
-    socket.emit('names', findClientsSocket());
+
+  socket.on('names', function (room_ids) {
+    var names = [];
+    for (var i = 0; i < room_ids.length; i++) {
+      var clients_in_room = findClientsSocket(room_ids[i]);
+      for (var j = 0; j < clients_in_room.length; j++) {
+        if (! _.contains(names, clients_in_room[j])) {
+          names.push(clients_in_room[j]);
+        }
+      }
+    }
+
+    io.to(room_ids[0]).emit('names', names);
   });
+
 });
 
 http.listen(8080, function() {
