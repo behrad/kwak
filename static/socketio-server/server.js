@@ -79,6 +79,9 @@ io.on('connection', function (socket) {
   socket.on('name', function (name) {
     socket.name = name;
   });
+  socket.on('names', function () {
+    socket.emit('names', findClientsSocket());
+  });
 });
 
 http.listen(8080, function() {

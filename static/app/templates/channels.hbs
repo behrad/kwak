@@ -17,6 +17,14 @@
 </aside>
 {{/view}}
 
-<div class="container-fluid right-container">
+<div class="container-fluid center-container">
   {{outlet}}
 </div>
+
+<aside class="connected">
+  <ul>
+    {{#each name in names}}
+    <li>{{name}}</li>
+    {{/each}}
+  </ul>
+</aside>

@@ -11,7 +11,6 @@ export default Ember.ObjectController.extend({
         self.store.find('message', messageId).then(function (message) {
           var currentUser = self.get('controllers.profile.model');
           currentUser.set('cursor', messageId);
-          window.cursor = messageId;
           window.saveRead = window.saveRead || [];
           window.saveRead.push(messageId);
 

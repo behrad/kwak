@@ -140,6 +140,9 @@ export default Ember.ArrayController.extend({
           });
         }
       }, 200);
-    }
+    },
+    names: function (names) {
+      this.get('controllers.channels').set('names', names);
+    },
   },
 });

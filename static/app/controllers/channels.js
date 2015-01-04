@@ -19,5 +19,6 @@ export default Ember.ArrayController.extend({
 
   hasMultipleTeams: function() {
     return this.get('teams.length') > 1;
-  }.property('teams.length')
+  }.property('teams.length'),
+
 });
