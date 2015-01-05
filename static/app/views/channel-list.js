@@ -14,10 +14,12 @@ export default Ember.View.extend({
       $channelsList.toggle();
       if ($channelsList.is(':visible')) {
         $this.animate({'left': 0});
-        $('.right-container').animate({'margin-left': '200px'});
+        $('.center-container').animate({'margin-left': '200px'});
+        $('footer').animate({'left': '200px'});
       } else {
         $this.animate({'left': '-175px'});
-        $('.right-container').animate({'margin-left': '20px'});
+        $('.center-container').animate({'margin-left': '20px'});
+        $('footer').animate({'left': '34px'});
       }
     }
   }

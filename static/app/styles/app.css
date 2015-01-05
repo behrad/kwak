@@ -13,6 +13,8 @@ h5 {
 
 footer {
   position: fixed;
+  left: 214px;
+  right: 200px;
   bottom: 0;
   background-color: #fff;
   padding-right: 14px;
@@ -179,6 +181,10 @@ ul.nav.nav-pills.nav-stacked li a i {
   }
   .connected {
     display: none;
+  }
+  footer {
+    left: 34px;
+    right: 0;
   }
 }
 
