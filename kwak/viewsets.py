@@ -108,7 +108,7 @@ class MessageViewSet(ModelViewSet):
             queryset = queryset.filter(topic__id=topic_id)
 
         for message in queryset:
-            if message.seen_by.filter(user_id=self.request.user.id):
+            if message.seen_by.filter(user_id=self.request.user.id) or message.author.pk == self.request.user.profile.pk:
                 message.seen = True
             else:
                 message.seen = False
