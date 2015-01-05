@@ -109,7 +109,7 @@ export default Ember.ArrayController.extend({
             });
           });
         }
-      }, 100);
+      }, 1000);
     },
     message: function (data) {
       var now = new Date();
@@ -139,7 +139,7 @@ export default Ember.ArrayController.extend({
             });
           });
         }
-      }, 200);
+      }, 2000);
     },
     names: function (names) {
       this.get('controllers.channels').set('names', names);
