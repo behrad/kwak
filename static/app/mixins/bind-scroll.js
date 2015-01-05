@@ -12,6 +12,7 @@ export default Ember.Mixin.create({
     };
 
     onScroll = function () {
+      window.localStorage['timestamp'] = now.getTime();
       Ember.run.debounce(_this, scrollFunc, 200);
     };
 

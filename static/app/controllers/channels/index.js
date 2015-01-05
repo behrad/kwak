@@ -139,6 +139,7 @@ export default Ember.ArrayController.extend({
             });
           });
         }
+        this.send('recountUnread');
       }, 2000);
     },
     names: function (names) {
