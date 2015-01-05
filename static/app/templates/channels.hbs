@@ -22,9 +22,12 @@
 </div>
 
 <aside class="connected">
-  <ul>
+  <ul class="list-group">
     {{#each name in names}}
-    <li>{{name}}</li>
+    <li class="list-group-item">
+      <span class="badge"><i class="glyphicon glyphicon-user"></i></span>
+      {{name}}
+    </li>
     {{/each}}
   </ul>
 </aside>
