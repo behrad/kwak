@@ -121,7 +121,6 @@ class MessageViewSet(ModelViewSet):
         if request.user.profile.id != message.author.id:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        from pprint import pprint
         message.content = request.data['message']['content']
         message.save()
 
