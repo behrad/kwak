@@ -18,6 +18,10 @@ footer {
   padding-right: 14px;
 }
 
+blockquote {
+  font-size: 14px;
+}
+
 /* topmenu */
 .navbar-collapse.collapse, .navbar-collapse.collapsing {
   margin-left: 20px !important;
