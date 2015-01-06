@@ -3,6 +3,11 @@ import Ember from 'ember';
 var $ = Ember.$;
 
 export default Ember.Mixin.create({
+  didInsertElement: function () {
+    $(".navbar-fixed-top").autoHidingNavbar({
+      showOnBottom: false,
+    });
+  },
   rerender: function () {
     this._super();
     Ember.run.scheduleOnce('afterRender', this, function () {
