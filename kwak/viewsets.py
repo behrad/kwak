@@ -150,7 +150,13 @@ class LastMessage(RetrieveAPIView):
 
     def get_object(self):
         if self.request.user.is_authenticated():
-            return Message.objects.filter(topic__channel__readers=self.request.user.profile).order_by('-id')[0]
+            message = Message.objects.filter(topic__channel__readers=self.request.user.profile).order_by('-id')[0]
+
+            if message.seen_by.filter(user_id=self.request.user.id) or message.author.pk == self.request.user.profile.pk:
+                message.seen = True
+            else:
+                message.seen = False
+            return message
         else:
             raise Exception("Message does not exist")
 
