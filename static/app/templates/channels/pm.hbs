@@ -23,7 +23,7 @@
     <form {{action 'createPM' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
         <span class="input-group-addon">Private Message <i class="glyphicon glyphicon-chevron-right"></i></span>
-        <span class="form-control">{{penpal.name}} ({{penpal.email}})</span>
+        <span class="form-control">{{penpal.name}} <small class="text-muted">({{penpal.email}})</small></span>
       </div>
       <div class="form-group">
         {{message-box id="messagebox" class="form-control" value=message profiles=profiles}}
