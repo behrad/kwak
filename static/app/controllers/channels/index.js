@@ -143,6 +143,10 @@ export default Ember.ArrayController.extend({
       }, 2000);
     },
     names: function (names) {
+      var self = this;
+      names = names.filter(function(name) {
+        return name !== self.get('currentUser.model.name');
+      });
       this.get('controllers.channels').set('names', names);
     },
   },
