@@ -142,12 +142,12 @@ export default Ember.ArrayController.extend({
         this.send('recountUnread');
       }, 2000);
     },
-    names: function (names) {
+    profiles: function (profiles) {
       var self = this;
-      names = names.filter(function(name) {
-        return name !== self.get('currentUser.model.name');
+      profiles = profiles.filter(function(profile) {
+        return profile.name !== self.get('currentUser.model.name');
       });
-      this.get('controllers.channels').set('names', names);
+      this.get('controllers.channels').set('profiles', profiles);
     },
   },
 });

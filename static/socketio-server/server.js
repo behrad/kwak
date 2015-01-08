@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 /* helpers */
 function findClientsSocket(roomId, namespace) {
-  var names = [],
+  var profiles = [],
   ns = io.of(namespace || "/"); // the default namespace is "/"
 
   if (ns) {
@@ -18,18 +18,18 @@ function findClientsSocket(roomId, namespace) {
       if(roomId) {
         var index = ns.connected[id].rooms.indexOf(roomId) ;
         if(index !== -1) {
-          if (ns.connected[id].name) {
-            names.push(ns.connected[id].name);
+          if (ns.connected[id].profile) {
+            profiles.push(ns.connected[id].profile);
           }
         }
       } else {
-        if (ns.connected[id].name) {
-          names.push(ns.connected[id].name);
+        if (ns.connected[id].profile) {
+          profiles.push(ns.connected[id].profile);
         }
       }
     }
   }
-  return names;
+  return profiles;
 }
 
 /* controllers */
@@ -79,22 +79,21 @@ io.on('connection', function (socket) {
     socket.leave(room);
   });
 
-  socket.on('name', function (name) {
-    socket.name = name;
+  socket.on('profile', function (profile) {
+    socket.profile = profile;
   });
 
-  socket.on('names', function (room_ids) {
-    var names = [];
+  socket.on('profiles', function (room_ids) {
+    var profiles = [];
     for (var i = 0; i < room_ids.length; i++) {
       var clients_in_room = findClientsSocket(room_ids[i]);
       for (var j = 0; j < clients_in_room.length; j++) {
-        if (! _.contains(names, clients_in_room[j])) {
-          names.push(clients_in_room[j]);
+        if (! _.contains(profiles, clients_in_room[j])) {
+          profiles.push(clients_in_room[j]);
         }
       }
     }
-
-    io.to(room_ids[0]).emit('names', names);
+    io.to(room_ids[0]).emit('profiles', profiles);
   });
 
 });

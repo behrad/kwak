@@ -23,10 +23,10 @@
 
 <aside class="connected">
   <ul class="list-group">
-    {{#each name in names}}
-    <li class="list-group-item">
+    {{#each profile in profiles}}
+    <li class="list-group-item" {{action 'pm' profile.name profile.email}}>
       <span class="badge"><i class="glyphicon glyphicon-user"></i></span>
-      {{name}}
+      {{profile.name}}
     </li>
     {{/each}}
   </ul>
