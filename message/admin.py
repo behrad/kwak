@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from message.models import Profile, Team, Channel, Topic, Message
+from message.models import Profile, Team, Channel, Topic, Message, Pm
 
 
 class ProfileInline(admin.StackedInline):
@@ -28,7 +28,11 @@ class TopicAdmin(admin.ModelAdmin):
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('author', 'topic', 'channel', 'team')
 
+class PmAdmin(admin.ModelAdmin):
+    list_display = ('author', 'penpal')
+
 admin.site.register(Topic, TopicAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Channel, ChannelAdmin)
 admin.site.register(Message, MessageAdmin)
+admin.site.register(Pm, PmAdmin)

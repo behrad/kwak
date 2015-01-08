@@ -15,6 +15,7 @@ Router.map(function () {
       this.route('topic', {path: '/:topic_id/:topic_title'});
     });
     this.route('subscribe');
+    this.route('pm', {path: '/pm/:email'});
   });
 
 });

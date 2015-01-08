@@ -1,20 +1,26 @@
-from message.models import Team, Channel, Topic, Message, Profile
+from message.models import Team, Channel, Topic, Message, Profile, Pm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer
+from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, PmSideloadSerializer
 
 class ProfileViewSet(ModelViewSet):
     model = Profile
-    queryset = Profile.objects.all()
     serializer_class = ProfileSideloadSerializer
 
     def get_queryset(self):
+        email = self.request.QUERY_PARAMS.get('email', None)
+        if email:
+            try:
+                return [Profile.objects.get(email=email, teams__in=self.request.user.profile.teams.all())]
+            except Profile.DoesNotExist:
+                return []
         return Profile.objects.filter(teams__in=self.request.user.profile.teams.all())
 
 
@@ -88,7 +94,7 @@ class TopicViewSet(ModelViewSet):
         queryset = Topic.objects.all()
         title = self.request.QUERY_PARAMS.get('title', None)
         channel_id = self.request.QUERY_PARAMS.get('channel_id', None)
-        if title is not None and channel_id is not None:
+        if title and channel_id:
             queryset = queryset.filter(channel__id=channel_id).filter(title=title)
         return queryset
 
@@ -100,11 +106,11 @@ class MessageViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = Message.objects.filter(topic__channel__readers=self.request.user.profile).order_by('id')
         channel_id = self.request.QUERY_PARAMS.get('channel_id', None)
-        if channel_id is not None:
+        if channel_id:
             queryset = queryset.filter(topic__channel__id=channel_id)
 
         topic_id = self.request.QUERY_PARAMS.get('topic_id', None)
-        if topic_id is not None:
+        if topic_id:
             queryset = queryset.filter(topic__id=topic_id)
 
         for message in queryset:
@@ -131,6 +137,31 @@ class MessageViewSet(ModelViewSet):
             'author_id': message.author.id,
             'content': message.content,
         }}, status=status.HTTP_202_ACCEPTED)
+
+
+class PmViewSet(ModelViewSet):
+    model = Pm
+    serializer_class = PmSideloadSerializer
+
+    def get_queryset(self):
+        penpal = self.request.QUERY_PARAMS.get('email', None)
+        try:
+            penpal = Profile.objects.get(email=penpal)
+        except Profile.DoesNotExist:
+            return []
+        queryset = Pm.objects.filter(Q(author=self.request.user.profile, penpal=penpal) | Q(penpal=self.request.user.profile, author=penpal))
+        return queryset
+
+    def create(self, request):
+        pm = request.data['pm']
+        penpal = Profile.objects.get(pk=pm['penpal'], teams__in=self.request.user.profile.teams.all())
+        pm = Pm.objects.create(author=self.request.user.profile, penpal=penpal, content=pm['content'])
+        return Response({'pm': {
+            'pubdate': pm.pubdate,
+            'author_id': pm.author.id,
+            'penpal_id': pm.penpal.id,
+            'content': pm.content
+        }}, status=status.HTTP_201_CREATED)
 
 
 class CurrentUser(RetrieveAPIView):

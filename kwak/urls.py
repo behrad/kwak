@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework import routers
-from kwak.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet, MessageViewSet
+from kwak.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet, MessageViewSet, PmViewSet
 from kwak.viewsets import CurrentUser, LastMessage, MarkMessageRead, UserView
 
 router = routers.DefaultRouter()
@@ -9,6 +9,7 @@ router.register(r'profiles', ProfileViewSet)
 router.register(r'channels', ChannelViewSet)
 router.register(r'topics', TopicViewSet)
 router.register(r'messages', MessageViewSet)
+router.register(r'pms', PmViewSet)
 
 
 urlpatterns = patterns('',

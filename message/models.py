@@ -93,6 +93,25 @@ class Message(models.Model):
     def __unicode__(self):
         return "{} - {}".format(self.author.name, self.content[0:10])
 
+class Pm(models.Model):
+
+    class Meta:
+        verbose_name = 'Private Message'
+        verbose_name_plural = 'Private Messages'
+
+    pubdate = models.DateTimeField('pubdate', auto_now_add=True, editable=False)
+    author = models.ForeignKey(Profile, related_name='my_pms')
+    penpal = models.ForeignKey(Profile, related_name='pms_with_me')
+    seen_by = models.ManyToManyField(Profile, null=True, blank=True, related_name='saw_pm')
+
+    content = models.TextField(null=True, blank=True)
+
+    def seen(self):
+        return False
+
+    def __unicode__(self):
+        return "pm with {} - {}".format(self.penpal.name, self.content[0:10])
+
 
 def create_profile(sender, **kw):
     user = kw["instance"]

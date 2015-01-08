@@ -44,9 +44,4 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     }, 15000);
   },
 
-  actions: {
-    pm: function (name, email) {
-      console.log(name, email);
-    }
-  },
 });

@@ -21,4 +21,11 @@ export default Ember.ArrayController.extend({
     return this.get('teams.length') > 1;
   }.property('teams.length'),
 
+  actions: {
+    pm: function (profile) {
+      //URL instal of route, to force the route to reload models
+      this.transitionToRoute('/channels/pm/' + profile.email);
+    }
+  },
+
 });

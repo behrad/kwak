@@ -1,0 +1,33 @@
+<div class="pm message-list">
+  {{#each message in model itemController="message"}}
+  <div {{bind-attr class="message.seen:seen :row :message"}} data-topic-id="1" {{bind-attr data-message-id=message.id}}>
+    <div {{bind-attr class=":col-md-12 :_20"}}>
+      {{#view "channels/message"}}
+        <span {{bind-attr class=":channel-color :_20"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-minus"></i>{{/view}}</span>
+        <div class="message-body">
+          <small class="pull-right text-muted">
+            {{format-date message.pubdate}}
+          </small>
+          <h5>{{message.author.name}}</h5>
+          {{{message.contentHtml}}}
+        </div>
+      {{/view}}
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+
+<footer class="row">
+  <div class="col-xs-12">
+    <form {{action 'createPM' on='submit' id='messageform'}}>
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon">Private Message <i class="glyphicon glyphicon-chevron-right"></i></span>
+        <span class="form-control">{{penpal.name}} ({{penpal.email}})</span>
+      </div>
+      <div class="form-group">
+        {{message-box id="messagebox" class="form-control" value=message profiles=profiles}}
+      </div>
+    </form>
+  </div>
+</footer>

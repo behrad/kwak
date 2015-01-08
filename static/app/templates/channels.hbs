@@ -24,7 +24,7 @@
 <aside class="connected">
   <ul class="list-group">
     {{#each profile in profiles}}
-    <li class="list-group-item" {{action 'pm' profile.name profile.email}}>
+    <li class="list-group-item" {{action 'pm' profile}}>
       <span class="badge"><i class="glyphicon glyphicon-user"></i></span>
       {{profile.name}}
     </li>

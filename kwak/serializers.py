@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from ember_drf.serializers import SideloadSerializer
-from message.models import Channel, Topic, Message, Profile, Team
+from message.models import Channel, Topic, Message, Profile, Team, Pm
 
 class ProfileSerializer(ModelSerializer):
 
@@ -38,6 +38,26 @@ class MessageSerializer(ModelSerializer):
 class MessageSideloadSerializer(SideloadSerializer):
     class Meta:
         base_serializer = MessageSerializer
+        sideloads = []
+
+
+class PmSerializer(ModelSerializer):
+    def is_seen(self, pm):
+        if 'request' in self.context:
+            if pm.seen_by.filter(user_id=self.context['request'].user.id) or pm.author.pk == self.context['request'].user.profile.pk:
+                return True
+            else:
+                return False
+        else:
+            return True
+    seen = SerializerMethodField('is_seen')
+    class Meta:
+        model = Pm
+        fields = ('id', 'pubdate', 'author', 'penpal', 'content', 'seen')
+
+class PmSideloadSerializer(SideloadSerializer):
+    class Meta:
+        base_serializer = PmSerializer
         sideloads = []
 
 

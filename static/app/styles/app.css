@@ -157,6 +157,11 @@ ul.nav.nav-pills.nav-stacked li a i {
 .message-body {
   margin-left: 24px;
 }
+
+.pm div:first-child h5 {
+  margin-top: 0px;
+}
+
 .input-group-addon > i {
   font-size: 14px;
 }
