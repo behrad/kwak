@@ -150,14 +150,17 @@ export default Ember.ArrayController.extend({
         return profile.name !== self.get('currentUser.model.name');
       });
 
-      var otherProfiles = this.get('controllers.profiles.arrangedContent').filter(function (profile) {
+      var otherProfiles = [];
+
+      this.get('controllers.profiles.arrangedContent').forEach(function (profile) {
         if (profile.id !== 'current') {
           profile = self.store.getById('profile', profile.id);
           if (profile.get('name') !== self.get('currentUser.model.name')) {
-            return Ember.$.inArray(profile.get('email'), activeEmails) === -1;
+            if (Ember.$.inArray(profile.get('email'), activeEmails) === -1) {
+              otherProfiles.push(profile);
+            }
           }
         }
-        return false;
       });
 
       this.get('controllers.channels').set('activeProfiles', activeProfiles);

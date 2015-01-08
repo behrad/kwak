@@ -154,14 +154,20 @@ class PmViewSet(ModelViewSet):
 
     def create(self, request):
         pm = request.data['pm']
-        penpal = Profile.objects.get(pk=pm['penpal'], teams__in=self.request.user.profile.teams.all())
-        pm = Pm.objects.create(author=self.request.user.profile, penpal=penpal, content=pm['content'])
-        return Response({'pm': {
-            'pubdate': pm.pubdate,
-            'author_id': pm.author.id,
-            'penpal_id': pm.penpal.id,
-            'content': pm.content
-        }}, status=status.HTTP_201_CREATED)
+        try:
+            penpal = Profile.objects.get(pk=pm['penpal'], teams__in=self.request.user.profile.teams.all())
+            pm = Pm.objects.create(author=self.request.user.profile, penpal=penpal, content=pm['content'])
+            return Response({'pm': {
+                'pubdate': pm.pubdate,
+                'author_id': pm.author.id,
+                'penpal_id': pm.penpal.id,
+                'content': pm.content
+            }}, status=status.HTTP_201_CREATED)
+        except Profile.DoesNotExist:
+            return Response({
+                'status': 'Bad request',
+                'message': 'Channel could not be created with received data.'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CurrentUser(RetrieveAPIView):
