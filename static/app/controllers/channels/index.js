@@ -153,13 +153,11 @@ export default Ember.ArrayController.extend({
       var otherProfiles = this.get('controllers.profiles.arrangedContent').filter(function (profile) {
         if (profile.id !== 'current') {
           profile = self.store.getById('profile', profile.id);
-          if (profile.get('name') === self.get('currentUser.model.name')) {
-            return false;
+          if (profile.get('name') !== self.get('currentUser.model.name')) {
+            return Ember.$.inArray(profile.get('email'), activeEmails) === -1;
           }
-          return Ember.$.inArray(profile.get('email'), activeEmails);
-        } else {
-          return false;
         }
+        return false;
       });
 
       this.get('controllers.channels').set('activeProfiles', activeProfiles);
