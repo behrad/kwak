@@ -144,10 +144,26 @@ export default Ember.ArrayController.extend({
     },
     profiles: function (profiles) {
       var self = this;
-      profiles = profiles.filter(function(profile) {
+      var activeEmails = [];
+      var activeProfiles = profiles.filter(function (profile) {
+        activeEmails.push(profile.email);
         return profile.name !== self.get('currentUser.model.name');
       });
-      this.get('controllers.channels').set('profiles', profiles);
+
+      var otherProfiles = this.get('controllers.profiles.arrangedContent').filter(function (profile) {
+        if (profile.id !== 'current') {
+          profile = self.store.getById('profile', profile.id);
+          if (profile.get('name') === self.get('currentUser.model.name')) {
+            return false;
+          }
+          return Ember.$.inArray(profile.get('email'), activeEmails);
+        } else {
+          return false;
+        }
+      });
+
+      this.get('controllers.channels').set('activeProfiles', activeProfiles);
+      this.get('controllers.channels').set('otherProfiles', otherProfiles);
     },
   },
 });

@@ -23,7 +23,13 @@
 
 <aside class="connected">
   <ul class="list-group">
-    {{#each profile in profiles}}
+    {{#each profile in activeProfiles}}
+    <li class="list-group-item active" {{action 'pm' profile}}>
+      <span class="badge"><i class="glyphicon glyphicon-user"></i></span>
+      {{profile.name}}
+    </li>
+    {{/each}}
+    {{#each profile in otherProfiles}}
     <li class="list-group-item" {{action 'pm' profile}}>
       <span class="badge"><i class="glyphicon glyphicon-user"></i></span>
       {{profile.name}}
