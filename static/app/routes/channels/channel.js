@@ -5,7 +5,7 @@ export default Ember.Route.extend({
     return Ember.RSVP.hash({
       messages: this.modelFor('channels').messages.filter(function(message) {
         return message.get('topic.channel.id') === params.channel_id;
-      }),
+      }).sortBy('id'),
       channel: this.store.find('channel', params.channel_id)
     });
   },

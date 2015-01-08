@@ -5,10 +5,6 @@ export default Ember.ObjectController.extend({
   topicTitle: Ember.computed.oneWay('model.title'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
-  messages: function () {
-    return this.get('model.messages').sortBy('id');
-  }.property(),
-
   actions: {
     createMessage: function () {
       var channel = this.get('model.channel');
