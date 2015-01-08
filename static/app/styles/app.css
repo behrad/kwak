@@ -121,7 +121,7 @@ ul.nav.nav-pills.nav-stacked li a i {
 .topic-title {
 }
 
-
+/* Message list */
 .message-list {
   padding-bottom: 75px;
 }
@@ -158,10 +158,23 @@ ul.nav.nav-pills.nav-stacked li a i {
   margin-left: 24px;
 }
 
-.pm div:first-child h5 {
-  margin-top: 0px;
+/* PM */
+.pm > div {
+  margin: 0;
+  margin-bottom: 2px;
+}
+.pm h5 {
+  margin-top: 0;
+}
+.pm > div > div {
+  border-bottom: 0;
 }
 
+.pm > div:last-child > div {
+  border-bottom: 2px solid black;
+}
+
+/* Message Box */
 .input-group-addon > i {
   font-size: 14px;
 }

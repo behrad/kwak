@@ -20,7 +20,7 @@ export default Ember.Mixin.create({
           $next.find('.message-header').hide();
           $next.find('h5').eq(0).css('margin-top', 0);
           $this.children('div').css('border-bottom', 0);
-          $this.css('margin', '0px');
+          $this.css('margin', '0');
           $this.css('margin-bottom', '2px');
         }
       });
