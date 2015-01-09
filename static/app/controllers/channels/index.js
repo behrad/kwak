@@ -169,7 +169,7 @@ export default Ember.ArrayController.extend({
 
     pm: function (data) {
       var controller = this.get('controllers.channels/pm');
-      var model = controller.get('model');
+      var model = controller.get('model.arrangedContent');
 
       var pm = this.store.createRecord('pm', {
         id: data.id,
@@ -180,7 +180,7 @@ export default Ember.ArrayController.extend({
       });
       model = model.toArray();
       model.push(pm);
-      controller.set('model', model);
+      controller.set('model.arrangedContent', model);
     },
 
   },

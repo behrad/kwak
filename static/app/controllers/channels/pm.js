@@ -24,9 +24,9 @@ export default Ember.ArrayController.extend({
         penpal: this.get('penpal'),
         content: this.get('message')
       }).save().then(function (pm) {
-        var model = self.get('model').toArray();
+        var model = self.get('model.arrangedContent').toArray();
         model.push(pm);
-        self.set('model', model);
+        self.set('model.arrangedContent', model);
       });
 
       this.set('message', '');
