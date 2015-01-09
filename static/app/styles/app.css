@@ -44,7 +44,7 @@ blockquote {
 
   position: fixed;
   top: 0;
-  bottom: 0;
+  bottom: 70px;
   z-index: 1050;
   overflow-y: auto;
   border-radius: 0;
@@ -75,6 +75,17 @@ ul.nav.nav-pills.nav-stacked li a i {
 
 .channels .nav>li>a {
   padding: 5px 15px;
+}
+
+.help {
+  height: 70px;
+  width: 200px;
+
+  position: fixed;
+  bottom: 0px;
+  z-index: 1050;
+
+  padding: 5px;
 }
 
 /* right column, containing connected people */

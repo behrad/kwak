@@ -4,7 +4,7 @@
     <li><span class="glyphicon glyphicon-chevron-right pull-right"></span></li>
   </ul>
   <h5>
-    {{#link-to "channels"}}Channels{{/link-to}}
+    {{#link-to 'channels'}}Channels{{/link-to}}
     {{#link-to 'channels.subscribe'}}<span class="pull-right glyphicon glyphicon-tags"></span>{{/link-to}}
   </h5>
   <ul id="channels-list" class="nav nav-pills nav-stacked">
@@ -15,6 +15,7 @@
   {{/each}}
   </ul>
 </aside>
+<div class="help"><p class="text-center">{{#link-to 'channels.help'}}help{{/link-to}}</p></div>
 {{/view}}
 
 <div class="container-fluid center-container">

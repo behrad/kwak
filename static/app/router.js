@@ -10,11 +10,16 @@ Router.map(function () {
   this.route('login');
   this.route('sign-up', {path: '/sign-up/:uid'});
 
+
   this.route('channels', function () {
+    this.route('help');
+
+    this.route('subscribe');
+
     this.route('channel', {path: '/:channel_id/:channel_name'}, function () {
       this.route('topic', {path: '/:topic_id/:topic_title'});
     });
-    this.route('subscribe');
+
     this.route('pm', {path: '/pm/:email'});
   });
 
