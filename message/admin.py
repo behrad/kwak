@@ -17,7 +17,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 class TeamAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'uid')
 
 class ChannelAdmin(admin.ModelAdmin):
     list_display = ('name', 'team')

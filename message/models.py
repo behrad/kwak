@@ -5,6 +5,7 @@ from django.db.models.signals import pre_save, post_save
 import requests
 import re
 from django.core.mail import send_mail
+from uuid import uuid4
 
 
 class Profile(models.Model):
@@ -30,6 +31,7 @@ class Team(models.Model):
 
     members = models.ManyToManyField(Profile, null=True, blank=True, related_name='teams')
     name = models.CharField('name', max_length=120)
+    uid = models.CharField(max_length=100, default=uuid4)
 
     def __unicode__(self):
         return self.name
