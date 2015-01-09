@@ -17,6 +17,7 @@ export default Ember.ArrayController.extend({
 
   actions: {
     createMessage: function () {
+      mixpanel.track("new message", "channels/index");
       var content = this.get('message');
       if (!content.trim()) { return; }
 

@@ -30,6 +30,7 @@ export default Ember.ObjectController.extend({
               }).save().then(function (message) {
                 message.set('seen', true);
                 window.prettyPrint();
+                mixpanel.track("new message");
                 self.get('controllers.channels/channel.messages').pushObject(message);
               });
             }
@@ -41,6 +42,7 @@ export default Ember.ObjectController.extend({
             channel: channel
           }).save().then(function (topic) {
             // create message in new topic
+            mixpanel.track("new topic");
             topic.get('messages').createRecord({
               content: content,
               author: self.get('currentUser.model'),
@@ -48,6 +50,7 @@ export default Ember.ObjectController.extend({
               message.set('seen', true);
               message.get('topic').then(function (topic) {
                 window.prettyPrint();
+                mixpanel.track("new message");
                 self.get('controllers.channels/channel.messages').pushObject(message);
                 self.transitionToRoute('channels.channel.topic', topic);
               });
@@ -55,6 +58,7 @@ export default Ember.ObjectController.extend({
           });
         }
       });
-    }
+    },
+
   }
 });

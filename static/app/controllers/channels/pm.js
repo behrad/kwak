@@ -13,6 +13,7 @@ export default Ember.ArrayController.extend({
 
   actions: {
     createPM: function () {
+      mixpanel.track("new pm", "pm");
       var self = this;
 
       var content = this.get('message');

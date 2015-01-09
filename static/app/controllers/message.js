@@ -12,6 +12,7 @@ export default Ember.ObjectController.extend({
     acceptChanges: function () {
       this.set('isEditing', false);
       this.get('model').save().then(function (message) {
+        mixpanel.track("message edited");
         message.set('seen', true);
       });
     }

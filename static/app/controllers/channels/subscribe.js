@@ -13,6 +13,7 @@ export default Ember.ObjectController.extend({
         color: self.get('color'),
         team: self.store.getById('team', self.get('team'))
       }).save().then(function () {
+        mixpanel.track("new channel");
         self.set('name', '');
         Ember.run.scheduleOnce('afterRender', this, function () {
           var colors = self.colors;
