@@ -144,7 +144,7 @@ def broadcast_message(sender, instance, **kw):
             mentionned = Profile.objects.get(name=mention)
             send_mail(
                 'new mention on kwak',
-                'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>'.format(message_author.name, '> '.join(message.content.splitlines(True))),
+                'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>'.format(message_author.name, '> '.join(('\n'+message.content.lstrip()).splitlines(True))),
                 'no-reply@kwak.io',
                 [mentionned.email],
                 fail_silently=True)
@@ -181,7 +181,7 @@ def broadcast_pm(sender, instance, **kw):
 
     send_mail(
         'new pm on kwak',
-        'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n>'.format(pm_author.name, '> '.join(pm.content.splitlines(True))),
+        'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n> '.format(pm_author.name, '> '.join(('\n'+pm.content.lstrip()).splitlines(True))),
         'no-reply@kwak.io',
         [pm.penpal.email],
         fail_silently=True)
