@@ -4,7 +4,8 @@
     "window",
     "-Promise",
     "moment",
-    "EmberSockets"
+    "EmberSockets",
+    "mixpanel"
   ],
   "browser": true,
   "boss": true,
