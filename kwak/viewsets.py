@@ -8,7 +8,7 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, PmSideloadSerializer
+from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, PmSideloadSerializer, TeamSerializer
 
 class ProfileViewSet(ModelViewSet):
     model = Profile
@@ -226,3 +226,15 @@ class UserView(APIView):
             return Response({'error' : 'username already taken'}, status=status.HTTP_409_CONFLICT)
 
         return Response(status=status.HTTP_201_CREATED)
+
+
+class TeamView(RetrieveAPIView):
+    model = Team
+    serializer_class = TeamSerializer
+
+    def get_object(self):
+        uid = self.request.QUERY_PARAMS.get('uid', None)
+        if uid:
+            return Team.objects.get(uid=uid)
+        else:
+            raise Exception("Team does not exist")

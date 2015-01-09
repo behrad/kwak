@@ -8,6 +8,7 @@
     <div class="login-container">
       <img src="assets/images/kwak.png" class="logo">
       <div class="form-box">
+        {{model.name}}
         <form method="post" {{action 'signUp' on='submit'}}>
           {{input class='form-control' placeholder='login' value=identification}}
           <small>{{eidentification}}</small>
