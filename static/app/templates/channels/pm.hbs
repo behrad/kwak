@@ -1,5 +1,5 @@
 <div class="pm message-list">
-  {{#each message in model itemController="message"}}
+  {{#each message in model.arrangedContent itemController="message"}}
   <div {{bind-attr class="message.seen:seen :row :message"}} data-topic-id="1" {{bind-attr data-message-id=message.id}}>
     <div {{bind-attr class=":col-md-12 :_20"}}>
       {{#view "channels/message"}}
