@@ -1,5 +1,5 @@
 from message.models import Team, Channel, Topic, Message, Profile, Pm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.db.models import Q
 from rest_framework import status
@@ -215,6 +215,16 @@ class UserView(APIView):
 
     def post(self, request):
         try:
+            team = Team.objects.get(uid=request.data['user[uid]'])
+        except Team.DoesNotExist:
+            return Response({'error' : 'team does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            group = Group.objects.get(name='user')
+        except Group.DoesNotExist:
+            return Response({'error' : 'user group does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
             user = User.objects.create_user(
                 username=request.data['user[identification]'],
                 first_name=request.data['user[firstName]'],
@@ -222,6 +232,8 @@ class UserView(APIView):
                 email=request.data['user[email]'],
                 password=request.data['user[password]']
             )
+            user.profile.teams.add(team)
+            user.groups.add(group)
         except IntegrityError:
             return Response({'error' : 'username already taken'}, status=status.HTTP_409_CONFLICT)
 
@@ -231,6 +243,7 @@ class UserView(APIView):
 class TeamView(RetrieveAPIView):
     model = Team
     serializer_class = TeamSerializer
+    permission_classes = (AllowAny,)
 
     def get_object(self):
         uid = self.request.QUERY_PARAMS.get('uid', None)

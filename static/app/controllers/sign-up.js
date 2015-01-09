@@ -6,10 +6,13 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
     signUp: function () {
       var self = this;
 
+      var uid = self.get('model.uid');
+
       this.validate().then(function() {
         var data = self.getProperties('identification', 'firstName', 'lastName', 'email', 'password');
+        data['uid'] = uid;
         Ember.$.post('api/users/', { user: data }, function() {
-          self.transitionTo('login');
+          self.transitionToRoute('login');
         }).fail(function (jqxhr) {
           if (jqxhr.status === 409) {
             var errs = JSON.parse(jqxhr.responseText);
@@ -17,7 +20,6 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
           }
         });
       }).catch(function () {
-        console.log(self.errors);
         // validation failed
         for (var prop in self.errors) {
           if (self.errors.hasOwnProperty(prop)) {
