@@ -207,6 +207,10 @@ ul.nav.nav-pills.nav-stacked li a i {
   }
   .channels {
     left: -175px;
+    bottom: 0px;
+  }
+  .help {
+    display: none;
   }
   .center-container {
     margin-left: 20px;
