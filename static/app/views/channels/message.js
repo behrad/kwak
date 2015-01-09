@@ -17,7 +17,12 @@ export default Ember.View.extend({
           $(this).addClass('unfocused');
           $('#topic').val();
         });
-        var topicTitle = $topic.find('a.topic-title').html().trim();
+        var topicTitle = $topic.find('a.topic-title').html();
+        if (topicTitle) {
+          topicTitle = topicTitle.trim();
+        } else {
+          topicTitle = '';
+        }
         var channelId = $topic.attr('data-channel-id');
         // pre-fill messagebox select and input
         this.get('controller').send('setupMessagebox', topicTitle, channelId);

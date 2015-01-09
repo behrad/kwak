@@ -40,12 +40,12 @@ export default Ember.View.extend(SetupView, BindScroll, {
   messageSeen: function () {
     var self = this;
     var controller = self.get('controller');
-    $('.message:not(.seen)').filter(function () {
-      return $(this).visible();
-    }).each(function () {
-      controller.send('markAsRead', $(this).attr('data-message-id'));
-    });
     if (controller) {
+      $('.message:not(.seen)').filter(function () {
+        return $(this).visible();
+      }).each(function () {
+        controller.send('markAsRead', $(this).attr('data-message-id'));
+      });
       controller.send('recountUnread');
     }
   }

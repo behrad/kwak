@@ -32,11 +32,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     var channels_ids = [];
     var self = this;
 
+    this.socket.emit('profile', model.profile);
     for (var i = 0; i < channels.length; i++) {
       channels_ids.push(channels[i].id);
       this.socket.emit('join', channels[i].id);
     }
-    this.socket.emit('profile', model.profile);
+    this.socket.emit('join', 'pm');
 
     self.socket.emit('profiles', channels_ids);
     setInterval(function () {

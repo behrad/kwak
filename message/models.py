@@ -21,6 +21,7 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Team(models.Model):
 
     class Meta:
@@ -143,7 +144,7 @@ def broadcast_message(sender, instance, **kw):
             mentionned = Profile.objects.get(name=mention)
             send_mail(
                 'new mention on kwak',
-                'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n'.format(message_author.name, '> '.join(message.content.splitlines(True))),
+                'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>'.format(message_author.name, '> '.join(message.content.splitlines(True))),
                 'no-reply@kwak.io',
                 [mentionned.email],
                 fail_silently=True)
@@ -163,7 +164,31 @@ def broadcast_topic(sender, instance, **kw):
 post_save.connect(broadcast_topic, sender=Topic)
 
 
-def user_inactive(sender, instance, **kw):
+def broadcast_pm(sender, instance, **kw):
+    pm = instance
+    payload = {
+        'id': pm.id,
+        'pubdate': pm.pubdate,
+        'content': pm.content,
+        'author': pm.author.id,
+        'penpal': pm.penpal.id,
+        'penpal_email': pm.penpal.email,
+        'penpal_name': pm.penpal.name,
+    }
+    r = requests.post('http://localhost:8080/pm', data=payload)
+
+    pm_author = Profile.objects.get(pk=pm.author.id)
+
+    send_mail(
+        'new pm on kwak',
+        'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n>'.format(pm_author.name, '> '.join(pm.content.splitlines(True))),
+        'no-reply@kwak.io',
+        [pm.penpal.email],
+        fail_silently=True)
+post_save.connect(broadcast_pm, sender=Pm)
+
+
+def user_inactive_by_default(sender, instance, **kw):
     if instance.pk is None:
         instance.is_active = False
-pre_save.connect(user_inactive, sender=User)
+pre_save.connect(user_inactive_by_default, sender=User)

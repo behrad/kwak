@@ -4,6 +4,7 @@ var _ = require('underscore');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var crypto = require('crypto');
 
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,6 +42,7 @@ var messagesController = function(req, res) {
   var body = req.body;
   io.to(body.channel).emit('message', {
     id: body.id,
+    pubdate: body.pubdate,
     content: body.content,
     topic: body.topic,
     author: body.author
@@ -62,16 +64,38 @@ var topicsController = function(req, res) {
   res.send();
 };
 
+var pmsController = function(req, res) {
+  if (req.ip !== '127.0.0.1') {
+    console.log('Unauthorized POST message');
+    res.send();
+  }
+  var body = req.body;
+  io.to(crypto.createHash('sha1')
+      .update(body.penpal_name + body.penpal_email).digest('hex')
+    ).emit('pm', {
+    id: body.id,
+    pubdate: body.pubdate,
+    author: body.author,
+    penpal: body.penpal,
+    content: body.content,
+  });
+  res.send();
+};
+
 /* routes */
 app.post('/message', messagesController);
 app.post('/topic', topicsController);
-
+app.post('/pm', pmsController);
 
 /* stuff */
 io.on('connection', function (socket) {
   socket.on('join', function (room) {
-    console.log('request to join ', room);
+    if (room === 'pm' && socket.profile) {
+      room = crypto.createHash('sha1')
+        .update(socket.profile.name + socket.profile.email).digest('hex');
+    }
     socket.join(room);
+    console.log('request to join ', room);
   });
 
   socket.on('leave', function (room) {

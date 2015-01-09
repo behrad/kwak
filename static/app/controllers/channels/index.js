@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  needs: ['profile', 'profiles', 'channels', 'channels/channel/index', 'channels/channel/mark-as-read'],
+  needs: ['profile', 'profiles', 'channels', 'channels/pm', 'channels/channel/index', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
@@ -166,5 +166,22 @@ export default Ember.ArrayController.extend({
       this.get('controllers.channels').set('activeProfiles', activeProfiles);
       this.get('controllers.channels').set('otherProfiles', otherProfiles);
     },
+
+    pm: function (data) {
+      var controller = this.get('controllers.channels/pm');
+      var model = controller.get('model');
+
+      var pm = this.store.createRecord('pm', {
+        id: data.id,
+        content: data.content,
+        pubdate: data.pubdate,
+        author: this.store.getById('profile', data.author),
+        penpal: this.store.getById('profile', data.penpal),
+      });
+      model = model.toArray();
+      model.push(pm);
+      controller.set('model', model);
+    },
+
   },
 });

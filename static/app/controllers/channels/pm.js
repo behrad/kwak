@@ -1,27 +1,39 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+export default Ember.ArrayController.extend({
   needs: ['profile', 'profiles'],
   currentUser: Ember.computed.alias('controllers.profile'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
+  sortProperties: ['id'],
+  sortAscending: true,
+  sortFunction: function (a, b) {
+    return +a > +b ? 1 : -1;
+  },
+
   actions: {
     createPM: function () {
+      var self = this;
+
       var content = this.get('message');
       if (!content.trim()) { return; }
 
-      var self = this;
-
-      self.store.createRecord('pm', {
-        penpal: self.get('penpal'),
-        content: self.get('message')
+      this.store.createRecord('pm', {
+        author: this.get('currentUser.model'),
+        pubdate: new Date(),
+        penpal: this.get('penpal'),
+        content: this.get('message')
       }).save().then(function (pm) {
-        var pms = self.get('model').toArray();
-        pms.push(pm);
-        self.set('model', pms);
-        self.set('message', '');
+        var model = self.get('model').toArray();
+        model.push(pm);
+        self.set('model', model);
       });
+
+      this.set('message', '');
     },
+
+    setupMessagebox: function() {},
+
   },
 
 });
