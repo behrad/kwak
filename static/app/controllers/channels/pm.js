@@ -1,5 +1,24 @@
 import Ember from 'ember';
 
+var $ = Ember.$;
+
+function scroll () {
+  var seens = $('div.message.seen');
+  var unseens = $('div.message:not(.seen)');
+  var position;
+  if (unseens.length) {
+    console.log('a');
+    position = unseens.eq(0).position().top-150;
+  } else if (seens.length) {
+    console.log(seens.eq(-1).position());
+    position = seens.eq(-1).position().top+150;
+  } else {
+    console.log('c');
+    position = $('.message-list').height();
+  }
+  $(window).scrollTop(position);
+}
+
 export default Ember.ArrayController.extend({
   needs: ['profile', 'profiles', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
@@ -33,9 +52,11 @@ export default Ember.ArrayController.extend({
         penpal: this.get('penpal'),
         content: this.get('message')
       }).save().then(function (pm) {
+        pm.set('seen', true);
         var model = self.get('model.arrangedContent').toArray();
         model.push(pm);
         self.set('model.arrangedContent', model);
+        Ember.run.scheduleOnce('afterRender', this, scroll);
       });
 
       this.set('message', '');

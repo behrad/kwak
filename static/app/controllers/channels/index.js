@@ -1,5 +1,22 @@
 import Ember from 'ember';
 
+function scroll () {
+  var seens = $('div.message.seen');
+  var unseens = $('div.message:not(.seen)');
+  var position;
+  if (unseens.length) {
+    console.log('a');
+    position = unseens.eq(0).position().top-150;
+  } else if (seens.length) {
+    console.log(seens.eq(-1).position());
+    position = seens.eq(-1).position().top+150;
+  } else {
+    console.log('c');
+    position = $('.message-list').height();
+  }
+  $(window).scrollTop(position);
+}
+
 export default Ember.ArrayController.extend({
   needs: ['profile', 'profiles', 'channels', 'channels/pm', 'channels/channel/index', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
@@ -41,6 +58,7 @@ export default Ember.ArrayController.extend({
               message.save().then(function (message) {
                 mixpanel.track("edit message", "append");
                 message.set('seen', true);
+                Ember.run.scheduleOnce('afterRender', this, scroll);
                 window.prettyPrint();
               });
             } else {
@@ -52,6 +70,7 @@ export default Ember.ArrayController.extend({
                 mixpanel.track("new message");
                 message.set('seen', true);
                 self.set('topicCreated', topic.get('id'));
+                Ember.run.scheduleOnce('afterRender', this, scroll);
                 window.prettyPrint();
               });
             }
@@ -72,6 +91,7 @@ export default Ember.ArrayController.extend({
               }).save().then(function (message) {
                 mixpanel.track("new message");
                 message.set('seen', true);
+                Ember.run.scheduleOnce('afterRender', this, scroll);
                 window.prettyPrint();
               });
             });

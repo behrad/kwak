@@ -8,21 +8,6 @@ export default Ember.View.extend(SetupView, BindScroll, {
   rerender: function () {
     this._super();
     this.messageSeen();
-    Ember.run.later(function () {
-      var seens = $('div.message.seen');
-      var unseens = $('div.message:not(.seen)');
-      var position;
-      if (unseens.length) {
-        position = unseens.eq(0).position().top-150;
-      } else if (seens.length) {
-        position = seens.eq(-1).position().bottom-150;
-      } else {
-        position = $('.message-list').height();
-      }
-      if (position) {
-        $(window).scrollTop(position);
-      }
-    }, 1000);
   },
   didInsertElement: function () {
     this._super();
