@@ -158,6 +158,7 @@ class PmViewSet(ModelViewSet):
             penpal = Profile.objects.get(pk=pm['penpal'], teams__in=self.request.user.profile.teams.all())
             pm = Pm.objects.create(author=self.request.user.profile, penpal=penpal, content=pm['content'])
             return Response({'pm': {
+                'id': pm.id,
                 'pubdate': pm.pubdate,
                 'author_id': pm.author.id,
                 'penpal_id': pm.penpal.id,
