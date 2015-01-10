@@ -32,6 +32,12 @@ export default Ember.ObjectController.extend({
             count += unreadMessages.get('length');
           }
         }
+        if (el.get('unread') !== count) {
+          $('.unread-counter[data-channel-id='+el.id+']').addClass('label-warning');
+        }
+        if (count === 0) {
+          $('.unread-counter[data-channel-id='+el.id+']').removeClass('label-warning');
+        }
         el.set('unread', count);
       });
     }
