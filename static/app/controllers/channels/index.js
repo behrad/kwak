@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+var $ = Ember.$;
+
 function scroll () {
   var seens = $('div.message.seen');
   var unseens = $('div.message:not(.seen)');
@@ -157,10 +159,17 @@ export default Ember.ArrayController.extend({
                 topic: topic,
                 author: author
               });
+
               var channelIndex = self.get('controllers.channels/channel/index.messages');
               if (channelIndex) {
                 channelIndex.pushObject(message);
               }
+
+              var controller = self.get('controllers.channels/channel/mark-as-read');
+              if (controller) {
+                controller.send('recountUnread');
+              }
+
             });
           });
         }
@@ -206,6 +215,12 @@ export default Ember.ArrayController.extend({
       model = model.toArray();
       model.push(pm);
       controller.set('model.arrangedContent', model);
+
+      controller = this.get('controllers.channels/channel/mark-as-read');
+      if (controller) {
+        controller.send('recountUnread');
+      }
+
     },
 
   },
