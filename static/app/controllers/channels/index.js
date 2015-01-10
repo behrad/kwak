@@ -144,7 +144,7 @@ export default Ember.ArrayController.extend({
             });
           });
         }
-        this.send('recountUnread');
+        self.send('recountUnread');
       }, 2000);
     },
     profiles: function (profiles) {
