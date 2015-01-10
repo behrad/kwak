@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  needs: ['profile', 'profiles'],
+  needs: ['profile', 'profiles', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
@@ -9,6 +9,14 @@ export default Ember.ArrayController.extend({
   sortAscending: true,
   sortFunction: function (a, b) {
     return +a > +b ? 1 : -1;
+  },
+
+  init: function () {
+    this._super();
+    var controller = this.get('controllers.channels/channel/mark-as-read');
+    if (controller) {
+      controller.send('recountUnread');
+    }
   },
 
   actions: {
