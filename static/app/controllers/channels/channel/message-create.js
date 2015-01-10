@@ -20,6 +20,7 @@ export default Ember.ObjectController.extend({
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
                 window.prettyPrint();
+                mixpanel.track("edit message", "append");
                 message.set('seen', true);
               });
             } else {

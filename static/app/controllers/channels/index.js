@@ -39,6 +39,7 @@ export default Ember.ArrayController.extend({
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
+                mixpanel.track("edit message", "append");
                 message.set('seen', true);
                 window.prettyPrint();
               });
@@ -48,6 +49,7 @@ export default Ember.ArrayController.extend({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function (message) {
+                mixpanel.track("new message");
                 message.set('seen', true);
                 self.set('topicCreated', topic.get('id'));
                 window.prettyPrint();
@@ -62,11 +64,13 @@ export default Ember.ArrayController.extend({
               channel: channel
             }).save().then(function (topic) {
               // create message in new topic
+              mixpanel.track("new topic");
               self.set('topicCreated', topic.get('id'));
               topic.get('messages').createRecord({
                 content: content,
                 author: self.get('currentUser.model')
               }).save().then(function (message) {
+                mixpanel.track("new message");
                 message.set('seen', true);
                 window.prettyPrint();
               });
