@@ -17,11 +17,10 @@ export default Ember.View.extend(SetupView, BindScroll, {
       } else if (seens.length) {
         position = seens.eq(-1).position().bottom-150;
       } else {
-        position = $(window).height();
+        position = $('.message-list').height();
       }
       if (position) {
-        console.log('scroll to ', position);
-        window.scroll(0, position);
+        $(window).scrollTop(position);
       }
     }, 1000);
   },
