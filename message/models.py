@@ -94,7 +94,7 @@ class Message(models.Model):
         return self.topic.channel.team
 
     def __unicode__(self):
-        return "{} - {}".format(self.author.name, self.content[0:10])
+        return u"{} - {}".format(self.author.name, self.content[0:10])
 
 class Pm(models.Model):
 
@@ -113,7 +113,7 @@ class Pm(models.Model):
         return False
 
     def __unicode__(self):
-        return "pm with {} - {}".format(self.penpal.name, self.content[0:10])
+        return u"pm with {} - {}".format(self.penpal.name, self.content[0:10])
 
 
 def create_profile(sender, **kw):
@@ -121,7 +121,7 @@ def create_profile(sender, **kw):
     if kw["created"]:
         profile = Profile(user=user)
         profile.email = user.email
-        profile.name = "{} {}".format(user.first_name, user.last_name)
+        profile.name = u"{} {}".format(user.first_name, user.last_name)
         profile.save()
 post_save.connect(create_profile, sender=User, dispatch_uid="users-profilecreation-signal")
 
@@ -146,8 +146,8 @@ def broadcast_message(sender, instance, **kw):
             mentionned = Profile.objects.get(name=mention)
             send_mail(
                 'new mention on kwak',
-                'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>'.format(message_author.name, '> '.join(('\n'+message.content.lstrip()).splitlines(True))),
-                'no-reply@kwak.io',
+                u'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>'.format(message_author.name, '> '.join(('\n'+message.content.lstrip()).splitlines(True))),
+                'noreply@kwak.io',
                 [mentionned.email],
                 fail_silently=True)
         except Profile.DoesNotExist:
@@ -183,8 +183,8 @@ def broadcast_pm(sender, instance, **kw):
 
     send_mail(
         'new pm on kwak',
-        'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n> '.format(pm_author.name, '> '.join(('\n'+pm.content.lstrip()).splitlines(True))),
-        'no-reply@kwak.io',
+        u'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n> '.format(pm_author.name, '> '.join(('\n'+pm.content.lstrip()).splitlines(True))),
+        'noreply@kwak.io',
         [pm.penpal.email],
         fail_silently=True)
 post_save.connect(broadcast_pm, sender=Pm)
