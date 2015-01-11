@@ -184,11 +184,13 @@ export default Ember.ArrayController.extend({
       var otherProfiles = [];
 
       this.get('controllers.profiles.arrangedContent').forEach(function (profile) {
-        if (profile.id !== 'current' && profile.name) {
+        if (profile.id !== 'current') {
           profile = self.store.getById('profile', profile.id);
           if (profile.get('name') !== self.get('currentUser.model.name')) {
             if (Ember.$.inArray(profile.get('email'), activeEmails) === -1) {
-              otherProfiles.push(profile);
+              if (profile.name) {
+                otherProfiles.push(profile);
+              }
             }
           }
         }
