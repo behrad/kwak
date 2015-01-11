@@ -3,7 +3,7 @@ import Ember from 'ember';
 var $ = Ember.$;
 
 export default Ember.ObjectController.extend({
-  needs: ['profile', 'channels'],
+  needs: ['profile', 'profiles', 'channels'],
   actions: {
     markAsRead: function (messageId, type) {
       type = type || 'message';
@@ -25,8 +25,9 @@ export default Ember.ObjectController.extend({
     },
 
     recountUnread: function () {
+      /* channels part (messages) */
+      var totalMsgs = 0;
       var channels = this.get('controllers.channels.model.content');
-      var total = 0;
       $(channels).each(function (idx, el) {
         var topics = el.get('topics');
         var unreadMessages;
@@ -44,10 +45,37 @@ export default Ember.ObjectController.extend({
         if (count === 0) {
           $('.unread-counter[data-channel-id='+el.id+']').removeClass('label-warning');
         }
-        total = total + count;
+        totalMsgs = totalMsgs + count;
         el.set('unread', count);
       });
-      document.title = "("+total+") kwak";
+
+      /* users part (PM) */
+      var totalPm = 0;
+      var profiles = this.get('controllers.profiles.model.content');
+      $.getJSON('/api/pms/unread', function (unreadPms) {
+        console.log(unreadPms);
+        $(profiles).each(function (idx, el) {
+          var count = 0;
+          if (unreadPms.hasOwnProperty(el.get('id'))) {
+            count = unreadPms[el.get('id')];
+          }
+          if (el.get('unreadPm') !== count) {
+            $('.unread-pm-counter[data-profile-id='+el.id+']').addClass('label-warning');
+          }
+          if (count === 0) {
+            $('.unread-pm-counter[data-profile-id='+el.id+']').removeClass('label-warning');
+          }
+          el.set('unreadPm', count);
+          totalPm = totalPm + count;
+
+          if (totalMsgs === totalPm && totalPm === 0) {
+            document.title = "(0) kwak";
+          } else {
+            document.title = "("+totalMsgs+"+"+totalPm+") kwak";
+          }
+
+        });
+      });
     }
   }
 });

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.db.models import Q
 import json
+from collections import defaultdict
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
@@ -178,6 +179,19 @@ class PmViewSet(ModelViewSet):
                 'status': 'Bad request',
                 'message': 'Channel could not be created with received data.'
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PmUnreadView(APIView):
+    model = Pm
+
+    def get(self, request):
+        queryset = Pm.objects.filter(penpal=self.request.user.profile)
+        queryset = queryset.exclude(seen_by=self.request.user.profile)
+        out = defaultdict(int)
+        for pm in queryset:
+            out[pm.author.id] += 1
+
+        return Response(out, status=status.HTTP_200_OK)
 
 
 class CurrentUser(RetrieveAPIView):

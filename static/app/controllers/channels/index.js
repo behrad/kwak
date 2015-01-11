@@ -162,6 +162,7 @@ export default Ember.ArrayController.extend({
         self.send('recountUnread');
       }, 2000);
     },
+
     profiles: function (profiles) {
       var self = this;
       var activeEmails = [];
