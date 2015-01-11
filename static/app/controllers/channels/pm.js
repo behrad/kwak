@@ -7,13 +7,10 @@ function scroll () {
   var unseens = $('div.message:not(.seen)');
   var position;
   if (unseens.length) {
-    console.log('a');
     position = unseens.eq(0).position().top-150;
   } else if (seens.length) {
-    console.log(seens.eq(-1).position());
     position = seens.eq(-1).position().top+150;
   } else {
-    console.log('c');
     position = $('.message-list').height();
   }
   $(window).scrollTop(position);
