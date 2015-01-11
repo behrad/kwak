@@ -52,8 +52,8 @@ export default Ember.ObjectController.extend({
       /* users part (PM) */
       var totalPm = 0;
       var profiles = this.get('controllers.profiles.model.content');
+
       $.getJSON('/api/pms/unread', function (unreadPms) {
-        console.log(unreadPms);
         $(profiles).each(function (idx, el) {
           var count = 0;
           if (unreadPms.hasOwnProperty(el.get('id'))) {
@@ -73,7 +73,6 @@ export default Ember.ObjectController.extend({
           } else {
             document.title = "("+totalMsgs+"+"+totalPm+") kwak";
           }
-
         });
       });
     }
