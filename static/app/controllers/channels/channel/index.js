@@ -5,6 +5,10 @@ export default Ember.ObjectController.extend({
   topicTitle: Ember.computed.oneWay('model.title'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
+  _scroll: function () {
+    Ember.run.scheduleOnce('afterRender', this, scroll);
+  }.observes('model.[]').on('init'),
+
   actions: {
     createMessage: function () {
       mixpanel.track("new message", "channels/channel/index");

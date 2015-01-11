@@ -1,21 +1,5 @@
 import Ember from 'ember';
 
-var $ = Ember.$;
-
-function scroll () {
-  var seens = $('div.message.seen');
-  var unseens = $('div.message:not(.seen)');
-  var position;
-  if (unseens.length) {
-    position = unseens.eq(0).position().top-150;
-  } else if (seens.length) {
-    position = seens.eq(-1).position().top+150;
-  } else {
-    position = $('.message-list').height();
-  }
-  $(window).scrollTop(position);
-}
-
 export default Ember.ArrayController.extend({
   needs: ['profile', 'profiles', 'channels', 'channels/pm', 'channels/channel/index', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
@@ -26,6 +10,11 @@ export default Ember.ArrayController.extend({
   sortFunction: function (a, b) {
     return +a > +b ? 1 : -1;
   },
+
+  _scroll: function () {
+    Ember.run.scheduleOnce('afterRender', this, scroll);
+  }.observes('model.[]').on('init'),
+
 
   subscribed: function () {
     return this.get('arrangedContent').filterBy('topic.channel.subscribed', true);
@@ -57,7 +46,7 @@ export default Ember.ArrayController.extend({
               message.save().then(function (message) {
                 mixpanel.track("edit message", "append");
                 message.set('seen', true);
-                Ember.run.scheduleOnce('afterRender', this, scroll);
+                Ember.run.scheduleOnce('afterRender', self, scroll);
                 window.prettyPrint();
               });
             } else {
@@ -69,7 +58,7 @@ export default Ember.ArrayController.extend({
                 mixpanel.track("new message");
                 message.set('seen', true);
                 self.set('topicCreated', topic.get('id'));
-                Ember.run.scheduleOnce('afterRender', this, scroll);
+                Ember.run.scheduleOnce('afterRender', self, scroll);
                 window.prettyPrint();
               });
             }
@@ -90,7 +79,7 @@ export default Ember.ArrayController.extend({
               }).save().then(function (message) {
                 mixpanel.track("new message");
                 message.set('seen', true);
-                Ember.run.scheduleOnce('afterRender', this, scroll);
+                Ember.run.scheduleOnce('afterRender', self, scroll);
                 window.prettyPrint();
               });
             });

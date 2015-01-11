@@ -1,21 +1,5 @@
 import Ember from 'ember';
 
-var $ = Ember.$;
-
-function scroll () {
-  var seens = $('div.message.seen');
-  var unseens = $('div.message:not(.seen)');
-  var position;
-  if (unseens.length) {
-    position = unseens.eq(0).position().top-150;
-  } else if (seens.length) {
-    position = seens.eq(-1).position().top+150;
-  } else {
-    position = $('.message-list').height();
-  }
-  $(window).scrollTop(position);
-}
-
 export default Ember.ObjectController.extend({
   needs: ['profile', 'channels/channel'],
   currentUser: Ember.computed.alias('controllers.profile'),
@@ -35,7 +19,7 @@ export default Ember.ObjectController.extend({
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
-                Ember.run.scheduleOnce('afterRender', this, scroll);
+                Ember.run.scheduleOnce('afterRender', self, scroll);
                 window.prettyPrint();
                 mixpanel.track("edit message", "append");
                 message.set('seen', true);
@@ -47,7 +31,7 @@ export default Ember.ObjectController.extend({
                 author: self.get('currentUser.model')
               }).save().then(function (message) {
                 message.set('seen', true);
-                Ember.run.scheduleOnce('afterRender', this, scroll);
+                Ember.run.scheduleOnce('afterRender', self, scroll);
                 window.prettyPrint();
                 mixpanel.track("new message");
                 self.get('controllers.channels/channel.messages').pushObject(message);
@@ -68,7 +52,7 @@ export default Ember.ObjectController.extend({
             }).save().then(function (message) {
               message.set('seen', true);
               message.get('topic').then(function (topic) {
-                Ember.run.scheduleOnce('afterRender', this, scroll);
+                Ember.run.scheduleOnce('afterRender', self, scroll);
                 window.prettyPrint();
                 mixpanel.track("new message");
                 self.get('controllers.channels/channel.messages').pushObject(message);

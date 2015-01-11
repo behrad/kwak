@@ -1,21 +1,5 @@
 import Ember from 'ember';
 
-var $ = Ember.$;
-
-function scroll () {
-  var seens = $('div.message.seen');
-  var unseens = $('div.message:not(.seen)');
-  var position;
-  if (unseens.length) {
-    position = unseens.eq(0).position().top-150;
-  } else if (seens.length) {
-    position = seens.eq(-1).position().top+150;
-  } else {
-    position = $('.message-list').height();
-  }
-  $(window).scrollTop(position);
-}
-
 export default Ember.ArrayController.extend({
   needs: ['profile', 'profiles', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
@@ -34,6 +18,10 @@ export default Ember.ArrayController.extend({
       controller.send('recountUnread');
     }
   },
+
+  _scroll: function () {
+    Ember.run.scheduleOnce('afterRender', this, scroll);
+  }.observes('model.[]').on('init'),
 
   actions: {
 
@@ -54,7 +42,7 @@ export default Ember.ArrayController.extend({
         var model = self.get('model.arrangedContent').toArray();
         model.push(pm);
         self.set('model.arrangedContent', model);
-        Ember.run.scheduleOnce('afterRender', this, scroll);
+        Ember.run.scheduleOnce('afterRender', self, scroll);
       });
 
       this.set('message', '');
