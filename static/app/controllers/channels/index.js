@@ -201,8 +201,10 @@ export default Ember.ArrayController.extend({
         penpal: this.store.getById('profile', data.penpal),
       });
       model = model.toArray();
-      model.push(pm);
-      controller.set('model.arrangedContent', model);
+      if (model.objectAt(0).get('penpal.email') === pm.get('author.email')) {
+        model.push(pm);
+        controller.set('model.arrangedContent', model);
+      }
 
       controller = this.get('controllers.channels/channel/mark-as-read');
       if (controller) {
