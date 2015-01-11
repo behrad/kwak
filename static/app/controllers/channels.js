@@ -9,7 +9,7 @@ export default Ember.ArrayController.extend({
   }.property('model.@each.subscribed'),
 
   saveRead: function () {
-    Ember.$.post('/api/messages/read', {messages: window.saveRead});
+    Ember.$.post('/api/messages/read', JSON.stringify(window.saveRead));
     window.saveRead = [];
   },
 

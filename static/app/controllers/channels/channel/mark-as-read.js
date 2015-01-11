@@ -5,22 +5,28 @@ var $ = Ember.$;
 export default Ember.ObjectController.extend({
   needs: ['profile', 'channels'],
   actions: {
-    markAsRead: function (messageId) {
+    markAsRead: function (messageId, type) {
+      type = type || 'message';
       var self = this;
       if (messageId) {
-        self.store.find('message', messageId).then(function (message) {
+        self.store.find(type, messageId).then(function (message) {
           var currentUser = self.get('controllers.profile.model');
           currentUser.set('cursor', messageId);
           window.saveRead = window.saveRead || [];
-          window.saveRead.push(messageId);
+          window.saveRead.push({
+            'id': messageId,
+            'type': type,
+          });
 
           Ember.run.debounce(self, self.get('controllers.channels').saveRead, 2500);
           message.set('seen', true);
         });
       }
     },
+
     recountUnread: function () {
       var channels = this.get('controllers.channels.model.content');
+      var total = 0;
       $(channels).each(function (idx, el) {
         var topics = el.get('topics');
         var unreadMessages;
@@ -38,8 +44,10 @@ export default Ember.ObjectController.extend({
         if (count === 0) {
           $('.unread-counter[data-channel-id='+el.id+']').removeClass('label-warning');
         }
+        total = total + count;
         el.set('unread', count);
       });
+      document.title = "("+total+") kwak";
     }
   }
 });

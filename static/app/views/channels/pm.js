@@ -28,7 +28,7 @@ export default Ember.View.extend(SetupView, BindScroll, {
       $('.message:not(.seen)').filter(function () {
         return $(this).visible();
       }).each(function () {
-        controller.send('markAsRead', $(this).attr('data-message-id'));
+        controller.send('markAsRead', $(this).attr('data-message-id'), 'pm');
       });
       controller.send('recountUnread');
     }

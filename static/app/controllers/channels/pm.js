@@ -39,6 +39,7 @@ export default Ember.ArrayController.extend({
   },
 
   actions: {
+
     createPM: function () {
       mixpanel.track("new pm", "pm");
       var self = this;
@@ -60,6 +61,20 @@ export default Ember.ArrayController.extend({
       });
 
       this.set('message', '');
+    },
+
+    markAsRead: function (messageId, type) {
+      var controller = this.get('controllers.channels/channel/mark-as-read');
+      if (controller) {
+        controller.send('markAsRead', messageId, type);
+      }
+    },
+
+    recountUnread: function () {
+      var controller = this.get('controllers.channels/channel/mark-as-read');
+      if (controller) {
+        controller.send('recountUnread');
+      }
     },
 
     setupMessagebox: function() {},

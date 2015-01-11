@@ -113,7 +113,7 @@ class Pm(models.Model):
         return False
 
     def __unicode__(self):
-        return u"pm with {} - {}".format(self.penpal.name, self.content[0:10])
+        return u"pm with {} - {}".format(self.author.name, self.content[0:10])
 
 
 def create_profile(sender, **kw):

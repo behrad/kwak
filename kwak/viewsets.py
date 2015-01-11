@@ -2,6 +2,7 @@ from message.models import Team, Channel, Topic, Message, Profile, Pm
 from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.db.models import Q
+import json
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
@@ -150,6 +151,14 @@ class PmViewSet(ModelViewSet):
         except Profile.DoesNotExist:
             return []
         queryset = Pm.objects.filter(Q(author=self.request.user.profile, penpal=penpal) | Q(penpal=self.request.user.profile, author=penpal))
+
+        for message in queryset:
+            if message.seen_by.filter(user_id=self.request.user.id) or message.author.pk == self.request.user.profile.pk:
+                message.seen = True
+            else:
+                message.seen = False
+        if self.action == 'list':
+            queryset = list(queryset)
         return queryset
 
     def create(self, request):
@@ -203,8 +212,18 @@ class MarkMessageRead(APIView):
     model = Message
 
     def post(self, request):
-        messages = Message.objects.filter(id__in=self.request.POST.getlist('messages[]'))
+        array = json.loads(request.body)
+        msgs_id = [x['id'] for x in array if x['type'] == 'message']
+        pms_id = [x['id'] for x in array if x['type'] == 'pm']
+
+        messages = Message.objects.filter(id__in=msgs_id)
         for message in messages:
+            print message, 'seen by', self.request.user.profile
+            message.seen_by.add(self.request.user.profile)
+
+        messages = Pm.objects.filter(id__in=pms_id)
+        for message in messages:
+            print message, 'seen by', self.request.user.profile
             message.seen_by.add(self.request.user.profile)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
