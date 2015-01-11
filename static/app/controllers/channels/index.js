@@ -188,7 +188,7 @@ export default Ember.ArrayController.extend({
           profile = self.store.getById('profile', profile.id);
           if (profile.get('name') !== self.get('currentUser.model.name')) {
             if (Ember.$.inArray(profile.get('email'), activeEmails) === -1) {
-              if (profile.name) {
+              if (profile.get('name')) {
                 otherProfiles.push(profile);
               }
             }
