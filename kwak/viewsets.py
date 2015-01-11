@@ -218,12 +218,10 @@ class MarkMessageRead(APIView):
 
         messages = Message.objects.filter(id__in=msgs_id)
         for message in messages:
-            print message, 'seen by', self.request.user.profile
             message.seen_by.add(self.request.user.profile)
 
         messages = Pm.objects.filter(id__in=pms_id)
         for message in messages:
-            print message, 'seen by', self.request.user.profile
             message.seen_by.add(self.request.user.profile)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
