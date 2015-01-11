@@ -3,9 +3,11 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   model: function (params) {
     return Ember.RSVP.hash({
-      messages: this.modelFor('channels').messages.filter(function(message) {
+      messages: this.modelFor('channels').messages.filter(function (message) {
         return message.get('topic.channel.id') === params.channel_id;
-      }).sortBy('id'),
+      }).sort(function (a, b) {
+        return +a.get('id') > +b.get('id') ? 1 : -1;
+      }),
       channel: this.store.find('channel', params.channel_id)
     });
   },
