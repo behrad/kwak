@@ -22,8 +22,12 @@
   {{outlet}}
 </div>
 
+{{#view 'connected-list'}}
 <aside class="connected">
-  <ul class="list-group">
+  <ul id="hide-connected" class="nav nav-pills nav-stacked">
+    <li><span class="glyphicon glyphicon-chevron-left pull-left"></span><br></li>
+  </ul>
+  <ul id="connected-list" class="list-group">
     {{#each profile in activeProfiles}}
     <li class="list-group-item active" {{action 'pm' profile}}>
       <span class="label label-default pull-right unread-pm-counter" {{bind-attr data-profile-id=profile.id}}>{{profile.unreadPm}}</span>
@@ -38,3 +42,4 @@
     {{/each}}
   </ul>
 </aside>
+{{/view}}

@@ -211,21 +211,29 @@ ul.nav.nav-pills.nav-stacked li a i {
   }
   .channels {
     left: -175px;
-    bottom: 0px;
+    bottom: 0;
   }
   .help {
     display: none;
   }
+
   .center-container {
     margin-left: 20px;
-    margin-right: 0;
+    margin-right: 20px;
+  }
+
+  #hide-connected {
+    display: block;
   }
   .connected {
+    right: -175px;
+  }
+  #connected-list {
     display: none;
   }
   footer {
     left: 34px;
-    right: 0;
+    right: 34px;
   }
 }
 
