@@ -29,7 +29,7 @@ export default Ember.ArrayController.extend({
       } else {
         email = profile.get('email');
       }
-      //URL instal of route, to force the route to reload models
+      // URL instead of route, to force the route to reload models
       this.transitionToRoute('/channels/pm/' + email);
     }
   },

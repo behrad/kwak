@@ -11,7 +11,7 @@
       {{view "select" classNames="colorselector" content=colors optionValuePath="content.id" optionLabelPath="content.name" value=color}}
       {{input action="createChannel" class="channel-create" value=name}}
       {{#if hasMultipleTeams}}
-        {{view "select" content=teams optionValuePath="content.id" optionLabelPath="content.name" value=team}}
+        {{view "select" content=teams optionValuePath="content.id" optionLabelPath="content.name" value=selectedTeam}}
       {{/if}}
     </li>
 </ul>

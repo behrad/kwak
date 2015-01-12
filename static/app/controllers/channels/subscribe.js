@@ -13,10 +13,16 @@ export default Ember.ObjectController.extend({
       self.store.createRecord('channel', {
         name: name.trim(),
         color: self.get('color'),
-        team: self.store.getById('team', self.get('team'))
+        team: self.store.getById('team', self.get('selectedTeam'))
       }).save().then(function () {
         mixpanel.track("new channel");
         self.set('name', '');
+
+        var controller = self.get('controllers.channels/channel/mark-as-read');
+        if (controller) {
+          controller.send('recountUnread');
+        }
+
         Ember.run.scheduleOnce('afterRender', this, function () {
           var colors = self.colors;
           $('.colorselector').each(function () {
