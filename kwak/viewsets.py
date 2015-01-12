@@ -20,10 +20,10 @@ class ProfileViewSet(ModelViewSet):
         email = self.request.QUERY_PARAMS.get('email', None)
         if email:
             try:
-                return [Profile.objects.get(email=email, teams__in=self.request.user.profile.teams.all())]
+                return [Profile.objects.get(email=email, is_active=true, teams__in=self.request.user.profile.teams.all())]
             except Profile.DoesNotExist:
                 return []
-        return Profile.objects.filter(teams__in=self.request.user.profile.teams.all())
+        return Profile.objects.filter(is_active=true, teams__in=self.request.user.profile.teams.all())
 
 
 class ChannelViewSet(ModelViewSet):
