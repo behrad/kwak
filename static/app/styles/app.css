@@ -112,6 +112,10 @@ ul.nav.nav-pills.nav-stacked li a i {
   padding: 3px 6px;
 }
 
+#hide-connected {
+  display: none;
+}
+
 /* center container, containing messages */
 .center-container {
   margin-left: 200px;
