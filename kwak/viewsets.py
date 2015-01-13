@@ -61,22 +61,31 @@ class ChannelViewSet(ModelViewSet):
         channel = Channel.objects.get(pk=pk)
         if request.user.profile not in channel.team.members.all():
             return Response(status=status.HTTP_403_FORBIDDEN)
-        name = request.data['channel']['name']
-        color = request.data['channel']['color']
-        subscribed = request.data['channel']['subscribed']
-        is_default = request.data['channel']['is_default']
-        if channel.color != color:
-            channel.color = color
-        if channel.name != name:
-            channel.name = name
-        if subscribed:
-            channel.readers.add(self.request.user.profile)
+        name = request.data['channel'].get('name', None)
+        color = request.data['channel'].get('color', None)
+        subscribed = request.data['channel'].get('subscribed', None)
+        is_default = request.data['channel'].get('is_default', None)
+        default_changed = (is_default != channel.is_default)
+
+        if not default_changed:
+            if color and channel.color != color:
+                channel.color = color
+            if name and channel.name != name:
+                channel.name = name
+            if subscribed is True:
+                channel.readers.add(self.request.user.profile)
+            elif subscribed is False:
+                channel.readers.remove(self.request.user.profile)
+            channel.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         else:
-            channel.readers.remove(self.request.user.profile)
-        if self.request.user.profile.is_admin:
-            channel.is_default = is_default
-        channel.save()
-        return Response(ChannelSideloadSerializer(channel).data, status=status.HTTP_200_OK)
+            if self.request.user.profile.is_admin:
+                if is_default is True:
+                    channel.is_default = True
+                elif is_default is False:
+                    channel.is_default = False
+            channel.save()
+            return Response(ChannelSideloadSerializer(channel).data, status=status.HTTP_200_OK)
 
     def create(self, request):
         request.data['channel']['topics'] = []
