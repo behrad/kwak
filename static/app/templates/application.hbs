@@ -14,7 +14,7 @@
         <div class="navbar-form navbar-right">
           <small class="text-muted">{{model.email}}</small>
           {{#if model.is_admin}}
-            {{#link-to 'channels.admin' class="btn btn-default navbar-btn"}}<i class="glyphicon glyphicon-edit"></i> Admin{{/link-to}}
+            {{#link-to 'channels.admin' class="btn btn-default"}}<i class="glyphicon glyphicon-edit"></i> Admin{{/link-to}}
           {{/if}}
           <a {{action 'invalidateSession'}} class="btn btn-default"><i class="glyphicon glyphicon-off"></i> Logout</a>
         </div>
