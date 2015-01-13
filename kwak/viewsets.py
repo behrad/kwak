@@ -2,6 +2,7 @@ from message.models import Team, Channel, Topic, Message, Profile, Pm
 from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 import json
 from collections import defaultdict
 from rest_framework import status
@@ -327,8 +328,4 @@ class TeamView(RetrieveAPIView):
     def get_object(self):
         uid = self.request.QUERY_PARAMS.get('uid', None)
         if uid:
-            try:
-                return Team.objects.get(uid=uid)
-            except Team.DoesNotExist:
-                pass
-        raise Exception(u"Team {} does not exist".format(uid))
+            return get_object_or_404(Team, uid=uid)
