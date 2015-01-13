@@ -64,6 +64,7 @@ class ChannelViewSet(ModelViewSet):
         name = request.data['channel']['name']
         color = request.data['channel']['color']
         subscribed = request.data['channel']['subscribed']
+        is_default = request.data['channel']['is_default']
         if channel.color != color:
             channel.color = color
         if channel.name != name:
@@ -72,8 +73,10 @@ class ChannelViewSet(ModelViewSet):
             channel.readers.add(self.request.user.profile)
         else:
             channel.readers.remove(self.request.user.profile)
+        if self.request.user.profile.is_admin:
+            channel.is_default = is_default
         channel.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(ChannelSideloadSerializer(channel).data, status=status.HTTP_200_OK)
 
     def create(self, request):
         request.data['channel']['topics'] = []
@@ -275,20 +278,29 @@ class CreateUserView(APIView):
             return Response({'error' : 'team does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            group = Group.objects.get(name='user')
+            user_group = Group.objects.get(name='user')
         except Group.DoesNotExist:
             return Response({'error' : 'user group does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # try to find user with email
+        User.objects.get(email=request.data['user[email]'])
+        if list(User.objects.filter(email=request.data['user[email]'])):
+            return Response({'error' : 'email address already in use'}, status=status.HTTP_409_CONFLICT)
+
         try:
-            user = User.objects.create_user(
+            user = User.objects.create_user( # create user
                 username=request.data['user[identification]'],
                 first_name=request.data['user[firstName]'],
                 last_name=request.data['user[lastName]'],
                 email=request.data['user[email]'],
                 password=request.data['user[password]']
             )
-            user.profile.teams.add(team)
-            user.groups.add(group)
+            user.profile.teams.add(team) # add user to team
+            channels = Channel.objects.filter(team=team, is_default=True)
+            for channel in channels:
+                # add user to default channels
+                channel.readers.add(user.profile)
+            user.groups.add(user_group) # add user to user group
         except IntegrityError:
             return Response({'error' : 'username already taken'}, status=status.HTTP_409_CONFLICT)
 

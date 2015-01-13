@@ -12,6 +12,14 @@ export default Ember.Controller.extend({
     }
   },
 
+  teams: function () {
+    return this.store.all('team');
+  }.property(),
+
+  hasMultipleTeams: function() {
+    return this.get('teams.length') > 1;
+  }.property('teams.length'),
+
   actives: function () {
     var self = this;
     return this.get('profiles').filter(function (profile) {
@@ -28,6 +36,12 @@ export default Ember.Controller.extend({
       this.store.find('profile', id).then(function (profile) {
         profile.set('is_active', !is_active);
         profile.save();
+      });
+    },
+    toggleDefault: function (id, is_default) {
+      this.store.find('channel', id).then(function (channel) {
+        channel.set('is_default', !is_default);
+        channel.save();
       });
     },
   }

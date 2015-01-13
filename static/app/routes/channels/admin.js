@@ -12,6 +12,7 @@ export default Ember.Route.extend({
   setupController: function (controller, model) {
     this._super(controller);
     controller.set('profiles', model.profiles);
+    controller.set('channels', model.channels);
   },
 
   afterModel: function (model) {

@@ -202,6 +202,12 @@ ul.nav.nav-pills.nav-stacked li a i {
   font-size: 14px;
 }
 
+/* Admin */
+.activate-users {
+  height: 300px;
+  overflow: auto;
+}
+
 /* for smaller screens */
 @media (max-width: 768px) {
   #hide-channels {
