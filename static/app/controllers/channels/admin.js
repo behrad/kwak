@@ -14,8 +14,8 @@ export default Ember.Controller.extend({
 
   actives: function () {
     var self = this;
-    return this.get('profiles').filterBy('is_active', true).filter(function (profile) {
-      return profile.get('id') !== self.get('currentUser.model.id');
+    return this.get('profiles').filter(function (profile) {
+      return profile.get('name') && profile.get('is_active') && profile.get('id') !== self.get('currentUser.model.id');
     });
   }.property('profiles.@each.is_active'),
 

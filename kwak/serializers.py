@@ -78,7 +78,7 @@ class TopicSideloadSerializer(SideloadSerializer):
 class ChannelSerializer(ModelSerializer):
     class Meta:
         model = Channel
-        fields = ('id', 'name', 'color', 'subscribed', 'team', 'topics')
+        fields = ('id', 'name', 'color', 'is_default', 'subscribed', 'team', 'topics')
 
 class ChannelSideloadSerializer(SideloadSerializer):
     class Meta:

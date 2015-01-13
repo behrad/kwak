@@ -5,7 +5,7 @@ export default DS.Model.extend({
   email: DS.attr('string'),
   cursor: DS.attr('number'),
   is_admin: DS.attr('boolean'),
-  is_active: DS.attr('boolean', {default: true}),
+  is_active: DS.attr('boolean', {defaultValue: true}),
   unreadPm: function () {
     return '∞';
   }.property()

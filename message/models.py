@@ -51,6 +51,7 @@ class Channel(models.Model):
     color = models.CharField('color', max_length=3)
     team = models.ForeignKey(Team, related_name='team_channels')
     readers = models.ManyToManyField(Profile, null=True, blank=True, related_name='reading')
+    is_default = models.BooleanField(default=False)
 
     def subscribed(self):
         pass
