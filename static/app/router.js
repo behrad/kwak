@@ -25,6 +25,8 @@ Router.map(function () {
   this.route('channels', function () {
     this.route('help');
 
+    this.route('admin');
+
     this.route('subscribe');
 
     this.route('channel', {path: '/:channel_id/:channel_name'}, function () {

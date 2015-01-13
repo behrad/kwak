@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, PmSideloadSerializer, TeamSerializer
 
+
 class ProfileViewSet(ModelViewSet):
     model = Profile
     serializer_class = ProfileSideloadSerializer
@@ -23,7 +24,21 @@ class ProfileViewSet(ModelViewSet):
                 return [Profile.objects.get(email=email, user__is_active=True, teams__in=self.request.user.profile.teams.all())]
             except Profile.DoesNotExist:
                 return []
-        return Profile.objects.filter(user__is_active=True, teams__in=self.request.user.profile.teams.all())
+        if self.request.user.profile.is_admin:
+            return Profile.objects.filter(teams__in=self.request.user.profile.teams.all())
+        else:
+            return Profile.objects.filter(user__is_active=True, teams__in=self.request.user.profile.teams.all())
+
+    def update(self, request, pk=None):
+        if not self.request.user.profile.is_admin:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        profile = Profile.objects.get(pk=pk, teams__in=self.request.user.profile.teams.all())
+        profile.user.is_active = self.request.data['profile']['is_active']
+        profile.user.save()
+
+        return Response(self.request.data, status=status.HTTP_204_NO_CONTENT)
+
 
 
 class ChannelViewSet(ModelViewSet):
@@ -202,7 +217,7 @@ class PmUnreadView(APIView):
         return Response(out, status=status.HTTP_200_OK)
 
 
-class CurrentUser(RetrieveAPIView):
+class CurrentProfile(RetrieveAPIView):
     model = Profile
     serializer_class = ProfileSideloadSerializer
 
@@ -249,7 +264,7 @@ class MarkMessageRead(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserView(APIView):
+class CreateUserView(APIView):
     model = User
     permission_classes = (AllowAny,)
 
@@ -288,6 +303,8 @@ class TeamView(RetrieveAPIView):
     def get_object(self):
         uid = self.request.QUERY_PARAMS.get('uid', None)
         if uid:
-            return Team.objects.get(uid=uid)
-        else:
-            raise Exception("Team does not exist")
+            try:
+                return Team.objects.get(uid=uid)
+            except Team.DoesNotExist:
+                pass
+        raise Exception(u"Team {} does not exist".format(uid))

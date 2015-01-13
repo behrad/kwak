@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h5>Inactive users</h5>
+      {{#each profile in controller.inactives}}
+      <div class="checkbox"><label><input type="checkbox" {{action 'toggleActive' profile.id profile.is_active}}> {{profile.name}}</label></div>
+      {{/each}}
+  </div>
+  <div class="col-sm-6">
+    <h5>Active users</h5>
+      {{#each profile in controller.actives}}
+      <div class="checkbox"><label><input type="checkbox" checked="checked" {{action 'toggleActive' profile.id  profile.is_active}}> {{profile.name}}</label></div>
+      {{/each}}
+  </div>
+</div>

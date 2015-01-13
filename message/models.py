@@ -17,7 +17,11 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     email = models.EmailField('email')
     name = models.CharField('name', max_length=120)
+    is_admin = models.BooleanField(default=False)
     cursor = models.IntegerField(default=0)
+
+    def is_active(self):
+        return self.user.is_active
 
     def __unicode__(self):
         return self.name
@@ -31,7 +35,7 @@ class Team(models.Model):
 
     members = models.ManyToManyField(Profile, null=True, blank=True, related_name='teams')
     name = models.CharField('name', max_length=120)
-    uid = models.CharField(max_length=100, default=uuid4)
+    uid = models.CharField(max_length=100, unique=True, default=uuid4)
 
     def __unicode__(self):
         return self.name

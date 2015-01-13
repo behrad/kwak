@@ -30,7 +30,11 @@ export default Ember.ArrayController.extend({
         email = profile.get('email');
       }
       // URL instead of route, to force the route to reload models
-      this.transitionToRoute('/channels/pm/' + email);
+      if (profile.get('is_active')) {
+        this.transitionToRoute('/channels/pm/' + email);
+      } else {
+        return false;
+      }
     }
   },
 

@@ -29,13 +29,13 @@
   </ul>
   <ul id="connected-list" class="list-group">
     {{#each profile in activeProfiles}}
-    <li class="list-group-item active" {{action 'pm' profile}}>
+    <li {{bind-attr class=":list-group-item :active profile.is_active:enable:disabled"}} {{action 'pm' profile}}>
       <span class="label label-default pull-right unread-pm-counter" {{bind-attr data-profile-id=profile.id}}>{{profile.unreadPm}}</span>
       {{profile.name}}
     </li>
     {{/each}}
     {{#each profile in otherProfiles}}
-    <li class="list-group-item" {{action 'pm' profile}}>
+    <li {{bind-attr class=":list-group-item profile.is_active:enable:disabled"}} {{action 'pm' profile}}>
       <span class="label label-default pull-right unread-pm-counter" {{bind-attr data-profile-id=profile.id}}>{{profile.unreadPm}}</span>
       {{profile.name}}
     </li>

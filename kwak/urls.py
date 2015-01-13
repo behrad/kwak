@@ -3,8 +3,8 @@ from django.contrib import admin
 from rest_framework import routers
 from kwak.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet
 from kwak.viewsets import MessageViewSet, PmViewSet
-from kwak.viewsets import CurrentUser, LastMessage, MarkMessageRead, UserView
-from kwak.viewsets import TeamView, PmUnreadView
+from kwak.viewsets import CurrentProfile, LastMessage, MarkMessageRead
+from kwak.viewsets import CreateUserView, TeamView, PmUnreadView
 
 
 router = routers.DefaultRouter()
@@ -16,12 +16,12 @@ router.register(r'pms', PmViewSet)
 
 
 urlpatterns = patterns('',
-    url(r'^api/users', UserView.as_view()),
+    url(r'^api/users', CreateUserView.as_view()),
     url(r'^api/teams', TeamView.as_view()),
     url(r'^api/pms/unread', PmUnreadView.as_view()),
     url(r'^api/messages/last', LastMessage.as_view()),
     url(r'^api/messages/read', MarkMessageRead.as_view()),
-    url(r'^api/profiles/current', CurrentUser.as_view()),
+    url(r'^api/profiles/current', CurrentProfile.as_view()),
     url(r'^api/', include(router.urls)),
     url(r'^api/auth/token/', 'rest_framework.authtoken.views.obtain_auth_token'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
