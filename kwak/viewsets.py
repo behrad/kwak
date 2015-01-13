@@ -302,7 +302,7 @@ class CreateUserView(APIView):
 
         try:
             user = User.objects.create_user( # create user
-                username=request.data['user[identification]'],
+                username=request.data['user[email]'],
                 first_name=request.data['user[firstName]'],
                 last_name=request.data['user[lastName]'],
                 email=request.data['user[email]'],
@@ -315,7 +315,7 @@ class CreateUserView(APIView):
                 channel.readers.add(user.profile)
             user.groups.add(user_group) # add user to user group
         except IntegrityError:
-            return Response({'error' : 'username already taken'}, status=status.HTTP_409_CONFLICT)
+            return Response({'error' : 'email already in use'}, status=status.HTTP_409_CONFLICT)
 
         return Response(status=status.HTTP_201_CREATED)
 

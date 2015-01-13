@@ -10,14 +10,13 @@
       <div class="form-box">
         {{model.name}}
         <form method="post" {{action 'signUp' on='submit'}}>
-          {{input class='form-control' placeholder='login' value=identification}}
+          {{input class='form-control' placeholder='email' value=identification}}
           <small>{{eidentification}}</small>
+          <small>{{eemail}}</small>
           {{input class='form-control' placeholder='first name' value=firstName}}
           <small>{{efirstName}}</small>
           {{input class='form-control' placeholder='last name' value=lastName}}
           <small>{{elastName}}</small>
-          {{input class='form-control' placeholder='email' value=email}}
-          <small>{{eemail}}</small>
           {{input id="password"  class='form-control' placeholder='password' type='password' value=password}}
           <small>{{epassword}}</small>
           {{input id="password2" class='form-control' placeholder='password, again' type='password' value=password2}}
