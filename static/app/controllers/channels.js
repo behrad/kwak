@@ -24,13 +24,16 @@ export default Ember.ArrayController.extend({
   actions: {
     pm: function (profile) {
       var email;
+      var is_active;
       if(profile.email) {
         email = profile.email;
+        is_active = profile.is_active;
       } else {
         email = profile.get('email');
+        is_active = profile.get('is_active');
       }
       // URL instead of route, to force the route to reload models
-      if (profile.is_active) {
+      if (is_active) {
         this.transitionToRoute('/channels/pm/' + email);
       } else {
         return false;
