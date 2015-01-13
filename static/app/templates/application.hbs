@@ -2,6 +2,9 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <i class="navbar-toggle glyphicon glyphicon-off" {{action 'invalidateSession'}}></i>
+      {{#if model.is_admin}}
+        {{#link-to 'channels.admin'}}<i class="navbar-toggle glyphicon glyphicon-edit"></i>{{/link-to}}
+      {{/if}}
       <i class="navbar-toggle glyphicon glyphicon-refresh" {{action 'reload'}}></i>
       {{#link-to "channels" classNames="navbar-brand"}}<img src="assets/images/kwak.png">{{/link-to}}
     </div>
@@ -10,7 +13,10 @@
       {{#if session.isAuthenticated}}
         <div class="navbar-form navbar-right">
           <small class="text-muted">{{model.email}}</small>
-          <a {{action 'invalidateSession'}} class="btn btn-default">Logout</a>
+          {{#if model.is_admin}}
+            {{#link-to 'channels.admin' class="btn btn-default navbar-btn"}}<i class="glyphicon glyphicon-edit"></i> Admin{{/link-to}}
+          {{/if}}
+          <a {{action 'invalidateSession'}} class="btn btn-default"><i class="glyphicon glyphicon-off"></i> Logout</a>
         </div>
       {{/if}}
     </div><!-- /.navbar-collapse -->
