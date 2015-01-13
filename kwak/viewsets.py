@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
 import json
 from collections import defaultdict
 from rest_framework import status
@@ -314,6 +315,19 @@ class CreateUserView(APIView):
                 # add user to default channels
                 channel.readers.add(user.profile)
             user.groups.add(user_group) # add user to user group
+            admins = Profile.objects.filter(is_admin=True, teams=team)
+            for admin in admins:
+                send_mail(
+                    'kwak: new user on board',
+                    u'Dear admin of the "{}" team, a new user just signed up and is awaiting validation.\n\n{} {} ({})\n\nLink to your admin panel: http://kwak.io/channels/admin'.format(
+                        team.name,
+                        user.first_name,
+                        user.last_name,
+                        user.email
+                        ),
+                    'noreply@kwak.io',
+                    [admin.user.email],
+                    fail_silently=True)
         except IntegrityError:
             return Response({'error' : 'email already in use'}, status=status.HTTP_409_CONFLICT)
 
