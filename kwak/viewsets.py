@@ -295,17 +295,17 @@ class CreateUserView(APIView):
 
         # try to find user with email
         try:
-            User.objects.get(email=request.data['user[email]'])
+            User.objects.get(email=request.data['user[identification]'])
             return Response({'emailError' : 'email address already in use'}, status=status.HTTP_409_CONFLICT)
         except User.DoesNotExist:
             pass
 
         try:
             user = User.objects.create_user( # create user
-                username=request.data['user[email]'],
+                username=request.data['user[identification]'],
                 first_name=request.data['user[firstName]'],
                 last_name=request.data['user[lastName]'],
-                email=request.data['user[email]'],
+                email=request.data['user[identification]'],
                 password=request.data['user[password]']
             )
             user.profile.teams.add(team) # add user to team
