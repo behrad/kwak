@@ -17,6 +17,7 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
           if (jqxhr.status === 409) {
             var errs = JSON.parse(jqxhr.responseText);
             self.set('eidentification', errs.error);
+            self.set('eemail', errs.emailError);
           }
         });
       }).catch(function () {

@@ -17,8 +17,8 @@ class ProfileSideloadSerializer(SideloadSerializer):
 class TeamSerializer(ModelSerializer):
     class Meta:
         model = Team
-        fields = ('id', 'name')
-        read_only_fields = ('name')
+        fields = ('id', 'name', 'uid')
+        read_only_fields = ('name', 'uid')
 
 
 class MessageSerializer(ModelSerializer):

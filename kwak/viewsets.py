@@ -293,9 +293,11 @@ class CreateUserView(APIView):
             return Response({'error' : 'user group does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
         # try to find user with email
-        User.objects.get(email=request.data['user[email]'])
-        if list(User.objects.filter(email=request.data['user[email]'])):
-            return Response({'error' : 'email address already in use'}, status=status.HTTP_409_CONFLICT)
+        try:
+            User.objects.get(email=request.data['user[email]'])
+            return Response({'emailError' : 'email address already in use'}, status=status.HTTP_409_CONFLICT)
+        except User.DoesNotExist:
+            pass
 
         try:
             user = User.objects.create_user( # create user
