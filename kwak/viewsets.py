@@ -85,6 +85,7 @@ class ChannelViewSet(ModelViewSet):
                 elif is_default is False:
                     channel.is_default = False
             channel.save()
+            channel.subscribed = True
             return Response(ChannelSideloadSerializer(channel).data, status=status.HTTP_200_OK)
 
     def create(self, request):
