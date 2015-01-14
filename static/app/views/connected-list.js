@@ -12,6 +12,11 @@ export default Ember.View.extend({
       $hide.find('span').toggleClass('glyphicon-chevron-left');
       $list.toggle();
       if ($list.is(':visible')) {
+        /* hide other side */
+        $('.channels').animate({'left': '-175px'});
+        $('.center-container').animate({'margin-left': '20px'});
+        $('footer').animate({'left': '34px'});
+
         $this.animate({'right': 0});
         $('.center-container').animate({'margin-right': '200px'});
         $('footer').animate({'right': '200px'});
