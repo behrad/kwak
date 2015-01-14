@@ -10,7 +10,7 @@
           <div class="col-sm-6">
             <h5>Inactive</h5>
               {{#each profile in controller.inactives}}
-              <div class="checkbox"><label><input type="checkbox" {{action 'toggleActive' profile.id profile.is_active}}> {{profile.name}}</label></div>
+              <div class="checkbox"><label><input type="checkbox" {{action 'toggleActive' profile.id profile.is_active}}>{{profile.name}}</label></div>
               {{/each}}
           </div>
           <div class="col-sm-6">

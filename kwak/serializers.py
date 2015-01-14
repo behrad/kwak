@@ -2,23 +2,26 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from ember_drf.serializers import SideloadSerializer
 from message.models import Channel, Topic, Message, Profile, Team, Pm
 
-class ProfileSerializer(ModelSerializer):
-
-    class Meta:
-        model = Profile
-        fields = ('id', 'name', 'email', 'is_admin', 'is_active', 'cursor')
-
-class ProfileSideloadSerializer(SideloadSerializer):
-    class Meta:
-        base_serializer = ProfileSerializer
-        sideloads = []
-
 
 class TeamSerializer(ModelSerializer):
     class Meta:
         model = Team
         fields = ('id', 'name', 'uid')
         read_only_fields = ('name', 'uid')
+
+
+class ProfileSerializer(ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'name', 'email', 'is_admin', 'is_active', 'teams', 'cursor')
+
+class ProfileSideloadSerializer(SideloadSerializer):
+    class Meta:
+        base_serializer = ProfileSerializer
+        sideloads = [
+            (Team, TeamSerializer)
+        ]
 
 
 class MessageSerializer(ModelSerializer):

@@ -24,11 +24,11 @@ export default Ember.Controller.extend({
     var self = this;
     return this.get('profiles').filter(function (profile) {
       return profile.get('name') && profile.get('is_active') && profile.get('id') !== self.get('currentUser.model.id');
-    });
+    }).sortBy('name');
   }.property('profiles.@each.is_active'),
 
   inactives: function () {
-    return this.get('profiles').filterBy('is_active', false);
+    return this.get('profiles').filterBy('is_active', false).sortBy('name');
   }.property('profiles.@each.is_active'),
 
   actions: {
