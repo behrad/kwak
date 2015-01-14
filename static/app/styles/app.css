@@ -20,6 +20,29 @@ footer {
   padding-right: 14px;
 }
 
+#channel-select {
+  line-height: normal;
+  height: 34px;
+  font-size: 14px;
+  padding: 6px 12px;
+}
+
+#addon-chevron-right {
+  line-height: normal !important;
+  height: 34px !important;
+  padding: 0 10px !important;
+}
+
+#topic {
+  line-height: normal;
+  height: 34px;
+  font-size: 14px;
+}
+
+#message-box {
+  font-size: 14px;
+}
+
 blockquote {
   font-size: 14px;
 }

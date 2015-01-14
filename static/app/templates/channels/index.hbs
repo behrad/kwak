@@ -35,7 +35,7 @@
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
         {{view "select" id="channel-select" content=controllers.channels.subscribed class="form-control" value=channel optionValuePath="content.id" optionLabelPath="content.name"}}
-        <span class="input-group-addon glyphicon glyphicon-chevron-right"></span>
+        <span class="input-group-addon glyphicon glyphicon-chevron-right" id="addon-chevron-right"></span>
         {{input type="text" id="topic" value=topicTitle placeholder="topic" class="form-control"}}
       </div>
       <div class="form-group">
