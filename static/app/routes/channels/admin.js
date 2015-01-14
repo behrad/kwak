@@ -5,13 +5,11 @@ export default Ember.Route.extend({
     return Ember.RSVP.hash({
       channels: this.store.find('channel'),
       profile: this.store.find('profile', 'current'),
-      profiles: this.store.find('profile')
     });
   },
 
   setupController: function (controller, model) {
     this._super(controller);
-    controller.set('profiles', model.profiles);
     controller.set('channels', model.channels);
   },
 

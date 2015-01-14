@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  needs: ['profile', 'channels/channel/mark-as-read'],
+  needs: ['profile', 'channels/channel/mark-as-read', 'profiles'],
   currentUser: Ember.computed.alias('controllers.profile'),
 
   init: function () {
@@ -19,6 +19,10 @@ export default Ember.Controller.extend({
   hasMultipleTeams: function() {
     return this.get('teams.length') > 1;
   }.property('teams.length'),
+
+  profiles: function () {
+    return this.get('controllers.profiles');
+  }.property().volatile(),
 
   actives: function () {
     var self = this;

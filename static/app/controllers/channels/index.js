@@ -15,7 +15,6 @@ export default Ember.ArrayController.extend({
     Ember.run.scheduleOnce('afterRender', this, scroll);
   }.observes('model.[]').on('init'),
 
-
   subscribed: function () {
     return this.get('arrangedContent').filterBy('topic.channel.subscribed', true);
   }.property('model.@each.topic.channel.subscribed'),
@@ -124,6 +123,7 @@ export default Ember.ArrayController.extend({
         }
       }, 1000);
     },
+
     message: function (data) {
       var now = new Date();
       window.localStorage['timestamp'] = now.getTime();
