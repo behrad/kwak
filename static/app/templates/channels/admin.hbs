@@ -1,20 +1,40 @@
 <div class="row">
-  <div class="col-sm-6 col-md-3">
-    <h5>Inactive users</h5>
-      {{#each profile in controller.inactives}}
-      <div class="checkbox"><label><input type="checkbox" {{action 'toggleActive' profile.id profile.is_active}}> {{profile.name}}</label></div>
-      {{/each}}
-  </div>
-  <div class="col-sm-6 col-md-3">
-    <h5>Active users</h5>
-      {{#each profile in controller.actives}}
-      <div class="checkbox"><label><input type="checkbox" checked="checked" {{action 'toggleActive' profile.id  profile.is_active}}> {{profile.name}}</label></div>
-      {{/each}}
-  </div>
   <div class="col-sm-12 col-md-6">
-    <h5>Default channels</h5>
-      {{#each channel in channels}}
-      <div class="checkbox"><label><input type="checkbox" {{bind-attr checked=channel.is_default}} {{action 'toggleDefault' channel.id channel.is_default}}>{{#if hasMultipleTeams}} {{channel.team.name}} -{{/if}} {{channel.name}}</label></div>
-      {{/each}}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">User Management</h3>
+        <small>Inactive users are not able to log in</small>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <h5>Inactive</h5>
+              {{#each profile in controller.inactives}}
+              <div class="checkbox"><label><input type="checkbox" {{action 'toggleActive' profile.id profile.is_active}}> {{profile.name}}</label></div>
+              {{/each}}
+          </div>
+          <div class="col-sm-6">
+            <h5>Active</h5>
+              {{#each profile in controller.actives}}
+              <div class="checkbox"><label><input type="checkbox" checked="checked" {{action 'toggleActive' profile.id  profile.is_active}}> {{profile.name}}</label></div>
+              {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Default channels</h3>
+        <small>New users will be automatically subscribed to the following channels</small>
+      </div>
+      <div class="panel-body">
+        {{#each channel in channels}}
+        <div class="checkbox"><label><input type="checkbox" {{bind-attr checked=channel.is_default}} {{action 'toggleDefault' channel.id channel.is_default}}>{{#if hasMultipleTeams}} {{channel.team.name}} -{{/if}} {{channel.name}}</label></div>
+        {{/each}}
+      </div>
+    </div>
   </div>
 </div>
