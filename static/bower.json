@@ -22,7 +22,6 @@
   "resolutions": {
     "handlebars": "~2.0.0",
     "jquery": "^1.11.1",
-    "ember": "~1.9.0",
-    "socket.io-client": "1.2.1"
+    "ember": "~1.9.0"
   }
 }
