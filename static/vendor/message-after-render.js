@@ -4,7 +4,6 @@ function messageAfterRender () {
     showOnBottom: false,
   });
 
-  console.log('lala');
   window.prettyPrint();
 
   $('.message').each(function() {
