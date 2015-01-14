@@ -82,7 +82,7 @@ ul.nav.nav-pills.nav-stacked li a i {
   width: 200px;
 
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
   z-index: 1050;
 
   padding: 5px;
@@ -92,7 +92,6 @@ ul.nav.nav-pills.nav-stacked li a i {
 .connected {
   width: 200px;
   margin-top: 51px;
-  padding: 10px 5px;
 
   border-left: 1px solid #e7e7e7;
   background-color: #f8f8f8;

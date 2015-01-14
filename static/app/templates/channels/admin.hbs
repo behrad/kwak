@@ -7,6 +7,17 @@
       </div>
       <div class="panel-body">
         <div class="row">
+          <div class="col-sm-12">
+            {{#if hasMultipleTeams}}
+              {{#each team in teams}}
+                <p>
+                  For team "{{team.name}}", user sign-up form is available at : {{#link-to 'sign-up' team.uid}}/sign-up/{{team.uid}}{{/link-to}}
+                </p>
+              {{/each}}
+            {{/if}}
+          </div>
+        </div>
+        <div class="row">
           <div class="col-sm-6">
             <h5>Inactive</h5>
               {{#each profile in controller.inactives}}
