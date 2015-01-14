@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import SetupView from '../../mixins/setup-view';
 import BindScroll from '../../mixins/bind-scroll';
 
 var $ = Ember.$;
 
-export default Ember.View.extend(SetupView, BindScroll, {
+export default Ember.View.extend(BindScroll, {
   rerender: function () {
     this._super();
     this.messageSeen();

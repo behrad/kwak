@@ -20,9 +20,9 @@ export default Ember.ObjectController.extend({
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
                 Ember.run.scheduleOnce('afterRender', self, scroll);
-                window.prettyPrint();
                 mixpanel.track("edit message", "append");
                 message.set('seen', true);
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               });
             } else {
               // create new message in existing topic
@@ -32,9 +32,9 @@ export default Ember.ObjectController.extend({
               }).save().then(function (message) {
                 message.set('seen', true);
                 Ember.run.scheduleOnce('afterRender', self, scroll);
-                window.prettyPrint();
                 mixpanel.track("new message");
                 self.get('controllers.channels/channel.messages').pushObject(message);
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               });
             }
           });
@@ -53,9 +53,9 @@ export default Ember.ObjectController.extend({
               message.set('seen', true);
               message.get('topic').then(function (topic) {
                 Ember.run.scheduleOnce('afterRender', self, scroll);
-                window.prettyPrint();
                 mixpanel.track("new message");
                 self.get('controllers.channels/channel.messages').pushObject(message);
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
                 self.transitionToRoute('channels.channel.topic', topic);
               });
             });

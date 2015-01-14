@@ -46,7 +46,7 @@ export default Ember.ArrayController.extend({
                 mixpanel.track("edit message", "append");
                 message.set('seen', true);
                 Ember.run.scheduleOnce('afterRender', self, scroll);
-                window.prettyPrint();
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               });
             } else {
               // create new message in existing topic
@@ -58,7 +58,7 @@ export default Ember.ArrayController.extend({
                 message.set('seen', true);
                 self.set('topicCreated', topic.get('id'));
                 Ember.run.scheduleOnce('afterRender', self, scroll);
-                window.prettyPrint();
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               });
             }
           });
@@ -79,7 +79,7 @@ export default Ember.ArrayController.extend({
                 mixpanel.track("new message");
                 message.set('seen', true);
                 Ember.run.scheduleOnce('afterRender', self, scroll);
-                window.prettyPrint();
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               });
             });
           });
@@ -149,6 +149,7 @@ export default Ember.ArrayController.extend({
               var channelIndex = self.get('controllers.channels/channel/index.messages');
               if (channelIndex) {
                 channelIndex.pushObject(message);
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               }
 
               var controller = self.get('controllers.channels/channel/mark-as-read');

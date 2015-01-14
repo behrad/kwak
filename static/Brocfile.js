@@ -16,6 +16,7 @@ app.import('vendor/markdown/prettify/prettify.js');
 app.import('vendor/jquery.visible.js');
 app.import('vendor/jquery.bootstrap-autohidingnavbar.min.js');
 app.import('vendor/scroll.js');
+app.import('vendor/message-after-render.js');
 app.import('bower_components/socket.io-client/socket.io.js');
 app.import('bower_components/ember-sockets/dist/ember-sockets.js');
 

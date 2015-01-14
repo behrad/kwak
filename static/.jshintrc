@@ -5,6 +5,8 @@
     "-Promise",
     "moment",
     "EmberSockets",
+    "scroll",
+    "messageAfterRender",
     "mixpanel"
   ],
   "browser": true,

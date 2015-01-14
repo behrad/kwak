@@ -9,9 +9,6 @@ export default DS.Model.extend({
   contentHtml: function () {
     var converter = new window.Showdown.converter({ extensions: ['github'] });
     // re colorize whenever we recompute the value
-    Ember.run.scheduleOnce('afterRender', this, function () {
-      window.prettyPrint();
-    });
     return converter.makeHtml(this.get('content'));
   }.property('content'),
   seen: DS.attr('boolean', {defaultValue: false}),
