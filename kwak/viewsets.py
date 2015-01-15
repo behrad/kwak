@@ -350,6 +350,19 @@ class CreateUserView(APIView):
         return Response(status=status.HTTP_201_CREATED)
 
 
+class FeedbackView(APIView):
+    model = User
+
+    def post(self, request):
+        send_mail(
+            'kwak: feedback',
+            request.data['feedback'],
+            self.request.user.profile.email,
+            ['feedback@kwak.io'],
+            fail_silently=True)
+        return Response(status=status.HTTP_201_CREATED)
+
+
 class TeamView(RetrieveAPIView):
     model = Team
     serializer_class = TeamSerializer

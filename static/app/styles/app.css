@@ -35,14 +35,15 @@ footer {
 }
 
 #topic {
-  line-height: normal;
   height: 34px;
   font-size: 14px;
+  line-height: normal;
 }
 
 #pm-penpal {
   height: 34px;
   font-size: 14px;
+  line-height: normal;
 }
 
 #message-box {
@@ -379,4 +380,9 @@ i._20 { color: #000000; }
     left: 34px;
     right: 34px;
   }
+}
+
+.feedback {
+  bottom: auto;
+  top: 57px;
 }

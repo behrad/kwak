@@ -25,6 +25,8 @@ Router.map(function () {
 
 
   this.route('channels', function () {
+    this.route('feedback');
+
     this.route('help');
 
     this.route('admin');
@@ -36,6 +38,7 @@ Router.map(function () {
     });
 
     this.route('pm', {path: '/pm/:email'});
+    this.route("feedback");
   });
 
   this.route("landing");

@@ -4,7 +4,7 @@ from rest_framework import routers
 from kwak.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet
 from kwak.viewsets import MessageViewSet, PmViewSet
 from kwak.viewsets import CurrentProfile, LastMessage, MarkMessageRead
-from kwak.viewsets import CreateUserView, TeamView, PmUnreadView
+from kwak.viewsets import CreateUserView, FeedbackView, TeamView, PmUnreadView
 
 
 router = routers.DefaultRouter()
@@ -16,6 +16,7 @@ router.register(r'pms', PmViewSet)
 
 
 urlpatterns = patterns('',
+    url(r'^api/feedback', FeedbackView.as_view()),
     url(r'^api/users', CreateUserView.as_view()),
     url(r'^api/teams', TeamView.as_view()),
     url(r'^api/pms/unread', PmUnreadView.as_view()),
