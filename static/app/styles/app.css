@@ -31,10 +31,16 @@ footer {
   line-height: normal !important;
   height: 34px !important;
   padding: 0 10px !important;
+  font-size: 14px;
 }
 
 #topic {
   line-height: normal;
+  height: 34px;
+  font-size: 14px;
+}
+
+#pm-penpal {
   height: 34px;
   font-size: 14px;
 }
