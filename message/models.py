@@ -195,7 +195,7 @@ def broadcast_pm(sender, instance, **kw):
 post_save.connect(broadcast_pm, sender=Pm)
 
 
-def user_inactive_by_default(sender, instance, **kw):
-    if instance.pk is None and not instance.is_superuser:
-        instance.is_active = False
-pre_save.connect(user_inactive_by_default, sender=User)
+# def user_inactive_by_default(sender, instance, **kw):
+#     if instance.pk is None and not instance.is_superuser:
+#         instance.is_active = False
+# pre_save.connect(user_inactive_by_default, sender=User)

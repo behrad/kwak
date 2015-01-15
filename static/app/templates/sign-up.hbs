@@ -8,17 +8,23 @@
     <div class="login-container">
       <img src="assets/images/kwak.png" class="logo">
       <div class="form-box">
-        {{model.name}}
         <form method="post" {{action 'signUp' on='submit'}}>
+          {{#if wantsNewTeam}}
+            {{input class='form-control' placeholder='team name' value=team}}
+          {{#if eteam}}<small>↳{{eteam}}</small>{{/if}}
+          {{else}}
+            {{input class='form-control' readonly='readonly' value=team}}
+            {{#if eteam}}<small>↳{{eteam}}</small>{{/if}}
+          {{/if}}
           {{input class='form-control' placeholder='email' value=identification}}
-          <small>{{eidentification}}</small>
-          <small>{{eemail}}</small>
+          {{#if eidentification}}<small>↳{{eidentification}}</small>{{/if}}
+          {{#if eemail}}<small>↳{{eemail}}</small>{{/if}}
           {{input class='form-control' placeholder='first name' value=firstName}}
-          <small>{{efirstName}}</small>
+          {{#if efirstName}}<small>↳{{efirstName}}</small>{{/if}}
           {{input class='form-control' placeholder='last name' value=lastName}}
-          <small>{{elastName}}</small>
+          {{#if elastName}}<small>↳{{elastName}}</small>{{/if}}
           {{input id="password"  class='form-control' placeholder='password' type='password' value=password}}
-          <small>{{epassword}}</small>
+          {{#if epassword}}<small>↳{{epassword}}</small>{{/if}}
           {{input id="password2" class='form-control' placeholder='password, again' type='password' value=password2}}
           <button class="btn btn-info btn-block login" type="submit">Sign-Up</button>
         </form>

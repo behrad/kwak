@@ -2,15 +2,28 @@ import Ember from 'ember';
 import EmberValidations from 'ember-validations';
 
 export default Ember.Controller.extend(EmberValidations.Mixin, {
+  wantsNewTeam: function () {
+    var wantsNewTeam = (this.get('model') === null);
+    if (!wantsNewTeam) {
+      this.set('team', this.get('model.name'));
+    }
+    return wantsNewTeam;
+  }.property(),
+
   actions: {
     signUp: function () {
       var self = this;
 
       var uid = self.get('model.uid');
 
-      this.validate().then(function() {
-        var data = self.getProperties('identification', 'firstName', 'lastName', 'password');
-        data['uid'] = uid;
+      self.validate().then(function() {
+        var data;
+        if (self.get('wantsNewTeam')) {
+          data = self.getProperties('team', 'identification', 'firstName', 'lastName', 'password');
+        } else {
+          data = self.getProperties('identification', 'firstName', 'lastName', 'password');
+          data['uid'] = uid;
+        }
         Ember.$.post('api/users/', { user: data }, function() {
           self.transitionToRoute('login');
         }).fail(function (jqxhr) {
@@ -37,6 +50,10 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
     }
   },
   validations: {
+    team: {
+      presence: true,
+      length: { minimum: 3, messages: { tooShort: 'should be more than 2 characters' } }
+    },
     identification: {
       presence: true,
       length: { minimum: 3, messages: { tooShort: 'should be more than 2 characters' } },

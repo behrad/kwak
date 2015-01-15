@@ -19,6 +19,7 @@ Ember.Router.reopen({
 Router.map(function () {
 
   this.route('login');
+  this.route('sign-up');
   this.route('sign-up', {path: '/sign-up/:uid'});
 
 

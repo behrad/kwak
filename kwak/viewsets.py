@@ -284,10 +284,17 @@ class CreateUserView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
-        try:
-            team = Team.objects.get(uid=request.data['user[uid]'])
-        except Team.DoesNotExist:
-            return Response({'error' : 'team does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        if 'user[uid]' in request.data:
+            is_admin = False
+            try:
+                team = Team.objects.get(uid=request.data['user[uid]'])
+            except Team.DoesNotExist:
+                return Response({'error' : 'team does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        elif 'user[team]' in request.data:
+            is_admin = True
+            team = Team.objects.create(name=request.data['user[team]'])
+        else:
+            return Response({'error' : 'either join a team or create one'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user_group = Group.objects.get(name='user')
@@ -307,27 +314,33 @@ class CreateUserView(APIView):
                 first_name=request.data['user[firstName]'],
                 last_name=request.data['user[lastName]'],
                 email=request.data['user[identification]'],
-                password=request.data['user[password]']
+                password=request.data['user[password]'],
             )
+            user.is_active = is_admin
+            user.save()
+            user.profile.is_admin = is_admin
+            user.profile.save()
+
             user.profile.teams.add(team) # add user to team
             channels = Channel.objects.filter(team=team, is_default=True)
             for channel in channels:
                 # add user to default channels
                 channel.readers.add(user.profile)
             user.groups.add(user_group) # add user to user group
-            admins = Profile.objects.filter(is_admin=True, teams=team)
-            for admin in admins:
-                send_mail(
-                    'kwak: new user on board',
-                    u'Dear admin of the "{}" team, a new user just signed up and is awaiting validation.\n\nYour new user is:\n{} {} ({})\n\nLink to your admin panel: http://kwak.io/channels/admin'.format(
-                        team.name,
-                        user.first_name,
-                        user.last_name,
-                        user.email
-                        ),
-                    'noreply@kwak.io',
-                    [admin.user.email],
-                    fail_silently=True)
+            if not is_admin:
+                admins = Profile.objects.filter(is_admin=True, teams=team)
+                for admin in admins:
+                    send_mail(
+                        'kwak: new user on board',
+                        u'Dear admin of the "{}" team, a new user just signed up and is awaiting validation.\n\nYour new user is:\n{} {} ({})\n\nLink to your admin panel: http://kwak.io/channels/admin'.format(
+                            team.name,
+                            user.first_name,
+                            user.last_name,
+                            user.email
+                            ),
+                        'noreply@kwak.io',
+                        [admin.user.email],
+                        fail_silently=True)
         except IntegrityError:
             return Response({'error' : 'email already in use'}, status=status.HTTP_409_CONFLICT)
 
