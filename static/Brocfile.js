@@ -33,7 +33,10 @@ app.import('vendor/bootstrap-suggest/css/bootstrap-suggest.css');
 app.import('vendor/markdown/prettify/prettify.css');
 
 // Other assets
-app.import('vendor/assets/images/kwak.png');
+app.import('vendor/assets/images/kwak.png'); // logo
+// landing page
+app.import('vendor/assets/images/topics.jpg');
+app.import('vendor/assets/images/channels.jpg');
 
 // Use `app.import` to add additional libraries to the generated
 // output files.

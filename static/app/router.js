@@ -17,6 +17,7 @@ Ember.Router.reopen({
 
 
 Router.map(function () {
+  this.route('landing');
 
   this.route('login');
   this.route('sign-up');
@@ -37,6 +38,7 @@ Router.map(function () {
     this.route('pm', {path: '/pm/:email'});
   });
 
+  this.route("landing");
 });
 
 export default Router;

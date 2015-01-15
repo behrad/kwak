@@ -91,12 +91,15 @@ class ChannelViewSet(ModelViewSet):
             return Response(ChannelSideloadSerializer(channel).data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        request.data['channel']['topics'] = []
+        request.data['channel']['topics'] = [] # required by the serializer
         my_teams = request.user.profile.teams.all().values('id')
         my_teams_ids = [x['id'] for x in my_teams]
 
+        if not request.data['channel']['team']:
+            request.data['channel']['team'] = str(my_teams_ids[0])
+
         if not request.data['channel'].get('team_id', False):
-            if int(request.data['channel']['team']) not in my_teams_ids:
+            if request.data['channel']['team'] is None or int(request.data['channel']['team']) not in my_teams_ids:
                 return Response({
                     'status': 'Bad request',
                     'message': 'Channel could not be created with received data.'
