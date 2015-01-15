@@ -35,8 +35,9 @@ app.import('vendor/markdown/prettify/prettify.css');
 // Other assets
 app.import('vendor/assets/images/kwak.png'); // logo
 // landing page
-app.import('vendor/assets/images/topics.jpg');
-app.import('vendor/assets/images/channels.jpg');
+app.import('vendor/assets/images/1.png');
+app.import('vendor/assets/images/2.png');
+app.import('vendor/assets/images/3.png');
 
 // Use `app.import` to add additional libraries to the generated
 // output files.

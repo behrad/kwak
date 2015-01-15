@@ -2,6 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   beforeModel: function() {
-    this.transitionTo('landing');
+    var session = this.get('session');
+    if (session.isAuthenticated) {
+      this.transitionTo('channels');
+    } else {
+      this.transitionTo('landing');
+    }
   }
 });

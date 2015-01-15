@@ -12,6 +12,10 @@ body {
   letter-spacing: 3px;
 }
 
+.logo {
+  font-size: 1.22em;
+}
+
 .a {
   font-size: 22em;
   line-height: 0.5em;
@@ -20,6 +24,14 @@ body {
 .sign-up {
   margin-top: 50px;
 }
+
+.btn-example {
+  color: #fff;
+  margin-top: 25px;
+  background-color: #18bc9c;
+  border-color: #18bc9c;
+}
+
 
 h2,
 h3,
@@ -80,11 +92,6 @@ header .container {
   padding-bottom: 50px;
 }
 
-header img {
-  display: block;
-  margin: 0 auto 20px;
-}
-
 header .intro-text .name {
   display: block;
   text-transform: uppercase;
@@ -96,6 +103,10 @@ header .intro-text .name {
 header .intro-text .motto {
   font-size: 1.25em;
   font-weight: 300;
+}
+
+img {
+  display: none;
 }
 
 @media(min-width:768px) {
@@ -111,6 +122,10 @@ header .intro-text .motto {
 
   header .intro-text .motto {
     font-size: 1.75em;
+  }
+
+  img {
+    display: block;
   }
 }
 
@@ -130,6 +145,10 @@ section h2 {
 section.success {
   color: #fff;
   background: #18bc9c;
+}
+
+.col-sm-4 {
+  background-color: white;
 }
 
 @media(max-width:767px) {

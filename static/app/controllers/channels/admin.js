@@ -12,6 +12,10 @@ export default Ember.Controller.extend({
     }
   },
 
+  team: function () {
+    return this.store.all('team').objectAt(0);
+  }.property(),
+
   teams: function () {
     return this.store.all('team');
   }.property(),
