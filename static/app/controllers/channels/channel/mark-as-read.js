@@ -46,7 +46,11 @@ export default Ember.ObjectController.extend({
           $('.unread-counter[data-channel-id='+el.id+']').removeClass('label-warning');
         }
         totalMsgs = totalMsgs + count;
-        el.set('unread', count);
+        if (count) {
+          el.set('unread', count);
+        } else {
+          el.set('unread', '');
+        }
       });
 
       /* users part (PM) */
@@ -65,7 +69,11 @@ export default Ember.ObjectController.extend({
           if (count === 0) {
             $('.unread-pm-counter[data-profile-id='+el.id+']').removeClass('label-warning');
           }
-          el.set('unreadPm', count);
+          if (count) {
+            el.set('unreadPm', count);
+          } else {
+            el.set('unreadPm', '');
+          }
           totalPm = totalPm + count;
 
           if (totalMsgs === totalPm && totalPm === 0) {
