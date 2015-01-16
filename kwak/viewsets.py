@@ -361,7 +361,7 @@ class CreateUserView(APIView):
 
 
 class FeedbackView(APIView):
-    model = User
+    model = Message
 
     def post(self, request):
         send_mail(
