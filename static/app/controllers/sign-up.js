@@ -25,6 +25,12 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
           data['uid'] = uid;
         }
         Ember.$.post('api/users/', { user: data }, function() {
+          if (data['team']) {
+            mixpanel.track("team created", data['team']);
+            mixpanel.track("account created", data['team']);
+          } else {
+            mixpanel.track("account created", data['uid']);
+          }
           self.transitionToRoute('login');
         }).fail(function (jqxhr) {
           if (jqxhr.status === 409) {
