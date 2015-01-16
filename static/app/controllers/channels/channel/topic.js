@@ -7,7 +7,7 @@ export default Ember.ObjectController.extend({
 
   _scroll: function () {
     Ember.run.scheduleOnce('afterRender', this, scroll);
-  }.observes('model.[]').on('init'),
+  }.observes('model.[]'),
 
   actions: {
     createMessage: function () {

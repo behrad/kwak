@@ -8,10 +8,12 @@ var Router = Ember.Router.extend({
 Ember.Router.reopen({
   didTransition: function(paths){
     this._super(paths);
-    Ember.run.next(function(){
+    Ember.run.next(function () {
       var path = window.location.href;
       mixpanel.track("pageview", {"url": path });
     });
+    Ember.run.scheduleOnce('afterRender', this, scroll);
+    Ember.run.scheduleOnce('afterRender', this, messageAfterRender);
   }
 });
 

@@ -7,11 +7,11 @@ export default Ember.ObjectController.extend({
 
   _init: function () {
     Ember.run.scheduleOnce('afterRender', this, messageAfterRender);
-  }.observes('model.[]').on('init'),
+  }.observes('model.[]'),
 
   _scroll: function () {
     Ember.run.scheduleOnce('afterRender', this, scroll);
-  }.observes('model.[]').on('init'),
+  }.observes('model.[]'),
 
   actions: {
     createMessage: function () {

@@ -13,7 +13,7 @@ export default Ember.ArrayController.extend({
 
   _scroll: function () {
     Ember.run.scheduleOnce('afterRender', this, scroll);
-  }.observes('model.[]').on('init'),
+  }.observes('model.[]'),
 
   subscribed: function () {
     return this.get('arrangedContent').filterBy('topic.channel.subscribed', true);
