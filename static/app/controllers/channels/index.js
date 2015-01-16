@@ -149,17 +149,18 @@ export default Ember.ArrayController.extend({
               var channelIndex = self.get('controllers.channels/channel/index.messages');
               if (channelIndex) {
                 channelIndex.pushObject(message);
-                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               }
 
               var controller = self.get('controllers.channels/channel/mark-as-read');
               if (controller) {
+                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
                 controller.send('recountUnread');
               }
 
             });
           });
         }
+        Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
         self.send('recountUnread');
       }, 2000);
     },
