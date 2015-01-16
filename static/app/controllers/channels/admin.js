@@ -17,12 +17,12 @@ export default Ember.Controller.extend({
   }.property(),
 
   teams: function () {
-    return this.store.all('team');
+    return this.get('currentUser.content.teams.content');
   }.property(),
 
   hasMultipleTeams: function() {
-    return this.get('teams.length') > 1;
-  }.property('teams.length'),
+    return this.get('currentUser.content.teams.content.length') > 1;
+  }.property().volatile(),
 
   profiles: function () {
     return this.get('controllers.profiles');

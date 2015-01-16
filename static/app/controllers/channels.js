@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
+  needs: ['profile'],
+  currentUser: Ember.computed.alias('controllers.profile'),
+
   sortProperties: ['name'],
   sortAscending: true,
 
@@ -18,8 +21,8 @@ export default Ember.ArrayController.extend({
   }.property(),
 
   hasMultipleTeams: function() {
-    return this.get('teams.length') > 1;
-  }.property('teams.length'),
+    return this.get('currentUser.content.teams.content.length') > 1;
+  }.property().volatile(),
 
   actions: {
     pm: function (profile) {

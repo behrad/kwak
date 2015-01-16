@@ -3,7 +3,8 @@ import Ember from 'ember';
 var $ = Ember.$;
 
 export default Ember.ObjectController.extend({
-  needs: ['channels/channel/mark-as-read'],
+  needs: ['profile', 'channels/channel/mark-as-read'],
+  currentUser: Ember.computed.alias('controllers.profile'),
 
   actions: {
     createChannel: function () {
@@ -94,6 +95,6 @@ export default Ember.ObjectController.extend({
     if (controller) {
       controller.send('recountUnread');
     }
-    return this.get('teams.length') > 1;
-  }.property('teams.length')
+    return this.get('currentUser.content.teams.content.length') > 1;
+  }.property().volatile(),
 });
