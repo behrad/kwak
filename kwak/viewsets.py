@@ -36,7 +36,17 @@ class ProfileViewSet(ModelViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         profile = Profile.objects.get(pk=pk, teams__in=self.request.user.profile.teams.all())
-        profile.user.is_active = self.request.data['profile']['is_active']
+        is_active = self.request.data['profile']['is_active']
+        teams = profile.teams.all()
+
+        if not is_active and len(teams) > 1: # cannot be handled programmatically
+            return Response({'error': 'User has multiple teams. Cannot deactivate user from all their teams.'}, status=status.HTTP_409_CONFLICT)
+
+        team = teams[0]
+        if is_active and not team.is_paying and len(team.members.filter(user__is_active=True)) >= 5:
+            return Response({'error': 'You have reached your active members limit. Please switch your team to a paying account to keep using kwak.io with more than 5 active users.'}, status=status.HTTP_403_FORBIDDEN)
+
+        profile.user.is_active = is_active
         profile.user.save()
 
         return Response(self.request.data, status=status.HTTP_204_NO_CONTENT)

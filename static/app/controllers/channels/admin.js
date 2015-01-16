@@ -41,9 +41,13 @@ export default Ember.Controller.extend({
 
   actions: {
     toggleActive: function (id, is_active) {
-      this.store.find('profile', id).then(function (profile) {
+      var self = this;
+      self.store.find('profile', id).then(function (profile) {
         profile.set('is_active', !is_active);
-        profile.save();
+        profile.save().then(function (/*savedProfile*/) {}, function (error) {
+          profile.set('is_active', is_active);
+          self.set('userError', error.responseJSON.error);
+        });
       });
     },
     toggleDefault: function (id, is_default) {

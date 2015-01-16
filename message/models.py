@@ -36,6 +36,7 @@ class Team(models.Model):
     members = models.ManyToManyField(Profile, null=True, blank=True, related_name='teams')
     name = models.CharField('name', max_length=120)
     uid = models.CharField(max_length=100, unique=True, default=uuid4)
+    is_paying = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name

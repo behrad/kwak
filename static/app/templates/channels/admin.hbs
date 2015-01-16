@@ -15,10 +15,11 @@
                 </p>
               {{/each}}
             {{else}}
-                <p>
-                  User sign-up form for your team is available at : {{#link-to 'sign-up' team.uid}}/sign-up/{{team.uid}}{{/link-to}}
-                </p>
+              <p>
+                User sign-up form for your team is available at : {{#link-to 'sign-up' team.uid}}/sign-up/{{team.uid}}{{/link-to}}
+              </p>
             {{/if}}
+            <p><strong>{{userError}}</strong></p>
           </div>
         </div>
         <div class="row">
