@@ -39,7 +39,7 @@ export default Ember.ObjectController.extend({
   },
 
   teams: function () {
-    return this.store.all('team');
+    return this.get('currentUser.content.teams.content');
   }.property(),
 
   subscribed: function (key, value) {

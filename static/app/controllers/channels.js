@@ -17,7 +17,7 @@ export default Ember.ArrayController.extend({
   },
 
   teams: function () {
-    return this.store.all('team');
+    return this.get('currentUser.content.teams.content');
   }.property(),
 
   hasMultipleTeams: function() {
