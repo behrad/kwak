@@ -35,7 +35,6 @@ app.import('vendor/markdown/prettify/prettify.css');
 // Other assets
 app.import('vendor/assets/images/kwak.png'); // logo
 // landing page
-app.import('app/styles/landing.css');
 app.import('vendor/assets/images/1.png');
 app.import('vendor/assets/images/2.png');
 app.import('vendor/assets/images/3.png');
