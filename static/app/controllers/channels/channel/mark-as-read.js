@@ -69,7 +69,7 @@ export default Ember.ObjectController.extend({
           totalPm = totalPm + count;
 
           if (totalMsgs === totalPm && totalPm === 0) {
-            document.title = "(0) kwak";
+            document.title = "kwak";
           } else {
             document.title = "("+totalMsgs+"+"+totalPm+") kwak";
           }
