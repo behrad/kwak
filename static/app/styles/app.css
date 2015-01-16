@@ -7,6 +7,10 @@ a {
   cursor: pointer;
 }
 
+textarea.vert {
+  resize:vertical;
+}
+
 h5 {
   font-weight: bold;
 }

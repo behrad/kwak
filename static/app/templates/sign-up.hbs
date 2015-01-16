@@ -2,6 +2,11 @@
 <div class="container">
   <div class="login-container">
     <img src="assets/images/kwak.png" class="logo">
+    {{#if success}}
+    <h2>Success!</h2>
+    <p>Please wait while we redirect you to the login form.</p>
+    <p><a href="/login" class="btn btn-default">I don't want to wait</a></p>
+    {{else}}
     <div class="form-box">
       <form method="post" {{action 'signUp' on='submit'}}>
         {{#if wantsNewTeam}}
@@ -24,5 +29,6 @@
         <button class="btn btn-info btn-block login" type="submit">Sign-Up</button>
       </form>
     </div>
+    {{/if}}
   </div>
 </div>

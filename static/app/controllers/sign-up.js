@@ -31,7 +31,10 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
           } else {
             mixpanel.track("account created");
           }
-          self.transitionToRoute('login');
+          self.set('success', true);
+          setTimeout(function () {
+            self.transitionToRoute('login');
+          }, 15000);
         }).fail(function (jqxhr) {
           if (jqxhr.status === 409) {
             var errs = JSON.parse(jqxhr.responseText);
