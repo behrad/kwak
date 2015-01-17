@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Your Profile</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Display Name {{input value=model.profile.name class="form-control"}}</p>
+            <p>Email {{input value=model.profile.email class="form-control"}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Your Notifications</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-12 checkbox">
+            <p>Send me an email when:</p>
+            <div>
+              <label>{{input type="checkbox" checked=model.profile.on_mention}} someone mentions me</label>
+            </div>
+            <div>
+              <label>{{input type="checkbox" checked=model.profile.on_PM}} someone sends me a PM</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

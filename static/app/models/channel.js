@@ -8,6 +8,6 @@ export default DS.Model.extend({
   subscribed: DS.attr('boolean'),
   is_default: DS.attr('boolean', {defaultValue: false}),
   unread: function () {
-    return '∞';
+    return '';
   }.property()
 });

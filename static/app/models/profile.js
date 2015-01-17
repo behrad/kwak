@@ -8,6 +8,6 @@ export default DS.Model.extend({
   is_admin: DS.attr('boolean'),
   is_active: DS.attr('boolean', {defaultValue: true}),
   unreadPm: function () {
-    return '∞';
+    return '';
   }.property()
 });

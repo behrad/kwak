@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse">
       {{#if session.isAuthenticated}}
         <div class="navbar-form navbar-right">
-          <small class="text-muted">{{model.email}}</small>
+          {{#link-to 'channels.profile'}}<small class="text-muted">{{model.email}}</small>{{/link-to}}
           {{#if model.is_admin}}
             {{#link-to 'channels.admin' class="btn btn-default"}}<i class="glyphicon glyphicon-edit"></i> Admin{{/link-to}}
           {{/if}}
