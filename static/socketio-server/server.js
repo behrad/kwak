@@ -1,10 +1,20 @@
 var express = require('express');
+var app = express();
 var bodyParser = require('body-parser');
 var _ = require('underscore');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var fs = require('fs');
+var https = require('https');
+
+var srvOptions = {
+    key: fs.readFileSync('keys/key.pem'),
+    cert: fs.readFileSync('keys/cert.pem'),
+};
+
+
+var server = https.createServer(srvOptions, app);
+var io = require('socket.io').listen(server);
 var crypto = require('crypto');
+
 
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -122,7 +132,7 @@ io.on('connection', function (socket) {
 
 });
 
-http.listen(8080, function() {
+server.listen(8080, function() {
   console.log('listening on localhost:8080');
 });
 
