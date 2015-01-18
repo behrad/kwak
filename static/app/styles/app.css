@@ -394,3 +394,29 @@ i._20 { color: #000000; }
   bottom: auto;
   top: 57px;
 }
+
+/* Print stylesheet */
+
+@media print {
+  a[href]:after {
+    content: "";
+  }
+  abbr[title]:after {
+    content: "";
+  }
+  aside {
+    display: none;
+  }
+  footer {
+    display: none;
+  }
+  .help {
+    display: none;
+  }
+  body {
+    padding: 0;
+  }
+  .center-container {
+    margin: 0;
+  }
+}
