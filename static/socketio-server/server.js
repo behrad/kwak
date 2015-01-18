@@ -1,19 +1,19 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var _ = require('underscore');
-var fs = require('fs');
-var https = require('https');
+var express = require('express'),
+    app = express(),
+    bodyParser = require('body-parser'),
+    _ = require('underscore'),
+    fs = require('fs'),
+    https = require('https'),
+    crypto = require('crypto');
 
-var srvOptions = {
-    key: fs.readFileSync('keys/key.pem'),
-    cert: fs.readFileSync('keys/cert.pem'),
+var credentials = {
+  key: fs.readFileSync('/etc/nginx/kwak.io/kwak.io.key'),
+  cert: fs.readFileSync('/etc/nginx/kwak.io/kwak.io.crt'),
 };
 
 
-var server = https.createServer(srvOptions, app);
-var io = require('socket.io').listen(server);
-var crypto = require('crypto');
+var httpsServer = https.createServer(credentials, app);
+var io = require('socket.io')(httpsServer);
 
 
 app.use(bodyParser.json({ extended: false }));
@@ -132,7 +132,7 @@ io.on('connection', function (socket) {
 
 });
 
-server.listen(8080, function() {
+httpsServer.listen(8080, function () {
   console.log('listening on localhost:8080');
 });
 
