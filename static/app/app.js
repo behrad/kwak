@@ -7,8 +7,8 @@ Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var Socket = EmberSockets.extend({
     host: 'localhost',
-    secure: true,
-    port: 8080,
+    secure: false,
+    port: 8444,
     controllers: [
         'channels/index',
     ],
