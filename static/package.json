@@ -40,8 +40,6 @@
     "body-parser": "^1.10.0",
     "moment": "~2.8.4",
     "socket.io": "~1.2.1",
-    "underscore": "^1.7.0",
-    "express-force-ssl": "~0.2.9",
-    "cors": "~2.5.2"
+    "underscore": "^1.7.0"
   }
 }
