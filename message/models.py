@@ -6,6 +6,11 @@ import requests
 import re
 from django.core.mail import send_mail
 from uuid import uuid4
+from kwak.settings import DEBUG
+if DEBUG:
+    protocol = 'http'
+else:
+    protocol = 'https'
 
 
 class Profile(models.Model):
@@ -142,7 +147,7 @@ def broadcast_message(sender, instance, **kw):
         'topic': message.topic.id,
         'channel': message.topic.channel.id,
     }
-    r = requests.post('https://kwak.io:8444/message', data=payload)
+    r = requests.post('{}://127.0.0.1:8444/message'.format(protocol), data=payload)
 
     message_author = Profile.objects.get(pk=message.author.id)
 
@@ -168,7 +173,7 @@ def broadcast_topic(sender, instance, **kw):
         'title': topic.title,
         'channel': topic.channel.id,
     }
-    r = requests.post('https://kwak.io:8444/topic', data=payload)
+    r = requests.post('{}://127.0.0.1:8444/topic'.format(protocol), data=payload)
 post_save.connect(broadcast_topic, sender=Topic)
 
 
@@ -183,7 +188,7 @@ def broadcast_pm(sender, instance, **kw):
         'penpal_email': pm.penpal.email,
         'penpal_name': pm.penpal.name,
     }
-    r = requests.post('https://kwak.io:8444/pm', data=payload)
+    r = requests.post('{}://127.0.0.1:8444/pm'.format(protocol), data=payload)
 
     pm_author = Profile.objects.get(pk=pm.author.id)
 
