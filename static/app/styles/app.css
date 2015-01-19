@@ -376,6 +376,7 @@ i._20 { color: #000000; }
   }
 
   #hide-connected {
+    margin: 10px 5px;
     display: block;
   }
   .connected {

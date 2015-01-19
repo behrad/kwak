@@ -1,3 +1,4 @@
+{{#if controller.subscribed}}
 <div class="message-list">
   {{#each message in controller.subscribed itemController="message"}}
   <div {{bind-attr class="message.seen:seen :row :message"}} {{bind-attr data-topic-id=message.topic.id}} {{bind-attr data-channel-id=message.topic.channel.id}} {{bind-attr data-message-id=message.id}}>
@@ -29,6 +30,24 @@
   </div>
   {{/each}}
 </div>
+{{else}}
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Nothing to display for the moment.</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Use the 'tags' icon on your left to create channels or subscribe to existing channels.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
 
 <footer class="row">
   <div class="col-xs-12">
