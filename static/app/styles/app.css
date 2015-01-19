@@ -354,6 +354,7 @@ i._20 { color: #000000; }
 /* media queries for smaller screens */
 @media (max-width: 768px) {
   #hide-channels {
+    cursor: pointer;
     display: block;
   }
   .channels h5 {
@@ -376,6 +377,7 @@ i._20 { color: #000000; }
   }
 
   #hide-connected {
+    cursor: pointer;
     margin: 10px 5px;
     display: block;
   }
