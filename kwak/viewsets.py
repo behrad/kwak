@@ -345,7 +345,7 @@ class CreateUserView(APIView):
                 for admin in admins:
                     send_mail(
                         'kwak: new user on board',
-                        u'Dear admin of the "{}" team, a new user just signed up and is awaiting validation.\n\nYour new user is:\n{} {} ({})\n\nLink to your admin panel: http://kwak.io/channels/admin'.format(
+                        u'Dear admin of the "{}" team, a new user just signed up and is awaiting validation.\n\nYour new user is:\n{} {} ({})\n\nLink to your admin panel: https://kwak.io/channels/admin'.format(
                             team.name,
                             user.first_name,
                             user.last_name,

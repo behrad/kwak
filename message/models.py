@@ -142,7 +142,7 @@ def broadcast_message(sender, instance, **kw):
         'topic': message.topic.id,
         'channel': message.topic.channel.id,
     }
-    r = requests.post('http://localhost:8080/message', data=payload)
+    r = requests.post('https://localhost:8444/message', data=payload)
 
     message_author = Profile.objects.get(pk=message.author.id)
 
@@ -168,7 +168,7 @@ def broadcast_topic(sender, instance, **kw):
         'title': topic.title,
         'channel': topic.channel.id,
     }
-    r = requests.post('http://localhost:8080/topic', data=payload)
+    r = requests.post('https://localhost:8444/topic', data=payload)
 post_save.connect(broadcast_topic, sender=Topic)
 
 
@@ -183,7 +183,7 @@ def broadcast_pm(sender, instance, **kw):
         'penpal_email': pm.penpal.email,
         'penpal_name': pm.penpal.name,
     }
-    r = requests.post('http://localhost:8080/pm', data=payload)
+    r = requests.post('https://localhost:8444/pm', data=payload)
 
     pm_author = Profile.objects.get(pk=pm.author.id)
 
