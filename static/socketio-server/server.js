@@ -4,6 +4,8 @@ var express = require('express'),
     _ = require('underscore'),
     fs = require('fs'),
     https = require('https'),
+    forceSSL = require('express-force-ssl'),
+    cors = require('cors'),
     crypto = require('crypto');
 
 var credentials = {
@@ -18,6 +20,8 @@ var io = require('socket.io')(httpsServer);
 
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(forceSSL);
+app.use(cors);
 
 /* helpers */
 function findClientsSocket(roomId, namespace) {
@@ -92,6 +96,7 @@ var pmsController = function(req, res) {
   res.send();
 };
 
+
 /* routes */
 app.post('/message', messagesController);
 app.post('/topic', topicsController);
@@ -132,7 +137,7 @@ io.on('connection', function (socket) {
 
 });
 
-httpsServer.listen(8080, function () {
-  console.log('listening on localhost:8080');
+httpsServer.listen(8444, function () {
+  console.log('SECURE SERVER listening on localhost:8444');
 });
 
