@@ -19,7 +19,8 @@ class Profile(models.Model):
     email = models.EmailField('email')
     name = models.CharField('name', max_length=120)
     is_admin = models.BooleanField(default=False)
-    cursor = models.IntegerField(default=0)
+    email_on_mention = models.BooleanField(default=True)
+    email_on_pm = models.BooleanField(default=True)
 
     def is_active(self):
         return self.user.is_active
@@ -38,6 +39,7 @@ class Team(models.Model):
     name = models.CharField('name', max_length=120)
     uid = models.CharField(max_length=100, unique=True, default=uuid4)
     is_paying = models.BooleanField(default=False)
+    users_can_change_names = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name

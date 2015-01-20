@@ -6,7 +6,7 @@ from message.models import Channel, Topic, Message, Profile, Team, Pm
 class TeamSerializer(ModelSerializer):
     class Meta:
         model = Team
-        fields = ('id', 'name', 'uid')
+        fields = ('id', 'name', 'uid', 'users_can_change_names', 'is_paying')
         read_only_fields = ('name', 'uid')
 
 
@@ -14,7 +14,8 @@ class ProfileSerializer(ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'name', 'email', 'is_admin', 'is_active', 'teams', 'cursor')
+        fields = ('id', 'name', 'email', 'is_admin', 'is_active', 'teams',
+                  'email_on_mention', 'email_on_pm')
 
 class ProfileSideloadSerializer(SideloadSerializer):
     class Meta:

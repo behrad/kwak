@@ -8,7 +8,8 @@
         <div class="row">
           <div class="col-sm-12">
             <p>Display Name {{input value=model.profile.name class="form-control"}}</p>
-            <p>Email {{input value=model.profile.email class="form-control"}}</p>
+            <p>Email {{input value=model.profile.email class="form-control" readonly="readonly"}}</p>
+            <button class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
@@ -24,10 +25,10 @@
           <div class="col-sm-12 checkbox">
             <p>Send me an email when:</p>
             <div>
-              <label>{{input type="checkbox" checked=model.profile.on_mention}} someone mentions me</label>
+              <label><input type="checkbox" {{bind-attr checked=model.profile.email_on_mention}} {{action 'toggleMention'}}> someone mentions me</label>
             </div>
             <div>
-              <label>{{input type="checkbox" checked=model.profile.on_PM}} someone sends me a PM</label>
+              <label><input type="checkbox" {{bind-attr checked=model.profile.email_on_pm}} {{action 'togglePM'}}> someone sends me a PM</label>
             </div>
           </div>
         </div>
