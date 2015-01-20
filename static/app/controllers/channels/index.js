@@ -188,6 +188,7 @@ export default Ember.ArrayController.extend({
         }
       });
 
+      this.get('controllers.channels').set('hasProfiles', this.get('controllers.profiles.arrangedContent.length') !== 0);
       this.get('controllers.channels').set('activeProfiles', activeProfiles);
       this.get('controllers.channels').set('otherProfiles', otherProfiles);
     },
