@@ -161,16 +161,17 @@ def broadcast_message(sender, instance, **kw):
     for mention in mentions:
         try:
             mentionned = Profile.objects.get(name=mention)
-            send_mail(
-                'new mention on kwak',
-                u'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>\n\n{}'.format(
-                    message_author.name,
-                    '> '.join(('\n'+message.content.lstrip()).splitlines(True)),
-                    message.get_thread_url()
-                ),
-                'noreply@kwak.io',
-                [mentionned.email],
-                fail_silently=True)
+            if mentionned.email_on_mention:
+                send_mail(
+                    'new mention on kwak',
+                    u'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>\n\n{}'.format(
+                        message_author.name,
+                        '> '.join(('\n'+message.content.lstrip()).splitlines(True)),
+                        message.get_thread_url()
+                    ),
+                    'noreply@kwak.io',
+                    [mentionned.email],
+                    fail_silently=True)
         except Profile.DoesNotExist:
             pass
 post_save.connect(broadcast_message, sender=Message)
@@ -202,12 +203,13 @@ def broadcast_pm(sender, instance, **kw):
 
     pm_author = Profile.objects.get(pk=pm.author.id)
 
-    send_mail(
-        'new pm on kwak',
-        u'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n> '.format(pm_author.name, '> '.join(('\n'+pm.content.lstrip()).splitlines(True))),
-        'noreply@kwak.io',
-        [pm.penpal.email],
-        fail_silently=True)
+    if pm.penpal.email_on_pm:
+        send_mail(
+            'new pm on kwak',
+            u'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n> '.format(pm_author.name, '> '.join(('\n'+pm.content.lstrip()).splitlines(True))),
+            'noreply@kwak.io',
+            [pm.penpal.email],
+            fail_silently=True)
 post_save.connect(broadcast_pm, sender=Pm)
 
 
