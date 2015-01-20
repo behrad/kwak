@@ -17,7 +17,8 @@
     "momentjs": "~2.8.4",
     "spin.js": "~2.0.1",
     "bootstrap": "~3.3.1",
-    "ember-sockets": "~0.6.10"
+    "ember-sockets": "~0.6.10",
+    "shepherd.js": "~0.6.14"
   },
   "resolutions": {
     "handlebars": "~2.0.0",

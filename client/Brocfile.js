@@ -19,6 +19,7 @@ app.import('vendor/scroll.js');
 app.import('vendor/message-after-render.js');
 app.import('bower_components/socket.io-client/socket.io.js');
 app.import('bower_components/ember-sockets/dist/ember-sockets.js');
+app.import('bower_components/shepherd.js/shepherd.js');
 
 // CSS files
 app.import('bower_components/bootstrap/dist/css/bootstrap.min.css');
@@ -31,6 +32,7 @@ app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.t
 app.import('vendor/colorselector/bootstrap-colorselector.css');
 app.import('vendor/bootstrap-suggest/css/bootstrap-suggest.css');
 app.import('vendor/markdown/prettify/prettify.css');
+app.import('bower_components/shepherd.js/css/shepherd-theme-arrows.css');
 
 // Other assets
 app.import('vendor/assets/images/kwak.png'); // logo
