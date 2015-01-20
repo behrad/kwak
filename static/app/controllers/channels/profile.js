@@ -46,6 +46,12 @@ export default Ember.Controller.extend({
         self.set('pmOn', self.get('model.profile.email_on_pm'));
       });
     },
+    updateName: function (name) {
+      console.log(name);
+      var profile = this.get('model.profile');
+      profile.set('name', name);
+      profile.save();
+    }
   }
 
 });

@@ -170,7 +170,7 @@ export default Ember.ArrayController.extend({
       var activeEmails = [];
       var activeProfiles = profiles.filter(function (profile) {
         activeEmails.push(profile.email);
-        return profile.name !== self.get('currentUser.model.name');
+        return profile.email !== self.get('currentUser.model.email');
       });
 
       var otherProfiles = [];
@@ -178,7 +178,7 @@ export default Ember.ArrayController.extend({
       this.get('controllers.profiles.arrangedContent').forEach(function (profile) {
         if (profile.id !== 'current') {
           profile = self.store.getById('profile', profile.id);
-          if (profile.get('name') !== self.get('currentUser.model.name')) {
+          if (profile.get('email') !== self.get('currentUser.model.email')) {
             if (Ember.$.inArray(profile.get('email'), activeEmails) === -1) {
               if (profile.get('name')) {
                 otherProfiles.push(profile);

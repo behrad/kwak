@@ -55,6 +55,8 @@ class ProfileViewSet(ModelViewSet):
                 profile.email_on_mention = self.request.data['profile']['email_on_mention']
             if 'email_on_pm' in self.request.data['profile']:
                 profile.email_on_pm = self.request.data['profile']['email_on_pm']
+            if 'name' in self.request.data['profile']:
+                profile.name = self.request.data['profile']['name']
             profile.save()
             modified = True
 
@@ -394,3 +396,19 @@ class TeamView(RetrieveAPIView):
         uid = self.request.QUERY_PARAMS.get('uid', None)
         if uid:
             return get_object_or_404(Team, uid=uid)
+
+    def put(self, request):
+        team = get_object_or_404(Team, uid=self.request.data['team'].get('uid', None))
+        profile = self.request.user.profile
+        if not profile in team.members.all() or not profile.is_admin:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        users_can_change_names = self.request.data['team'].get('users_can_change_names', team.users_can_change_names)
+
+        team.users_can_change_names = users_can_change_names
+        team.save()
+        serializer = TeamSerializer(team, request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)

@@ -56,5 +56,11 @@ export default Ember.Controller.extend({
         channel.save();
       });
     },
+    toggleCanChangeNames: function(id, users_can_change_names) {
+      this.store.find('team', id).then(function (team) {
+        team.set('users_can_change_names', !users_can_change_names);
+        team.save();
+      });
+    }
   }
 });

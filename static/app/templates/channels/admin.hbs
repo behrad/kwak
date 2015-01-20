@@ -23,12 +23,14 @@
           </div>
         </div>
         <div class="row">
+          {{#if controller.inactives}}
           <div class="col-sm-6">
             <h5>Inactive</h5>
               {{#each profile in controller.inactives}}
               <div class="checkbox"><label><input type="checkbox" {{action 'toggleActive' profile.id profile.is_active}}>{{profile.name}}</label></div>
               {{/each}}
           </div>
+          {{/if}}
           <div class="col-sm-6">
             <h5>Active</h5>
               {{#each profile in controller.actives}}
@@ -54,3 +56,27 @@
     </div>
   </div>
 </div>
+
+{{!--<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Team management</h3>
+      </div>
+      <div class="panel-body">
+        {{#if hasMultipleTeams}}
+        <div class="checkbox">
+          {{#each team in teams}}
+          <h5>{{team.name}}</h5>
+          <label><input type="checkbox" {{bind-attr checked=team.users_can_change_names}} {{action 'toggleCanChangeNames' team.id team.users_can_change_names}}> Users can change their display name</label>
+          {{/each}}
+        </div>
+        {{else}}
+        <div class="checkbox">
+          <label><input type="checkbox" {{bind-attr checked=team.users_can_change_names}} {{action 'toggleCanChangeNames' team.id team.users_can_change_names}}> Users can change their display name</label>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>--}}

@@ -8,14 +8,11 @@
         <div class="row">
           <div class="col-sm-12">
             {{#if canChangeName}}
-            <p>Display Name {{input value=model.profile.name class="form-control"}}</p>
+            <p>Display Name {{input value=model.profile.name class="form-control" action="updateName" on="key-press"}}</p>
             {{else}}
             <p>Display Name <input type="text" readonly="readonly" class="form-control"{{bind-attr value="model.profile.name"}}></p>
             {{/if}}
             <p>Email {{input value=model.profile.email class="form-control" readonly="readonly"}}</p>
-            {{#if canSave}}
-            <button class="btn btn-primary">Save</button>
-            {{/if}}
           </div>
         </div>
       </div>

@@ -145,6 +145,10 @@ ul.nav.nav-pills.nav-stacked li a i {
   padding: 3px 6px;
 }
 
+#connected-list .list-group-item .label {
+  margin-top: 2px;
+}
+
 #hide-connected {
   display: none;
 }
