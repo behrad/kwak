@@ -32,24 +32,36 @@ class ProfileViewSet(ModelViewSet):
             return Profile.objects.filter(user__is_active=True, teams__in=self.request.user.profile.teams.all())
 
     def update(self, request, pk=None):
-        if not self.request.user.profile.is_admin:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-
         profile = Profile.objects.get(pk=pk, teams__in=self.request.user.profile.teams.all())
-        is_active = self.request.data['profile']['is_active']
-        teams = profile.teams.all()
+        modified = False
 
-        if not is_active and len(teams) > 1: # cannot be handled programmatically
-            return Response({'error': 'User has multiple teams. Cannot deactivate user from all their teams.'}, status=status.HTTP_409_CONFLICT)
+        if self.request.user.profile.is_admin:
+            is_active = self.request.data['profile']['is_active']
+            teams = profile.teams.all()
 
-        team = teams[0]
-        if is_active and not team.is_paying and len(team.members.filter(user__is_active=True)) >= 5:
-            return Response({'error': 'You have reached your active members limit. Please switch your team to a paying account to keep using kwak.io with more than 5 active users.'}, status=status.HTTP_403_FORBIDDEN)
+            if not is_active and len(teams) > 1: # cannot be handled programmatically
+                return Response({'error': 'User has multiple teams. Cannot deactivate user from all their teams.'}, status=status.HTTP_409_CONFLICT)
 
-        profile.user.is_active = is_active
-        profile.user.save()
+            team = teams[0]
+            if is_active and not team.is_paying and len(team.members.filter(user__is_active=True)) >= 5:
+                return Response({'error': 'You have reached your active members limit. Please switch your team to a paying account to keep using kwak.io with more than 5 active users.'}, status=status.HTTP_403_FORBIDDEN)
 
-        return Response(self.request.data, status=status.HTTP_204_NO_CONTENT)
+            profile.user.is_active = is_active
+            profile.user.save()
+            modified = True
+
+        if self.request.data['profile']['email'] == self.request.user.profile.email:
+            if 'email_on_mention' in self.request.data['profile']:
+                profile.email_on_mention = self.request.data['profile']['email_on_mention']
+            if 'email_on_pm' in self.request.data['profile']:
+                profile.email_on_pm = self.request.data['profile']['email_on_pm']
+            profile.save()
+            modified = True
+
+        if modified:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 
