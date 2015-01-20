@@ -37,7 +37,7 @@ export default Ember.ArrayController.extend({
         penpal: this.get('penpal'),
         content: this.get('message')
       }).save().then(function (pm) {
-        mixpanel.track("new pm", "pm");
+        mixpanel.track("new pm");
         pm.set('seen', true);
         var model = self.get('model.arrangedContent').toArray();
         model.push(pm);
