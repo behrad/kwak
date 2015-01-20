@@ -43,6 +43,17 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     setInterval(function () {
       self.socket.emit('profiles', channels_ids);
     }, 15000);
+
+    mixpanel.identify(model.profile.get('id'));
+    mixpanel.people.set({
+      "$name": model.profile.get('name'),
+      "$last_login": new Date(),
+      "$email": model.profile.get('email'),
+      "$is_admin": model.profile.get('is_admin'),
+      "$email_on_mention": model.profile.get('email_on_mention'),
+      "$email_on_pm": model.profile.get('email_on_pm'),
+    });
+
   },
 
 });
