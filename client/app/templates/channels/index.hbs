@@ -30,26 +30,8 @@
   </div>
   {{/each}}
 </div>
-{{else}}
-<div class="row">
-  <div class="col-xs-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Nothing to display for the moment.</h3>
-      </div>
-      <div class="panel-body">
-        <div class="row">
-          <div class="col-sm-12">
-            <p>Use the 'tags' icon on your left to create channels or subscribe to existing channels.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-{{/if}}
 
-<footer class="row">
+<footer class="row footer">
   <div class="col-xs-12">
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
@@ -63,3 +45,22 @@
     </form>
   </div>
 </footer>
+{{else}}
+<div class="row message-list">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Nothing to display for the moment.</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <p><button class="btn btn-info" {{action 'tour'}}>Take the tour!</button></p>
+            <p>Use the 'tags' icon on your left to create channels or subscribe to existing channels.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}

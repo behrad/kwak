@@ -16,15 +16,15 @@ export default Ember.View.extend({
         /* hide other side */
         $('.connected').animate({'right': '-175px'});
         $('.center-container').animate({'margin-right': '20px'});
-        $('footer').animate({'right': '34px'});
+        $('.footer').animate({'right': '34px'});
 
         $this.animate({'left': 0});
         $('.center-container').animate({'margin-left': '200px'});
-        $('footer').animate({'left': '200px'});
+        $('.footer').animate({'left': '200px'});
       } else {
         $this.animate({'left': '-175px'});
         $('.center-container').animate({'margin-left': '20px'});
-        $('footer').animate({'left': '34px'});
+        $('.footer').animate({'left': '34px'});
       }
     }
   }
