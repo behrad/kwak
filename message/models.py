@@ -6,6 +6,7 @@ import requests
 import re
 from django.core.mail import send_mail
 from uuid import uuid4
+import urllib
 
 
 class Profile(models.Model):
@@ -99,6 +100,14 @@ class Message(models.Model):
     def team(self):
         return self.topic.channel.team
 
+    def get_thread_url(self):
+        return urllib.quote_plus(u'https://kwak.io/channels/{}/{}/{}/{}'.format(
+            self.topic.channel.id,
+            self.topic.channel.name,
+            self.topic.id,
+            self.topic.title
+        ))
+
     def __unicode__(self):
         return u"{} - {}".format(self.author.name, self.content[0:10])
 
@@ -152,7 +161,11 @@ def broadcast_message(sender, instance, **kw):
             mentionned = Profile.objects.get(name=mention)
             send_mail(
                 'new mention on kwak',
-                u'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>'.format(message_author.name, '> '.join(('\n'+message.content.lstrip()).splitlines(True))),
+                u'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>\n\n{}'.format(
+                    message_author.name,
+                    '> '.join(('\n'+message.content.lstrip()).splitlines(True)),
+                    message.get_thread_url()
+                ),
                 'noreply@kwak.io',
                 [mentionned.email],
                 fail_silently=True)
