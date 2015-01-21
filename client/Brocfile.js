@@ -34,13 +34,6 @@ app.import('vendor/bootstrap-suggest/css/bootstrap-suggest.css');
 app.import('vendor/markdown/prettify/prettify.css');
 app.import('bower_components/shepherd.js/css/shepherd-theme-arrows.css');
 
-// Other assets
-app.import('vendor/assets/images/kwak.png'); // logo
-// landing page
-app.import('vendor/assets/images/1.png');
-app.import('vendor/assets/images/2.png');
-app.import('vendor/assets/images/3.png');
-
 // Use `app.import` to add additional libraries to the generated
 // output files.
 //
