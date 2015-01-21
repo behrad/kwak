@@ -32,7 +32,11 @@ class ProfileViewSet(ModelViewSet):
             return Profile.objects.filter(user__is_active=True, teams__in=self.request.user.profile.teams.all())
 
     def update(self, request, pk=None):
-        profile = Profile.objects.get(pk=pk, teams__in=self.request.user.profile.teams.all())
+        try:
+            profile = Profile.objects.filter(pk=pk, teams__in=self.request.user.profile.teams.all()).distinct()[0]
+        except IndexError:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         modified = False
 
         if self.request.user.profile.is_admin:
