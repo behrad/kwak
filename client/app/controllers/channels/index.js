@@ -222,8 +222,13 @@ export default Ember.ArrayController.extend({
       var self = this;
       var activeEmails = [];
       var activeProfiles = profiles.filter(function (profile) {
-        activeEmails.push(profile.email);
-        return profile.email !== self.get('currentUser.model.email');
+        var alreadyAdded = (Ember.$.inArray(profile.email, activeEmails) !== -1);
+        if (!alreadyAdded) {
+          activeEmails.push(profile.email);
+          return profile.email !== self.get('currentUser.model.email');
+        } else {
+          return false;
+        }
       });
 
       var otherProfiles = [];
