@@ -15,7 +15,7 @@ export default Ember.ObjectController.extend({
 
   actions: {
     createMessage: function () {
-      mixpanel.track("new message", "channels/channel/index");
+      mixpanel.track("new message");
       var channel = this.get('channel');
 
       var content = this.get('message');

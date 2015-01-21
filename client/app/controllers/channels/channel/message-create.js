@@ -20,7 +20,7 @@ export default Ember.ObjectController.extend({
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
                 Ember.run.scheduleOnce('afterRender', self, scroll);
-                mixpanel.track("edit message", "append");
+                mixpanel.track("edit message");
                 message.set('seen', true);
                 Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               });

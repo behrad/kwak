@@ -24,7 +24,7 @@ export default Ember.ArrayController.extend({
       this.get('controllers.application').send('tour');
     },
     createMessage: function () {
-      mixpanel.track("new message", "channels/index");
+      mixpanel.track("new message");
       var content = this.get('message');
       if (!content.trim()) { return; }
 
@@ -46,7 +46,7 @@ export default Ember.ArrayController.extend({
               var message = topic.get('messages.lastObject');
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
-                mixpanel.track("edit message", "append");
+                mixpanel.track("edit message");
                 message.set('seen', true);
                 Ember.run.scheduleOnce('afterRender', self, scroll);
                 Ember.run.scheduleOnce('afterRender', self, messageAfterRender);

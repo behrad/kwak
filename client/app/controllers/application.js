@@ -73,9 +73,11 @@ export default Ember.Controller.extend(LoginControllerMixin, {
       var lastStep = tour.steps[tour.steps.length-1];
       var self = this;
       lastStep.on('hide', function () {
+        mixpanel.track("tour finish");
         self.get('model').set('hide_tour', true).save();
       });
 
+      mixpanel.track("tour start");
       tour.start();
     }
   },
