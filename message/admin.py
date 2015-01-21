@@ -31,8 +31,12 @@ class MessageAdmin(admin.ModelAdmin):
 class PmAdmin(admin.ModelAdmin):
     list_display = ('author', 'penpal')
 
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('name', 'user')
+
 admin.site.register(Topic, TopicAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Channel, ChannelAdmin)
 admin.site.register(Message, MessageAdmin)
 admin.site.register(Pm, PmAdmin)
+admin.site.register(Profile, ProfileAdmin)
