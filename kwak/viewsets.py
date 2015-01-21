@@ -48,7 +48,7 @@ class ProfileViewSet(ModelViewSet):
 
             team = teams[0]
             if is_active and not team.is_paying and len(team.members.filter(user__is_active=True)) >= 5:
-                return Response({'error': 'You have reached your active members limit. Please switch your team to a paying account to keep using kwak.io with more than 5 active users.'}, status=status.HTTP_403_FORBIDDEN)
+                return Response({'error': 'You have reached your active members limit. Please switch your team to a paying account to keep using kwak.io with more than 5 active users, or send an email to inquiry@kwak.io.'}, status=status.HTTP_403_FORBIDDEN)
 
             profile.user.is_active = is_active
             profile.user.save()
