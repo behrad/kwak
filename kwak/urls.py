@@ -6,6 +6,8 @@ from kwak.viewsets import MessageViewSet, PmViewSet
 from kwak.viewsets import CurrentProfile, LastMessage, MarkMessageRead
 from kwak.viewsets import CreateUserView, FeedbackView, TeamView, PmUnreadView
 
+from message.views import ResetPasswordRequestView, PasswordResetConfirmView
+
 
 router = routers.DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
@@ -26,5 +28,7 @@ urlpatterns = patterns('',
     url(r'^api/', include(router.urls)),
     url(r'^api/auth/token/', 'rest_framework.authtoken.views.obtain_auth_token'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    url(r'^api/reset_password', ResetPasswordRequestView.as_view(), name="reset_password"),
     url(r'^admin/', include(admin.site.urls)),
 )
