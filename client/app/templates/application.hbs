@@ -13,6 +13,9 @@
       {{#if session.isAuthenticated}}
         <div class="navbar-form navbar-right">
           {{#link-to 'channels.profile'}}<small class="text-muted profile-settings">{{model.email}}</small>{{/link-to}}
+          {{#unless model.hide_tour}}
+            <button class="btn btn-primary" {{action 'tour'}}>Take the tour!</button>
+          {{/unless}}
           {{#if model.is_admin}}
             {{#link-to 'channels.admin' class="btn btn-default admin-panel"}}<i class="glyphicon glyphicon-edit"></i> Admin{{/link-to}}
           {{/if}}

@@ -57,6 +57,8 @@ class ProfileViewSet(ModelViewSet):
                 profile.email_on_pm = self.request.data['profile']['email_on_pm']
             if 'name' in self.request.data['profile']:
                 profile.name = self.request.data['profile']['name']
+            if 'hide_tour' in self.request.data['profile']:
+                profile.hide_tour = self.request.data['profile']['hide_tour']
             profile.save()
             modified = True
 
