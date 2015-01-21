@@ -21,6 +21,7 @@ class Profile(models.Model):
     is_admin = models.BooleanField(default=False)
     email_on_mention = models.BooleanField(default=True)
     email_on_pm = models.BooleanField(default=True)
+    hide_tour = models.BooleanField(default=False)
 
     def is_active(self):
         return self.user.is_active

@@ -7,6 +7,7 @@ export default DS.Model.extend({
   is_admin: DS.attr('boolean'),
   email_on_mention: DS.attr('boolean'),
   email_on_pm: DS.attr('boolean'),
+  hide_tour: DS.attr('boolean'),
   is_active: DS.attr('boolean', {defaultValue: true}),
   unreadPm: function () {
     return '';

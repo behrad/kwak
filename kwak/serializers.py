@@ -14,7 +14,7 @@ class ProfileSerializer(ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'name', 'email', 'is_admin', 'is_active', 'teams',
+        fields = ('id', 'name', 'email', 'is_admin', 'is_active', 'hide_tour','teams',
                   'email_on_mention', 'email_on_pm')
 
 class ProfileSideloadSerializer(SideloadSerializer):
