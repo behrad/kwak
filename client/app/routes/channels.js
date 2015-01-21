@@ -52,6 +52,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       "$is_admin": model.profile.get('is_admin'),
       "$email_on_mention": model.profile.get('email_on_mention'),
       "$email_on_pm": model.profile.get('email_on_pm'),
+      "$hide_tour": model.profile.get('hide_tour'),
     });
 
   },
