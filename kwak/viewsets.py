@@ -39,6 +39,7 @@ class ProfileViewSet(ModelViewSet):
         try:
             profile = Profile.objects.filter(pk=pk, teams__in=self.request.user.profile.teams.all()).distinct()[0]
         except IndexError:
+            print Profile.objects.filter(pk=pk, teams__in=self.request.user.profile.teams.all()).distinct()
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         modified = False
@@ -50,9 +51,9 @@ class ProfileViewSet(ModelViewSet):
             if not is_active and len(teams) > 1: # cannot be handled programmatically
                 return Response({'error': 'User has multiple teams. Cannot deactivate user from all their teams.'}, status=status.HTTP_409_CONFLICT)
 
-            team = teams[0]
-            if is_active and not team.is_paying and len(team.members.filter(user__is_active=True)) >= 5:
-                return Response({'error': 'You have reached your active members limit. Please switch your team to a paying account to keep using kwak.io with more than 5 active users, or send an email to inquiry@kwak.io.'}, status=status.HTTP_403_FORBIDDEN)
+            team = self.request.user.profile.teams.all()[0]
+            if is_active and len(team.members.filter(user__is_active=True)) >= team.paid_for_users:
+                return Response({'error': 'You have reached your active members limit ({}). Please switch your team to a paying account to keep using kwak.io with more than {} active users, or send an email to inquiry@kwak.io.'.format(team.paid_for_users, team.paid_for_users)}, status=status.HTTP_403_FORBIDDEN)
 
             profile.user.is_active = is_active
             profile.user.save()
@@ -446,15 +447,36 @@ class Checkout(APIView):
         if error or factor*price*users_number != amount:
             return Response({'error': 'Sum mismatch.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        profile = get_object_or_404(Profile, pk=request.user.profile.id)
+        team = get_object_or_404(Team, pk=payload['team'])
+
         stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
-        customer = stripe.Customer.create(
-          card=payload['token']['id'],
-          plan=plan,
-          email=payload['token']['email'],
-          quantity=users_number
-        )
 
+        if profile.stripe_customer_id:
+            customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+            if payload['same_card']:
+                customer.subscriptions.create(
+                    plan=plan,
+                    quantity=users_number
+                )
+            else:
+                customer.subscriptions.create(
+                    card=payload['token']['id'],
+                    plan=plan,
+                    quantity=users_number
+                )
+        else:
+            customer = stripe.Customer.create(
+              card=payload['token']['id'],
+              plan=plan,
+              email=payload['token']['email'],
+              quantity=users_number
+            )
+            profile.stripe_customer_id = customer.id
+            profile.save()
 
-        self.request.user.profile.stripe_customer_id = customer.id
-        print customer.id
-        self.request.user.profile.save()
+        team.paid_for_users = users_number
+        team.is_paying = True
+        team.save()
+
+        return Response(status=status.HTTP_202_ACCEPTED)

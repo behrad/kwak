@@ -92,11 +92,13 @@ export default Ember.Controller.extend({
     },
     processStripeToken: function (token) {
       var payload = {
+        'team': this.get('hasMultipleTeams') ? this.get('selectedTeam') : this.get('team.id'),
         'token': token,
         'price': this.get('plan'),
         'usersNumber': this.get('usersNumber'),
         'amount': this.get('amount'),
       };
+
       var factor = 1;
       if (payload.price === 3) {
         factor = 12;

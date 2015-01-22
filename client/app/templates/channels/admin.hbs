@@ -65,12 +65,12 @@
       </div>
       <div class="panel-body">
         <p>
-          <label for="plan-select">Bill me</label>{{view "select" id="plan-select" class="form-control plan-select" optionValuePath="content.price" optionLabelPath="content.name" content=plans value=plan}}<label for="for"> for </label>{{input id="for" class="form-control users-select" value=usersNumber}}<strong> users</strong>
+          <label for="plan-select">Bill me</label>{{view "select" id="plan-select" class="form-control plan-select" optionValuePath="content.price" optionLabelPath="content.name" content=plans value=plan}}<label for="for"> for </label>{{input id="for" class="form-control users-select" value=usersNumber}}<strong> users</strong>{{#if hasMultipleTeams}}<strong> of team </strong>{{view "select" class="form-control plan-select" optionValuePath="content.id" optionLabelPath="content.name" content=currentUser.content.teams.content value=selectedTeam}}{{/if}}
         </p>
         <p class="amount-due">
           Amount due : {{detail}} <strong>${{amount}}</strong>
         </p>
-        <p id="inquiry">
+        <p id="inquiry" style="display:none">
           Please send us an email at <a href="mailto:inquiry@kwak.io">inquiry@kwak.io</a>, we'll discuss a better offer.
         </p>
 
