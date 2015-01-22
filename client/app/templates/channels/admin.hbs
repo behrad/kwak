@@ -57,6 +57,43 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Billing</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          <label for="plan-select">Bill me</label>{{view "select" id="plan-select" class="form-control plan-select" optionValuePath="content.price" optionLabelPath="content.name" content=plans value=plan}}<label for="for"> for </label>{{input id="for" class="form-control users-select" value=usersNumber}}<strong> users</strong>
+        </p>
+        <p class="amount-due">
+          Amount due : {{detail}} <strong>${{amount}}</strong>
+        </p>
+        <p id="inquiry">
+          Please send us an email at <a href="mailto:inquiry@kwak.io">inquiry@kwak.io</a>, we'll discuss a better offer.
+        </p>
+
+        {{#if currentUser.is_admin}}
+          {{stripe-checkout
+            class="btn btn-primary"
+            name="Checkout Form"
+            email=currentUser.email
+            currency="USD"
+            description=plan.name
+            amount=amountCents
+            allowRememberMe=true
+            label="Proceed to checkout"
+            panelLabel="Subscribe for {{amount}}"
+            isDisabled=payButtonDisabled
+            action="processStripeToken"
+          }}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
 {{!--<div class="row">
   <div class="col-sm-12 col-md-6">
     <div class="panel panel-default">

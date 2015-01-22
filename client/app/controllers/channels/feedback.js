@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
       var content = this.get('feedbackMessage');
       var self = this;
 
-      Ember.$.post('api/feedback/', { feedback: content }, function() {
+      Ember.$.post('api/feedback/', { feedback: content }, function () {
         self.set('sent', true);
       });
     },

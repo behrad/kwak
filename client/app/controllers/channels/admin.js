@@ -12,6 +12,34 @@ export default Ember.Controller.extend({
     }
   },
 
+  plans: [
+    { name: 'annually', price: 3 },
+    { name: 'monthly', price: 4 }
+  ],
+
+  usersNumber: 10,
+
+  detail: function () {
+    var factor = '1 month';
+    if (this.get('plan') === 3) {
+      factor = '12 months';
+    }
+    return factor+' × $'+(this.get('plan'))+' × '+this.get('usersNumber')+' users =';
+  }.property('plan', 'usersNumber'),
+
+  amount: function () {
+    var factor = 1;
+    if (this.get('plan') === 3) {
+      factor = 12;
+    }
+    return factor*this.get('plan')*this.get('usersNumber');
+  }.property('plan', 'usersNumber'),
+
+  amountCents: function () {
+    return this.get('amount')*100;
+  }.property('amount'),
+
+
   team: function () {
     return this.store.all('team').objectAt(0);
   }.property(),
@@ -56,10 +84,17 @@ export default Ember.Controller.extend({
         channel.save();
       });
     },
-    toggleCanChangeNames: function(id, users_can_change_names) {
+    toggleCanChangeNames: function (id, users_can_change_names) {
       this.store.find('team', id).then(function (team) {
         team.set('users_can_change_names', !users_can_change_names);
         team.save();
+      });
+    },
+    processStripeToken: function (token) {
+      Ember.$.post('api/checkout/', token, function () {
+        mixpanel.track('checkout pay');
+        mixpanel.people.track_charge();
+        //TODO : toggle has_paid, hide checkout form, display summary
       });
     }
   }

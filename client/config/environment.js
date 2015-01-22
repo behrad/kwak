@@ -31,6 +31,10 @@ module.exports = function(environment) {
       'connect-src': "'self' ws://localhost:8444 http://localhost:8444 http://localhost:8001",
       'style-src': "'self' 'unsafe-inline'"
     };
+
+    ENV.stripe = {
+      key: "pk_test_SIubmGF3AYwB6a10XyNvOdSP"
+    };
   }
 
   if (environment === 'test') {
