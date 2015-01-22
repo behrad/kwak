@@ -395,6 +395,11 @@ i._20 { color: #000000; }
   #connected-list {
     display: none;
   }
+
+  img {
+    max-width: 100%;
+  }
+
   .footer {
     left: 34px;
     right: 34px;
