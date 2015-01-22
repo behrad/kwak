@@ -104,12 +104,12 @@ class Message(models.Model):
         return self.topic.channel.team
 
     def get_thread_url(self):
-        return urllib.quote_plus(u'https://kwak.io/channels/{}/{}/{}/{}'.format(
+        return u'https://kwak.io/channels/{}/{}/{}/{}'.format(
             self.topic.channel.id,
-            self.topic.channel.name,
+            urllib.quote_plus(self.topic.channel.name),
             self.topic.id,
-            self.topic.title
-        ))
+            urllib.quote_plus(self.topic.title)
+        )
 
     def __unicode__(self):
         return u"{} - {}".format(self.author.name, self.content[0:10])
