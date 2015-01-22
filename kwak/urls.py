@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework import routers
 from kwak.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet
-from kwak.viewsets import MessageViewSet, PmViewSet
+from kwak.viewsets import MessageViewSet, PmViewSet, Checkout
 from kwak.viewsets import CurrentProfile, LastMessage, MarkMessageRead
 from kwak.viewsets import CreateUserView, FeedbackView, TeamView, PmUnreadView
 
@@ -25,10 +25,11 @@ urlpatterns = patterns('',
     url(r'^api/messages/last', LastMessage.as_view()),
     url(r'^api/messages/read', MarkMessageRead.as_view()),
     url(r'^api/profiles/current', CurrentProfile.as_view()),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/checkout', Checkout.as_view()),
     url(r'^api/auth/token/', 'rest_framework.authtoken.views.obtain_auth_token'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^api/reset_password', ResetPasswordRequestView.as_view(), name="reset_password"),
+    url(r'^api/', include(router.urls)),
     url(r'^admin/', include(admin.site.urls)),
 )

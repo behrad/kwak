@@ -106,11 +106,11 @@ export default Ember.Controller.extend({
         return;
       }
 
-      Ember.$.post('api/checkout/', payload, function () {
+      Ember.$.post('api/checkout/', JSON.stringify(payload), function () {
         mixpanel.track('checkout pay');
         mixpanel.people.track_charge(payload.amount);
         //TODO : toggle has_paid, hide checkout form, display summary
-      }, function (a) {
+      }).fail(function (a) {
         alert('lala', a);
         console.log(a);
       });

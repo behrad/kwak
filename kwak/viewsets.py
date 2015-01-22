@@ -6,13 +6,17 @@ from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 import json
 from collections import defaultdict
+import stripe
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, PmSideloadSerializer, TeamSerializer
+
+from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer
+from kwak.serializers import TopicSideloadSerializer, MessageSideloadSerializer
+from kwak.serializers import PmSideloadSerializer, TeamSerializer
 
 
 class ProfileViewSet(ModelViewSet):
@@ -417,4 +421,40 @@ class TeamView(RetrieveAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Checkout(APIView):
+    model = User
+
+    def post(self, request):
+        payload = json.loads(request.body)
+
+        amount = int(payload['amount'])
+        price = int(payload['price'])
+        users_number = int(payload['usersNumber'])
+        error = False
+
+        if price == 3:
+            plan = "Annually"
+            factor = 12
+        elif price == 4:
+            plan = "Monthly"
+            factor = 1
+        else:
+            error = True
+        if error or factor*price*users_number != amount:
+            return Response({'error': 'Sum mismatch.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
+        customer = stripe.Customer.create(
+          card=payload['token']['id'],
+          plan=plan,
+          email=payload['token']['email'],
+          quantity=users_number
+        )
+
+
+        self.request.user.profile.stripe_customer_id = customer.id
+        print customer.id
+        self.request.user.profile.save()

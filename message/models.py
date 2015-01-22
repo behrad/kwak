@@ -22,6 +22,7 @@ class Profile(models.Model):
     email_on_mention = models.BooleanField(default=True)
     email_on_pm = models.BooleanField(default=True)
     hide_tour = models.BooleanField(default=False)
+    stripe_customer_id = models.CharField(default=None, blank=True, null=True, max_length=120)
 
     def is_active(self):
         return self.user.is_active
