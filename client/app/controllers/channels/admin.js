@@ -91,10 +91,28 @@ export default Ember.Controller.extend({
       });
     },
     processStripeToken: function (token) {
-      Ember.$.post('api/checkout/', token, function () {
+      var payload = {
+        'token': token,
+        'price': this.get('plan'),
+        'usersNumber': this.get('usersNumber'),
+        'amount': this.get('amount'),
+      };
+      var factor = 1;
+      if (payload.price === 3) {
+        factor = 12;
+      }
+      if (payload.amount !== factor*payload.price*payload.usersNumber) {
+        this.set('error', 'We encountered an error. You have not been charged');
+        return;
+      }
+
+      Ember.$.post('api/checkout/', payload, function () {
         mixpanel.track('checkout pay');
-        mixpanel.people.track_charge();
+        mixpanel.people.track_charge(payload.amount);
         //TODO : toggle has_paid, hide checkout form, display summary
+      }, function (a) {
+        alert('lala', a);
+        console.log(a);
       });
     }
   }
