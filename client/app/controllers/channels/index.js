@@ -24,7 +24,6 @@ export default Ember.ArrayController.extend({
       this.get('controllers.application').send('tour');
     },
     createMessage: function () {
-      mixpanel.track("new message");
       var content = this.get('message');
       if (!content.trim()) { return; }
 
