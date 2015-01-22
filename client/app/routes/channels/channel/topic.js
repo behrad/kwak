@@ -2,7 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function (params) {
-    return this.store.find('topic', params.topic_id);
+    return Ember.RSVP.hash({
+      messages: this.modelFor('channels').messages.filter(function (message) {
+        return message.get('topic.id') === params.topic_id;
+      }).sort(function (a, b) {
+        return +a.get('id') > +b.get('id') ? 1 : -1;
+      }),
+      topic: this.store.find('topic', params.topic_id),
+    });
   },
 
   serialize: function (model) {

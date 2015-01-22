@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
   needs: ['profiles', 'channels/channel/message-create', 'channels/channel/mark-as-read'],
-  topicTitle: Ember.computed.oneWay('model.title'),
+  topicTitle: Ember.computed.oneWay('model.topic.title'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
   _scroll: function () {
