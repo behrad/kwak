@@ -433,21 +433,23 @@ class Subscription(APIView):
         stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
 
         profile = get_object_or_404(Profile, pk=request.user.profile.id)
-        customer = stripe.Customer.retrieve(profile.stripe_customer_id)
-        subscriptions = customer.subscriptions.data
 
         output = []
 
-        for subscription in subscriptions:
-            output.append({
-                'cancel_at_period_end': subscription.cancel_at_period_end,
-                'id': len(output),
-                'subscription_id': subscription.id,
-                'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
-                'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
-                'plan_id': subscription.plan.id,
-                'quantity': subscription.quantity,
-            })
+        if profile.stripe_customer_id:
+            customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+            subscriptions = customer.subscriptions.data
+
+            for subscription in subscriptions:
+                output.append({
+                    'cancel_at_period_end': subscription.cancel_at_period_end,
+                    'id': len(output),
+                    'subscription_id': subscription.id,
+                    'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
+                    'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
+                    'plan_id': subscription.plan.id,
+                    'quantity': subscription.quantity,
+                })
 
         return Response({'subscription': output}, status=status.HTTP_200_OK)
 

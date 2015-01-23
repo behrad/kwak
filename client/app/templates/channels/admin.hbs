@@ -37,11 +37,12 @@
                 panelLabel="Subscribe for {{amount}}"
                 isDisabled=payButtonDisabled
                 action="processStripeToken"
-              }}{{#if existingCard}}<br><small>using a new Credit Card</small>{{/if}}
+              }}{{#if existingCard}}<br><small>using a new credit card</small>{{/if}}
           </div>
         </div>
-        <hr>
 
+        {{#if subscriptions}}
+        <hr>
         <h4>Your Current Subscriptions</h4>
 
         {{#each sub in subscriptions}}
@@ -58,6 +59,7 @@
           {{/if}}
           <hr>
         {{/each}}
+        {{/if}}
       </div>
     </div>
   </div>

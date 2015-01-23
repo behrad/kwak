@@ -69,7 +69,7 @@ export default Ember.Controller.extend({
 
   existingCard: function () {
     return this.get('currentUser.content.stripe_customer_id') !== '';
-  },
+  }.property(),
 
   actions: {
     toggleActive: function (id, is_active) {
