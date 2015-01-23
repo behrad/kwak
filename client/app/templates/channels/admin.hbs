@@ -17,6 +17,10 @@
           Please send us an email at <a href="mailto:inquiry@kwak.io">inquiry@kwak.io</a>, we'll discuss a better offer.
         </p>
 
+        {{#if currentUser.stripe_customer_id}}
+          <button class="btn btn-primary">Pay Now</button> <small>using the same credit card as last time</small>
+        {{/if}}
+
         {{stripe-checkout
           class="btn btn-primary"
           name="Checkout Form"
@@ -29,7 +33,7 @@
           panelLabel="Subscribe for {{amount}}"
           isDisabled=payButtonDisabled
           action="processStripeToken"
-        }}
+        }} <small>using a new Credit Card</small>
 
         <hr>
 

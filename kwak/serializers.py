@@ -15,7 +15,7 @@ class ProfileSerializer(ModelSerializer):
     class Meta:
         model = Profile
         fields = ('id', 'name', 'email', 'is_admin', 'is_active', 'hide_tour','teams',
-                  'email_on_mention', 'email_on_pm')
+                  'email_on_mention', 'email_on_pm', 'stripe_customer_id')
 
 class ProfileSideloadSerializer(SideloadSerializer):
     class Meta:
