@@ -11,7 +11,6 @@ export default Ember.Controller.extend({
 
   actions: {
     createMessage: function () {
-      mixpanel.track("new message");
       var channel = this.get('model.channel');
 
       var content = this.get('message');
@@ -19,6 +18,8 @@ export default Ember.Controller.extend({
 
       var topicTitle = this.get('topicTitle');
       if (!topicTitle.trim()) { return; }
+
+      mixpanel.track("new message");
 
       this.get('controllers.channels/channel/message-create').send(
         'createMessage',

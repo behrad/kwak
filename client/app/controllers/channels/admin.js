@@ -17,14 +17,14 @@ export default Ember.Controller.extend({
     { name: 'monthly', price: 4 }
   ],
 
-  usersNumber: 10,
+  usersNumber: 1,
 
   detail: function () {
     var factor = '1 month';
     if (this.get('plan') === 3) {
       factor = '12 months';
     }
-    return factor+' × $'+(this.get('plan'))+' × '+this.get('usersNumber')+' users =';
+    return factor+' × $'+(this.get('plan'))+' × '+this.get('usersNumber')+' user'+(this.get('usersNumber') > 1 ? 's' : '')+' =';
   }.property('plan', 'usersNumber'),
 
   amount: function () {
@@ -91,12 +91,14 @@ export default Ember.Controller.extend({
       });
     },
     processStripeToken: function (token) {
+      var self = this;
       var payload = {
         'team': this.get('hasMultipleTeams') ? this.get('selectedTeam') : this.get('team.id'),
         'token': token,
         'price': this.get('plan'),
         'usersNumber': this.get('usersNumber'),
         'amount': this.get('amount'),
+        'same_card': false,
       };
 
       var factor = 1;
@@ -108,13 +110,26 @@ export default Ember.Controller.extend({
         return;
       }
 
-      Ember.$.post('api/checkout/', JSON.stringify(payload), function () {
-        mixpanel.track('checkout pay');
+      Ember.$.post('api/subscription/checkout/', JSON.stringify(payload), function () {
+        mixpanel.track('checkout button click');
         mixpanel.people.track_charge(payload.amount);
-        //TODO : toggle has_paid, hide checkout form, display summary
-      }).fail(function (a) {
-        alert('lala', a);
-        console.log(a);
+        var team = self.store.getById('team', payload.team);
+        team.set('paid_for_users', team.get('paid_for_users')+parseInt(payload.usersNumber, 10));
+      }).fail(function () {
+        this.set('error', 'The backend denied your request. Please contact inquiry@kwak.io.');
+      });
+    },
+    cancelSubscription: function (id, subscription_id) {
+      var self = this;
+      var payload = {
+        'subscription_id': subscription_id,
+      };
+
+      Ember.$.post('api/subscription/cancel', JSON.stringify(payload), function () {
+        var subscription = self.store.getById('subscription', id); console.log(subscription);
+        subscription.set('cancel_at_period_end', true);
+      }).fail(function () {
+
       });
     }
   }

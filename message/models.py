@@ -42,7 +42,6 @@ class Team(models.Model):
     uid = models.CharField(max_length=100, unique=True, default=uuid4)
     users_can_change_names = models.BooleanField(default=True)
 
-    is_paying = models.BooleanField(default=False)
     paid_for_users = models.IntegerField(default=5)
 
     def __unicode__(self):

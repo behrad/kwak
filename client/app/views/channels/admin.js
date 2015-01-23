@@ -10,13 +10,18 @@ export default Ember.View.extend(BindScroll, {
       var val = $userfield.val() === '' ? '' : parseInt($userfield.val(), 10);
       var newVal = val;
       if (val < 0) {
-        newVal = 10;
+        newVal = 1;
       }
       if (isNaN(val) && val !== '') {
-        newVal = 10;
+        newVal = 1;
       }
       if (newVal !== val) {
         $userfield.val(newVal);
+      }
+      if (newVal > 1) {
+        $('#plural').show();
+      } else {
+        $('#plural').hide();
       }
 
       if (newVal > 50) {

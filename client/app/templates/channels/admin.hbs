@@ -1,3 +1,60 @@
+{{#each team in teams}}
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Billing for Team <strong>{{team.name}}</strong></h3>
+      </div>
+      <div class="panel-body">
+        <h4>Your current user limit: {{team.paid_for_users}}</h4>
+        <p>
+          <label for="plan-select">Bill me</label>{{view "select" id="plan-select" class="form-control plan-select" optionValuePath="content.price" optionLabelPath="content.name" content=plans value=plan}}<label for="for"> for </label>{{input id="for" class="form-control users-select" value=usersNumber}}<strong> more user<span id="plural" style="display:none">s</span></strong>
+        </p>
+        <p class="amount-due">
+          Amount due : {{detail}} <strong>${{amount}}</strong>
+        </p>
+        <p id="inquiry" style="display:none">
+          Please send us an email at <a href="mailto:inquiry@kwak.io">inquiry@kwak.io</a>, we'll discuss a better offer.
+        </p>
+
+        {{stripe-checkout
+          class="btn btn-primary"
+          name="Checkout Form"
+          email=currentUser.email
+          currency="USD"
+          description=plan.name
+          amount=amountCents
+          allowRememberMe=true
+          label="Proceed to checkout"
+          panelLabel="Subscribe for {{amount}}"
+          isDisabled=payButtonDisabled
+          action="processStripeToken"
+        }}
+
+        <hr>
+
+        <h4>Your Current Subscriptions</h4>
+
+        {{#each sub in subscriptions}}
+          <h4>{{sub.quantity}} User{{sub.s}} Paid {{sub.plan_id}}</h4>
+          {{#if sub.cancel_at_period_end}}
+          <p>
+            Billing for this subscription has been canceled. You will not be billed for this item anymore.
+          </p>
+          <p>{{sub.quantity}} user{{sub.s}} will be substracted from your user limit at the end of this billing cycle, on {{sub.end}}.</p>
+          {{else}}
+          <p>
+            <button {{action 'cancelSubscription' sub.id sub.subscription_id}} onClick="confirm('Are you sure? This is the last time we ask.')">Cancel</button> my subscription for {{subscription.quantity}} users at the end of my current billing period. <small>You will still benefit from your current plan until your next payment is due. We'll substract {{subscription.quantity}} user{{sub.s}} from your active users afterwards.</small>
+          </p>
+          {{/if}}
+          <hr>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
 <div class="row">
   <div class="col-sm-12 col-md-6">
     <div class="panel panel-default">
@@ -45,50 +102,13 @@
   <div class="col-sm-12 col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Default channels</h3>
+        <h3 class="panel-title">Default Channels</h3>
         <small>New users will be automatically subscribed to the following channels</small>
       </div>
       <div class="panel-body">
         {{#each channel in channels}}
         <div class="checkbox"><label><input type="checkbox" {{bind-attr checked=channel.is_default}} {{action 'toggleDefault' channel.id channel.is_default}}>{{#if hasMultipleTeams}} {{channel.team.name}} -{{/if}} {{channel.name}}</label></div>
         {{/each}}
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-12 col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Billing</h3>
-      </div>
-      <div class="panel-body">
-        <p>
-          <label for="plan-select">Bill me</label>{{view "select" id="plan-select" class="form-control plan-select" optionValuePath="content.price" optionLabelPath="content.name" content=plans value=plan}}<label for="for"> for </label>{{input id="for" class="form-control users-select" value=usersNumber}}<strong> users</strong>{{#if hasMultipleTeams}}<strong> of team </strong>{{view "select" class="form-control plan-select" optionValuePath="content.id" optionLabelPath="content.name" content=currentUser.content.teams.content value=selectedTeam}}{{/if}}
-        </p>
-        <p class="amount-due">
-          Amount due : {{detail}} <strong>${{amount}}</strong>
-        </p>
-        <p id="inquiry" style="display:none">
-          Please send us an email at <a href="mailto:inquiry@kwak.io">inquiry@kwak.io</a>, we'll discuss a better offer.
-        </p>
-
-        {{#if currentUser.is_admin}}
-          {{stripe-checkout
-            class="btn btn-primary"
-            name="Checkout Form"
-            email=currentUser.email
-            currency="USD"
-            description=plan.name
-            amount=amountCents
-            allowRememberMe=true
-            label="Proceed to checkout"
-            panelLabel="Subscribe for {{amount}}"
-            isDisabled=payButtonDisabled
-            action="processStripeToken"
-          }}
-        {{/if}}
       </div>
     </div>
   </div>

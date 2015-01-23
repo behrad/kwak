@@ -2,9 +2,10 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework import routers
 from kwak.viewsets import ProfileViewSet, ChannelViewSet, TopicViewSet
-from kwak.viewsets import MessageViewSet, PmViewSet, Checkout
+from kwak.viewsets import MessageViewSet, PmViewSet
 from kwak.viewsets import CurrentProfile, LastMessage, MarkMessageRead
 from kwak.viewsets import CreateUserView, FeedbackView, TeamView, PmUnreadView
+from kwak.viewsets import Subscription, SubscriptionCheckout, SubscriptionCancel
 
 from message.views import ResetPasswordRequestView, PasswordResetConfirmView
 
@@ -25,7 +26,9 @@ urlpatterns = patterns('',
     url(r'^api/messages/last', LastMessage.as_view()),
     url(r'^api/messages/read', MarkMessageRead.as_view()),
     url(r'^api/profiles/current', CurrentProfile.as_view()),
-    url(r'^api/checkout', Checkout.as_view()),
+    url(r'^api/subscription/checkout', SubscriptionCheckout.as_view()),
+    url(r'^api/subscription/cancel', SubscriptionCancel.as_view()),
+    url(r'^api/subscription', Subscription.as_view()),
     url(r'^api/auth/token/', 'rest_framework.authtoken.views.obtain_auth_token'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),

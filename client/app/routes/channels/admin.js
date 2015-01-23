@@ -4,6 +4,7 @@ export default Ember.Route.extend({
   model: function () {
     return Ember.RSVP.hash({
       channels: this.store.find('channel'),
+      subscriptions: this.store.find('subscription'),
       profile: this.store.find('profile', 'current'),
     });
   },
@@ -11,6 +12,7 @@ export default Ember.Route.extend({
   setupController: function (controller, model) {
     this._super(controller);
     controller.set('channels', model.channels);
+    controller.set('subscriptions', model.subscriptions);
   },
 
   afterModel: function (model) {

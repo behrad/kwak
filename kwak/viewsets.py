@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 import json
+import datetime
 from collections import defaultdict
 import stripe
 from rest_framework import status
@@ -425,10 +426,38 @@ class TeamView(RetrieveAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Checkout(APIView):
+class Subscription(APIView):
+    model = User
+
+    def get(self, request):
+        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
+
+        profile = get_object_or_404(Profile, pk=request.user.profile.id)
+        customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+        subscriptions = customer.subscriptions.data
+
+        output = []
+
+        for subscription in subscriptions:
+            output.append({
+                'cancel_at_period_end': subscription.cancel_at_period_end,
+                'id': len(output),
+                'subscription_id': subscription.id,
+                'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
+                'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
+                'plan_id': subscription.plan.id,
+                'quantity': subscription.quantity,
+            })
+
+        return Response({'subscription': output}, status=status.HTTP_200_OK)
+
+
+class SubscriptionCheckout(APIView):
     model = User
 
     def post(self, request):
+        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
+
         payload = json.loads(request.body)
 
         amount = int(payload['amount'])
@@ -449,8 +478,6 @@ class Checkout(APIView):
 
         profile = get_object_or_404(Profile, pk=request.user.profile.id)
         team = get_object_or_404(Team, pk=payload['team'])
-
-        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
 
         if profile.stripe_customer_id:
             customer = stripe.Customer.retrieve(profile.stripe_customer_id)
@@ -475,8 +502,29 @@ class Checkout(APIView):
             profile.stripe_customer_id = customer.id
             profile.save()
 
-        team.paid_for_users = users_number
+        team.paid_for_users = team.paid_for_users + users_number
         team.is_paying = True
         team.save()
+
+        return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class SubscriptionCancel(APIView):
+    model = User
+
+    def post(self, request):
+        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
+
+        payload = json.loads(request.body)
+
+        profile = get_object_or_404(Profile, pk=request.user.profile.id)
+
+        if profile.stripe_customer_id:
+            customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+            subscription = customer.subscriptions.retrieve(payload['subscription_id'])
+            quantity = subscription.quantity
+            subscription.delete(at_period_end=True)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_202_ACCEPTED)
