@@ -67,6 +67,10 @@ export default Ember.Controller.extend({
     return this.get('profiles').filterBy('is_active', false).sortBy('name');
   }.property('profiles.@each.is_active'),
 
+  existingCard: function () {
+    return this.get('currentUser.content.stripe_customer_id') !== '';
+  },
+
   actions: {
     toggleActive: function (id, is_active) {
       var self = this;
@@ -98,7 +102,7 @@ export default Ember.Controller.extend({
         'price': this.get('plan'),
         'usersNumber': this.get('usersNumber'),
         'amount': this.get('amount'),
-        'same_card': false,
+        'same_card': (token === 123),
       };
 
       var factor = 1;

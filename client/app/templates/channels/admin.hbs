@@ -17,24 +17,29 @@
           Please send us an email at <a href="mailto:inquiry@kwak.io">inquiry@kwak.io</a>, we'll discuss a better offer.
         </p>
 
-        {{#if currentUser.stripe_customer_id}}
-          <button class="btn btn-primary">Pay Now</button> <small>using the same credit card as last time</small>
-        {{/if}}
+        <div class="row">
+          {{#if existingCard}}
+            <div class="col-sm-6">
+              <button class="btn btn-primary" {{action 'processStripeToken' 123}}>Pay Now</button><br><small>using the same credit card as last time</small>
+            </div>
+          {{/if}}
 
-        {{stripe-checkout
-          class="btn btn-primary"
-          name="Checkout Form"
-          email=currentUser.email
-          currency="USD"
-          description=plan.name
-          amount=amountCents
-          allowRememberMe=true
-          label="Proceed to checkout"
-          panelLabel="Subscribe for {{amount}}"
-          isDisabled=payButtonDisabled
-          action="processStripeToken"
-        }} <small>using a new Credit Card</small>
-
+            <div class="col-sm-6">
+              {{stripe-checkout
+                class="btn btn-primary"
+                name="Checkout Form"
+                email=currentUser.email
+                currency="USD"
+                description=plan.name
+                amount=amountCents
+                allowRememberMe=true
+                label="Proceed to checkout"
+                panelLabel="Subscribe for {{amount}}"
+                isDisabled=payButtonDisabled
+                action="processStripeToken"
+              }}{{#if existingCard}}<br><small>using a new Credit Card</small>{{/if}}
+          </div>
+        </div>
         <hr>
 
         <h4>Your Current Subscriptions</h4>
@@ -48,7 +53,7 @@
           <p>{{sub.quantity}} user{{sub.s}} will be substracted from your user limit at the end of this billing cycle, on {{sub.end}}.</p>
           {{else}}
           <p>
-            <button {{action 'cancelSubscription' sub.id sub.subscription_id}} onClick="confirm('Are you sure? This is the last time we ask.')">Cancel</button> my subscription for {{subscription.quantity}} users at the end of my current billing period. <small>You will still benefit from your current plan until your next payment is due. We'll substract {{subscription.quantity}} user{{sub.s}} from your active users afterwards.</small>
+            <button {{action 'cancelSubscription' sub.id sub.subscription_id}} onClick="confirm('Are you sure? This is the last time we ask.')">Cancel</button> my subscription for {{sub.quantity}} users at the end of my current billing period. <small>You will still benefit from your current plan until your next payment is due. We'll substract {{sub.quantity}} user{{sub.s}} from your active users afterwards. You will not be billed again for this subscription.</small>
           </p>
           {{/if}}
           <hr>
