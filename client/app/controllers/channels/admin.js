@@ -114,11 +114,18 @@ export default Ember.Controller.extend({
         return;
       }
 
-      Ember.$.post('api/subscription/checkout/', JSON.stringify(payload), function () {
+      Ember.$.post('api/subscriptions/checkout/', JSON.stringify(payload), function (data) {
+        console.log(data);
         mixpanel.track('checkout button click');
         mixpanel.people.track_charge(payload.amount);
         var team = self.store.getById('team', payload.team);
         team.set('paid_for_users', team.get('paid_for_users')+parseInt(payload.usersNumber, 10));
+        self.store.createRecord('subscription', {
+          quantity: data['quantity'],
+          plan_id: data['plan_id'],
+          cancel_at_period_end: false,
+          subscription_id: data['subscription_id'],
+        });
       }).fail(function () {
         this.set('error', 'The backend denied your request. Please contact inquiry@kwak.io.');
       });
@@ -129,7 +136,7 @@ export default Ember.Controller.extend({
         'subscription_id': subscription_id,
       };
 
-      Ember.$.post('api/subscription/cancel', JSON.stringify(payload), function () {
+      Ember.$.post('api/subscriptions/cancel', JSON.stringify(payload), function () {
         var subscription = self.store.getById('subscription', id); console.log(subscription);
         subscription.set('cancel_at_period_end', true);
       }).fail(function () {

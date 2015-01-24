@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from message.models import Profile, Team, Channel, Topic, Message, Pm
+from message.models import Profile, Team, Channel, Topic, Message, Pm, Subscription
 
 
 class ProfileInline(admin.StackedInline):
@@ -34,9 +34,13 @@ class PmAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'user')
 
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('team', 'plan', 'quantity', 'status', 'cancel_at_period_end', 'same_card', 'current_period_start', 'current_period_end', 'subscription_id')
+
 admin.site.register(Topic, TopicAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Channel, ChannelAdmin)
 admin.site.register(Message, MessageAdmin)
 admin.site.register(Pm, PmAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Subscription, SubscriptionAdmin)

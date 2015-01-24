@@ -1,4 +1,4 @@
-from message.models import Team, Channel, Topic, Message, Profile, Pm
+from message.models import Team, Channel, Topic, Message, Profile, Pm, Subscription
 from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.db.models import Q
@@ -426,7 +426,7 @@ class TeamView(RetrieveAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Subscription(APIView):
+class Subscriptions(APIView):
     model = User
 
     def get(self, request):
@@ -454,7 +454,7 @@ class Subscription(APIView):
         return Response({'subscription': output}, status=status.HTTP_200_OK)
 
 
-class SubscriptionCheckout(APIView):
+class SubscriptionsCheckout(APIView):
     model = User
 
     def post(self, request):
@@ -484,15 +484,39 @@ class SubscriptionCheckout(APIView):
         if profile.stripe_customer_id:
             customer = stripe.Customer.retrieve(profile.stripe_customer_id)
             if payload['same_card']:
-                customer.subscriptions.create(
+                subscription = customer.subscriptions.create(
                     plan=plan,
                     quantity=users_number
                 )
+                Subscription.objects.create(
+                    subscription_id=subscription.id,
+                    plan=plan,
+                    status='active',
+                    cancel_at_period_end=False,
+                    quantity=users_number,
+                    same_card=True,
+                    team=team,
+                    current_period_start=datetime.datetime.fromtimestamp(subscription.current_period_start),
+                    current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
+                    profile=self.request.user.profile,
+                )
             else:
-                customer.subscriptions.create(
+                subscription = customer.subscriptions.create(
                     card=payload['token']['id'],
                     plan=plan,
                     quantity=users_number
+                )
+                Subscription.objects.create(
+                    subscription_id=subscription.id,
+                    plan=plan,
+                    status='active',
+                    cancel_at_period_end=False,
+                    quantity=users_number,
+                    same_card=False,
+                    team=team,
+                    current_period_start=datetime.datetime.fromtimestamp(subscription.current_period_start),
+                    current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
+                    profile=self.request.user.profile,
                 )
         else:
             customer = stripe.Customer.create(
@@ -503,14 +527,31 @@ class SubscriptionCheckout(APIView):
             )
             profile.stripe_customer_id = customer.id
             profile.save()
+            subscription = customer.subscriptions.data[0]
+            Subscription.objects.create(
+                subscription_id=subscription.id,
+                plan=plan,
+                status='active',
+                cancel_at_period_end=False,
+                quantity=users_number,
+                same_card=False,
+                team=team,
+                current_period_start=datetime.datetime.fromtimestamp(subscription.current_period_start),
+                current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
+                profile=self.request.user.profile,
+            )
 
         team.paid_for_users = team.paid_for_users + users_number
         team.save()
 
-        return Response(status=status.HTTP_202_ACCEPTED)
+        return Response({
+            'quantity': users_number,
+            'plan_id': plan,
+            'subscription_id': subscription.id,
+        }, status=status.HTTP_202_ACCEPTED)
 
 
-class SubscriptionCancel(APIView):
+class SubscriptionsCancel(APIView):
     model = User
 
     def post(self, request):
@@ -519,12 +560,15 @@ class SubscriptionCancel(APIView):
         payload = json.loads(request.body)
 
         profile = get_object_or_404(Profile, pk=request.user.profile.id)
+        kwak_subscription = get_object_or_404(Subscription, subscription_id=payload['subscription_id'])
 
         if profile.stripe_customer_id:
             customer = stripe.Customer.retrieve(profile.stripe_customer_id)
             subscription = customer.subscriptions.retrieve(payload['subscription_id'])
             # quantity = subscription.quantity
             subscription.delete(at_period_end=True)
+            kwak_subscription.cancel_at_period_end = True
+            kwak_subscription.save()
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

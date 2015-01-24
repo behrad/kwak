@@ -116,6 +116,7 @@ class Message(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.author.name, self.content[0:10])
 
+
 class Pm(models.Model):
 
     class Meta:
@@ -134,6 +135,27 @@ class Pm(models.Model):
 
     def __unicode__(self):
         return u"pm with {} - {}".format(self.author.name, self.content[0:10])
+
+
+class Subscription(models.Model):
+
+    class Meta:
+        verbose_name = 'Subscription'
+        verbose_name_plural = 'Subscriptions'
+
+    subscription_id = models.CharField('subscription_id', max_length=120)
+    plan = models.CharField('plan', max_length=120)
+    status = models.CharField('status', max_length=120)
+    cancel_at_period_end = models.BooleanField(default=False)
+    same_card = models.BooleanField(default=False)
+    quantity = models.IntegerField(default=0)
+    current_period_start = models.DateTimeField('current_period_start')
+    current_period_end = models.DateTimeField('current_period_end')
+    team = models.ForeignKey(Team, related_name='team_subscriptions')
+    profile = models.ForeignKey(Profile, related_name='profile_subscriptions')
+
+    def __unicode__(self):
+        return '{} - {}'.format(self.team.name, self.subscription_id)
 
 
 def create_profile(sender, **kw):
