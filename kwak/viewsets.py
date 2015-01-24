@@ -505,7 +505,6 @@ class SubscriptionCheckout(APIView):
             profile.save()
 
         team.paid_for_users = team.paid_for_users + users_number
-        team.is_paying = True
         team.save()
 
         return Response(status=status.HTTP_202_ACCEPTED)
@@ -524,7 +523,7 @@ class SubscriptionCancel(APIView):
         if profile.stripe_customer_id:
             customer = stripe.Customer.retrieve(profile.stripe_customer_id)
             subscription = customer.subscriptions.retrieve(payload['subscription_id'])
-            quantity = subscription.quantity
+            # quantity = subscription.quantity
             subscription.delete(at_period_end=True)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
