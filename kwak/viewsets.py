@@ -178,6 +178,15 @@ class TopicViewSet(ModelViewSet):
             queryset = queryset.filter(channel__id=channel_id).filter(title=title)
         return queryset
 
+    def destroy(self, request, pk):
+        topic = get_object_or_404(Topic, pk=pk)
+        profile = request.user.profile
+        if profile.is_admin and topic.channel.team in profile.teams.all():
+            topic.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
 
 class MessageViewSet(ModelViewSet):
     model = Message

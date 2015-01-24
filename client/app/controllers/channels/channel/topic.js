@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  needs: ['profiles', 'channels/channel/message-create', 'channels/channel/mark-as-read'],
+  needs: ['profile', 'profiles', 'channels/channel/message-create', 'channels/channel/mark-as-read'],
   topicTitle: Ember.computed.oneWay('model.topic.title'),
+  currentUser: Ember.computed.alias('controllers.profile'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
   _scroll: function () {
@@ -28,6 +29,13 @@ export default Ember.Controller.extend({
         topicTitle
       );
       this.set('message', '');
+    },
+    deleteTopic: function () {
+      this.get('model.topic').destroyRecord();
+      this.transitionToRoute('channels.channel', this.get('model.channel'));
+    },
+    lockTopic: function () {
+      this.get('model.topic').set('is_locked', true).save();
     },
     markAsRead: function (messageId) {
       var controller = this.get('controllers.channels/channel/mark-as-read');

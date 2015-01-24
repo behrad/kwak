@@ -1,3 +1,9 @@
+{{#if currentUser.is_admin}}
+<div class="pull-right">
+  <button {{action 'lockTopic' }} class="btn btn-info"><i class="glyphicon glyphicon-lock"></i> lock topic</button>
+  <button {{action 'deleteTopic' }} class="btn btn-danger" onClick="confirm('Are you sure? This is the last time we ask.')"><i class="glyphicon glyphicon-trash"></i> delete topic</button>
+</div>
+{{/if}}
 <div class="message-list">
   {{#each message in model.messages itemController="message"}}
   <div {{bind-attr class="message.seen:seen :row :message"}} {{bind-attr data-message-id=message.id}}>
