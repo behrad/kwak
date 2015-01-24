@@ -68,7 +68,7 @@ export default Ember.Controller.extend({
   }.property('profiles.@each.is_active'),
 
   existingCard: function () {
-    return this.get('currentUser.content.stripe_customer_id') !== '';
+    return !!this.get('currentUser.content.stripe_customer_id');
   }.property(),
 
   actions: {
