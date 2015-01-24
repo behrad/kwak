@@ -109,7 +109,7 @@ class ChannelViewSet(ModelViewSet):
         if not default_changed:
             if color and channel.color != color:
                 channel.color = color
-            if name and channel.name != name:
+            if request.user.profile.is_admin and name and channel.name != name:
                 channel.name = name
             if subscribed is True:
                 channel.readers.add(self.request.user.profile)

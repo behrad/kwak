@@ -3,15 +3,15 @@
     <li {{bind-attr class=":list-group-item"}}>
       {{view "select" classNames="colorselector" content=colors value=channel.color optionValuePath="content.id" optionLabelPath="content.name" code="content.code"}}
       <label>
-        {{input type="checkbox" checked=channel.subscribed}} {{channel.name}}
+        {{input type="checkbox" checked=channel.subscribed}} {{#if currentUser.is_admin}}{{input class="form-control-inline" value=channel.name}} <button {{action 'renameChannel' channel.id}} class="btn btn-default">rename</button>{{else}}{{channel.name}}{{/if}}
       </label>
     </li>
   {{/each}}
     <li class="list-group-item">
       {{view "select" classNames="colorselector" content=colors optionValuePath="content.id" optionLabelPath="content.name" value=color}}
-      {{input action="createChannel" class="channel-create" value=name}}
+      {{input action="createChannel" class="channel-create form-control-inline" value=name}}
       {{#if hasMultipleTeams}}
-        {{view "select" content=teams optionValuePath="content.id" optionLabelPath="content.name" value=selectedTeam}}
+        {{view "select" class="form-control-inline" content=teams optionValuePath="content.id" optionLabelPath="content.name" value=selectedTeam}}
       {{/if}}
     </li>
 </ul>

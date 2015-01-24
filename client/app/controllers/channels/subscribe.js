@@ -36,6 +36,9 @@ export default Ember.ObjectController.extend({
         });
       });
     },
+    renameChannel: function () {
+      this.get('model').save();
+    },
   },
 
   teams: function () {
