@@ -22,6 +22,7 @@ class Profile(models.Model):
     email_on_mention = models.BooleanField(default=True)
     email_on_pm = models.BooleanField(default=True)
     hide_tour = models.BooleanField(default=False)
+    stripe_customer_id = models.CharField(default=None, blank=True, null=True, max_length=120)
 
     def is_active(self):
         return self.user.is_active
@@ -39,8 +40,9 @@ class Team(models.Model):
     members = models.ManyToManyField(Profile, null=True, blank=True, related_name='teams')
     name = models.CharField('name', max_length=120)
     uid = models.CharField(max_length=100, unique=True, default=uuid4)
-    is_paying = models.BooleanField(default=False)
     users_can_change_names = models.BooleanField(default=True)
+
+    paid_for_users = models.IntegerField(default=5)
 
     def __unicode__(self):
         return self.name
@@ -114,6 +116,7 @@ class Message(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.author.name, self.content[0:10])
 
+
 class Pm(models.Model):
 
     class Meta:
@@ -132,6 +135,27 @@ class Pm(models.Model):
 
     def __unicode__(self):
         return u"pm with {} - {}".format(self.author.name, self.content[0:10])
+
+
+class Subscription(models.Model):
+
+    class Meta:
+        verbose_name = 'Subscription'
+        verbose_name_plural = 'Subscriptions'
+
+    subscription_id = models.CharField('subscription_id', max_length=120)
+    plan = models.CharField('plan', max_length=120)
+    status = models.CharField('status', max_length=120)
+    cancel_at_period_end = models.BooleanField(default=False)
+    same_card = models.BooleanField(default=False)
+    quantity = models.IntegerField(default=0)
+    current_period_start = models.DateTimeField('current_period_start')
+    current_period_end = models.DateTimeField('current_period_end')
+    team = models.ForeignKey(Team, related_name='team_subscriptions')
+    profile = models.ForeignKey(Profile, related_name='profile_subscriptions')
+
+    def __unicode__(self):
+        return '{} - {}'.format(self.team.name, self.subscription_id)
 
 
 def create_profile(sender, **kw):

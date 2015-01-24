@@ -9,6 +9,7 @@ export default DS.Model.extend({
   email_on_pm: DS.attr('boolean'),
   hide_tour: DS.attr('boolean'),
   is_active: DS.attr('boolean', {defaultValue: true}),
+  stripe_customer_id: DS.attr('string'),
   unreadPm: function () {
     return '';
   }.property()

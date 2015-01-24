@@ -24,7 +24,7 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
           data = self.getProperties('identification', 'firstName', 'lastName', 'password');
           data['uid'] = uid;
         }
-        Ember.$.post('api/users/', { user: data }, function() {
+        Ember.$.post('api/users/', { user: data }, function () {
           if (data['team']) {
             mixpanel.track("team created");
             mixpanel.track("account created");

@@ -1,18 +1,24 @@
-from message.models import Team, Channel, Topic, Message, Profile, Pm
+from message.models import Team, Channel, Topic, Message, Profile, Pm, Subscription
 from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 import json
+import datetime
 from collections import defaultdict
+import stripe
+from django.conf import settings
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer, TopicSideloadSerializer, MessageSideloadSerializer, PmSideloadSerializer, TeamSerializer
+
+from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerializer
+from kwak.serializers import TopicSideloadSerializer, MessageSideloadSerializer
+from kwak.serializers import PmSideloadSerializer, TeamSerializer
 
 
 class ProfileViewSet(ModelViewSet):
@@ -35,6 +41,7 @@ class ProfileViewSet(ModelViewSet):
         try:
             profile = Profile.objects.filter(pk=pk, teams__in=self.request.user.profile.teams.all()).distinct()[0]
         except IndexError:
+            print Profile.objects.filter(pk=pk, teams__in=self.request.user.profile.teams.all()).distinct()
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         modified = False
@@ -46,9 +53,9 @@ class ProfileViewSet(ModelViewSet):
             if not is_active and len(teams) > 1: # cannot be handled programmatically
                 return Response({'error': 'User has multiple teams. Cannot deactivate user from all their teams.'}, status=status.HTTP_409_CONFLICT)
 
-            team = teams[0]
-            if is_active and not team.is_paying and len(team.members.filter(user__is_active=True)) >= 5:
-                return Response({'error': 'You have reached your active members limit. Please switch your team to a paying account to keep using kwak.io with more than 5 active users, or send an email to inquiry@kwak.io.'}, status=status.HTTP_403_FORBIDDEN)
+            team = self.request.user.profile.teams.all()[0]
+            if is_active and len(team.members.filter(user__is_active=True)) >= team.paid_for_users:
+                return Response({'error': 'You have reached your active members limit ({}). Please switch your team to a paying account to keep using kwak.io with more than {} active users, or send an email to inquiry@kwak.io.'.format(team.paid_for_users, team.paid_for_users)}, status=status.HTTP_403_FORBIDDEN)
 
             profile.user.is_active = is_active
             profile.user.save()
@@ -417,4 +424,178 @@ class TeamView(RetrieveAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Subscriptions(APIView):
+    model = User
+
+    def get(self, request):
+        stripe.api_key = settings.STRIPE_KEY
+
+        profile = get_object_or_404(Profile, pk=request.user.profile.id)
+
+        output = []
+
+        if profile.stripe_customer_id:
+            customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+            subscriptions = customer.subscriptions.data
+
+            for subscription in subscriptions:
+                if subscription.status == 'active':
+                    output.append({
+                        'cancel_at_period_end': subscription.cancel_at_period_end,
+                        'id': len(output),
+                        'subscription_id': subscription.id,
+                        'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
+                        'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
+                        'plan_id': subscription.plan.id,
+                        'quantity': subscription.quantity,
+                    })
+
+        return Response({'subscription': output}, status=status.HTTP_200_OK)
+
+
+class SubscriptionsCheckout(APIView):
+    model = User
+
+    def post(self, request):
+        stripe.api_key = settings.STRIPE_KEY
+
+        payload = json.loads(request.body)
+
+        amount = int(payload['amount'])
+        price = int(payload['price'])
+        users_number = int(payload['usersNumber'])
+        error = False
+
+        if price == 3:
+            plan = "Annually"
+            factor = 12
+        elif price == 4:
+            plan = "Monthly"
+            factor = 1
+        else:
+            error = True
+        if error or factor*price*users_number != amount:
+            return Response({'error': 'Sum mismatch.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        profile = get_object_or_404(Profile, pk=request.user.profile.id)
+        team = get_object_or_404(Team, pk=payload['team'])
+
+        if profile.stripe_customer_id:
+            customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+            if payload['same_card']:
+                subscription = customer.subscriptions.create(
+                    plan=plan,
+                    quantity=users_number
+                )
+                Subscription.objects.create(
+                    subscription_id=subscription.id,
+                    plan=plan,
+                    status='active',
+                    cancel_at_period_end=False,
+                    quantity=users_number,
+                    same_card=True,
+                    team=team,
+                    current_period_start=datetime.datetime.fromtimestamp(subscription.current_period_start),
+                    current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
+                    profile=self.request.user.profile,
+                )
+            else:
+                subscription = customer.subscriptions.create(
+                    card=payload['token']['id'],
+                    plan=plan,
+                    quantity=users_number
+                )
+                Subscription.objects.create(
+                    subscription_id=subscription.id,
+                    plan=plan,
+                    status='active',
+                    cancel_at_period_end=False,
+                    quantity=users_number,
+                    same_card=False,
+                    team=team,
+                    current_period_start=datetime.datetime.fromtimestamp(subscription.current_period_start),
+                    current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
+                    profile=self.request.user.profile,
+                )
+        else:
+            customer = stripe.Customer.create(
+              card=payload['token']['id'],
+              plan=plan,
+              email=payload['token']['email'],
+              quantity=users_number
+            )
+            profile.stripe_customer_id = customer.id
+            profile.save()
+            subscription = customer.subscriptions.data[0]
+            Subscription.objects.create(
+                subscription_id=subscription.id,
+                plan=plan,
+                status='active',
+                cancel_at_period_end=False,
+                quantity=users_number,
+                same_card=False,
+                team=team,
+                current_period_start=datetime.datetime.fromtimestamp(subscription.current_period_start),
+                current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
+                profile=self.request.user.profile,
+            )
+
+        team.paid_for_users = team.paid_for_users + users_number
+        team.save()
+
+        return Response({
+            'quantity': users_number,
+            'plan_id': plan,
+            'subscription_id': subscription.id,
+        }, status=status.HTTP_202_ACCEPTED)
+
+
+class SubscriptionsCancel(APIView):
+    model = User
+
+    def get(self, request):
+        if request.META['REMOTE_ADDR'] != '127.0.0.1':
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        stripe.api_key = settings.STRIPE_KEY
+        subscriptions = Subscription.objects.filter(
+            status='active',
+            cancel_at_period_end=True,
+            current_period_end__lte=datetime.datetime.now()
+        )
+        output = []
+        for sub in subscriptions:
+            sub.status = 'cancelled'
+            sub.save()
+
+            sub.team.paid_for_users -= sub.quantity
+            sub.team.save()
+            output.append("{} cancelled {} removed {} users".format(datetime.datetime.now(), sub.subscription_id, sub.quantity))
+        if output:
+            return Response(output, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_200_OK)
+
+
+
+    def post(self, request):
+        stripe.api_key = settings.STRIPE_KEY
+
+        payload = json.loads(request.body)
+
+        profile = get_object_or_404(Profile, pk=request.user.profile.id)
+        kwak_subscription = get_object_or_404(Subscription, subscription_id=payload['subscription_id'])
+
+        if profile.stripe_customer_id:
+            customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+            subscription = customer.subscriptions.retrieve(payload['subscription_id'])
+            # quantity = subscription.quantity
+            subscription.delete(at_period_end=True)
+            kwak_subscription.cancel_at_period_end = True
+            kwak_subscription.save()
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_202_ACCEPTED)
