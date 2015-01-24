@@ -8,6 +8,7 @@ import json
 import datetime
 from collections import defaultdict
 import stripe
+from django.conf import settings
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveAPIView
@@ -430,7 +431,7 @@ class Subscriptions(APIView):
     model = User
 
     def get(self, request):
-        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
+        stripe.api_key = settings.STRIPE_KEY
 
         profile = get_object_or_404(Profile, pk=request.user.profile.id)
 
@@ -441,15 +442,16 @@ class Subscriptions(APIView):
             subscriptions = customer.subscriptions.data
 
             for subscription in subscriptions:
-                output.append({
-                    'cancel_at_period_end': subscription.cancel_at_period_end,
-                    'id': len(output),
-                    'subscription_id': subscription.id,
-                    'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
-                    'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
-                    'plan_id': subscription.plan.id,
-                    'quantity': subscription.quantity,
-                })
+                if subscription.status == 'active':
+                    output.append({
+                        'cancel_at_period_end': subscription.cancel_at_period_end,
+                        'id': len(output),
+                        'subscription_id': subscription.id,
+                        'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
+                        'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
+                        'plan_id': subscription.plan.id,
+                        'quantity': subscription.quantity,
+                    })
 
         return Response({'subscription': output}, status=status.HTTP_200_OK)
 
@@ -458,7 +460,7 @@ class SubscriptionsCheckout(APIView):
     model = User
 
     def post(self, request):
-        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
+        stripe.api_key = settings.STRIPE_KEY
 
         payload = json.loads(request.body)
 
@@ -554,8 +556,32 @@ class SubscriptionsCheckout(APIView):
 class SubscriptionsCancel(APIView):
     model = User
 
+    def get(self, request):
+        if request.META['REMOTE_ADDR'] != '127.0.0.1':
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        stripe.api_key = settings.STRIPE_KEY
+        subscriptions = Subscription.objects.filter(
+            status='active',
+            cancel_at_period_end=True,
+            current_period_end__lte=datetime.datetime.now()
+        )
+        output = []
+        for sub in subscriptions:
+            sub.status = 'cancelled'
+            sub.save()
+
+            sub.team.paid_for_users -= sub.quantity
+            sub.team.save()
+            output.append("{} cancelled {} removed {} users".format(datetime.datetime.now(), sub.subscription_id, sub.quantity))
+        if output:
+            return Response(output, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_200_OK)
+
+
+
     def post(self, request):
-        stripe.api_key = "sk_test_yyvRi5o6iPvx5kBv2DrksY5H"
+        stripe.api_key = settings.STRIPE_KEY
 
         payload = json.loads(request.body)
 

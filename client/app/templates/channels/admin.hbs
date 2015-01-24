@@ -57,7 +57,6 @@
             <button {{action 'cancelSubscription' sub.id sub.subscription_id}} onClick="confirm('Are you sure? This is the last time we ask.')">Cancel</button> my subscription for {{sub.quantity}} users at the end of my current billing period. <small>You will still benefit from your current plan until your next payment is due. We'll substract {{sub.quantity}} user{{sub.s}} from your active users afterwards. You will not be billed again for this subscription.</small>
           </p>
           {{/if}}
-          <hr>
         {{/each}}
         {{/if}}
       </div>

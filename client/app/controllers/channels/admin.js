@@ -115,7 +115,6 @@ export default Ember.Controller.extend({
       }
 
       Ember.$.post('api/subscriptions/checkout/', JSON.stringify(payload), function (data) {
-        console.log(data);
         mixpanel.track('checkout button click');
         mixpanel.people.track_charge(payload.amount);
         var team = self.store.getById('team', payload.team);
