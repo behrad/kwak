@@ -555,6 +555,7 @@ class SubscriptionsCheckout(APIView):
 
 class SubscriptionsCancel(APIView):
     model = User
+    permission_classes = (AllowAny,)
 
     def get(self, request):
         if request.META['REMOTE_ADDR'] != '127.0.0.1':
