@@ -38,7 +38,7 @@ class Team(models.Model):
         verbose_name_plural = 'Teams'
 
     members = models.ManyToManyField(Profile, null=True, blank=True, related_name='teams')
-    name = models.CharField('name', max_length=120)
+    name = models.CharField('name', max_length=120, unique=True)
     uid = models.CharField(max_length=100, unique=True, default=uuid4)
     users_can_change_names = models.BooleanField(default=True)
 
@@ -77,6 +77,8 @@ class Topic(models.Model):
     channel = models.ForeignKey(Channel, related_name='topics')
     is_locked = models.BooleanField(default=False)
 
+    unique_together = (("title", "channel"),)
+
     def team(self):
         return self.channel.team
 
@@ -107,11 +109,11 @@ class Message(models.Model):
         return self.topic.channel.team
 
     def get_thread_url(self):
-        return u'https://kwak.io/channels/{}/{}/{}/{}'.format(
+        return 'https://kwak.io/channels/{}/{}/{}/{}'.format(
             self.topic.channel.id,
-            urllib.quote_plus(self.topic.channel.name),
+            urllib.quote_plus(self.topic.channel.name.encode('utf-8')),
             self.topic.id,
-            urllib.quote_plus(self.topic.title)
+            urllib.quote_plus(self.topic.title.encode('utf-8'))
         )
 
     def __unicode__(self):

@@ -9,6 +9,8 @@ from kwak.viewsets import Subscriptions, SubscriptionsCheckout, SubscriptionsCan
 
 from message.views import ResetPasswordRequestView, PasswordResetConfirmView
 
+from search.views import search
+
 
 router = routers.DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
@@ -33,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^api/reset_password', ResetPasswordRequestView.as_view(), name="reset_password"),
+    url(r'^api/search', search),
     url(r'^api/', include(router.urls)),
     url(r'^admin/', include(admin.site.urls)),
 )
