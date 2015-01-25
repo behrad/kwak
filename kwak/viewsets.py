@@ -480,25 +480,27 @@ class Subscriptions(APIView):
     def get(self, request):
         stripe.api_key = settings.STRIPE_KEY
 
-        profile = get_object_or_404(Profile, pk=request.user.profile.id)
-
         output = []
 
-        if profile.stripe_customer_id:
-            customer = stripe.Customer.retrieve(profile.stripe_customer_id)
-            subscriptions = customer.subscriptions.data
+        if stripe.api_key:
 
-            for subscription in subscriptions:
-                if subscription.status == 'active':
-                    output.append({
-                        'cancel_at_period_end': subscription.cancel_at_period_end,
-                        'id': len(output),
-                        'subscription_id': subscription.id,
-                        'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
-                        'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
-                        'plan_id': subscription.plan.id,
-                        'quantity': subscription.quantity,
-                    })
+            profile = get_object_or_404(Profile, pk=request.user.profile.id)
+
+            if profile.stripe_customer_id:
+                customer = stripe.Customer.retrieve(profile.stripe_customer_id)
+                subscriptions = customer.subscriptions.data
+
+                for subscription in subscriptions:
+                    if subscription.status == 'active':
+                        output.append({
+                            'cancel_at_period_end': subscription.cancel_at_period_end,
+                            'id': len(output),
+                            'subscription_id': subscription.id,
+                            'start': datetime.datetime.fromtimestamp(subscription.current_period_start),
+                            'end': datetime.datetime.fromtimestamp(subscription.current_period_end),
+                            'plan_id': subscription.plan.id,
+                            'quantity': subscription.quantity,
+                        })
 
         return Response({'subscription': output}, status=status.HTTP_200_OK)
 
