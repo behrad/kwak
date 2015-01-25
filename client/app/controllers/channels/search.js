@@ -14,15 +14,13 @@ export default Ember.Controller.extend({
 
   limit: false,
 
-  // formatHtml: function (raw) {
-  //   var converter = new window.Showdown.converter({ extensions: ['github'] });
-  //   // re colorize whenever we recompute the value
-  //   return converter.makeHtml(this.get('content'));
-  // },
-
   actions: {
     search: function () {
       var self = this;
+      var formatHtml = function (raw) {
+        var converter = new window.Showdown.converter({ extensions: ['github'] });
+        return converter.makeHtml(raw);
+      };
       if (self.get('terms.length') < 3) {
         self.set('limit', true);
         self.set('results', []);
@@ -31,7 +29,6 @@ export default Ember.Controller.extend({
           data = data['results'];
           var results = [];
           for (var i = 0; i < data.length; i++) {
-            console.log(data[i]['color']);
             results.push({
               topic: data[i]['content'][0],
               topic_id: data[i]['topic_id'],
@@ -39,7 +36,7 @@ export default Ember.Controller.extend({
               channel_id: data[i]['channel_id'],
               channel_color: data[i]['channel_color'],
               author: data[i]['content'][1],
-              content: data[i]['content'][2],
+              content: formatHtml(data[i]['content'][2]),
               url: data[i]['url'],
               pubdata: data[i]['pubdate'],
             });
