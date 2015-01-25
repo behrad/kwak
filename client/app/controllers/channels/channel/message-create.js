@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: ['profile', 'channels/channel'],
+  needs: ['profile', 'channels/channel', 'channels/channel/topic'],
   currentUser: Ember.computed.alias('controllers.profile'),
   actions: {
     createMessage: function (channel, content, topicTitle) {
@@ -34,6 +34,7 @@ export default Ember.ObjectController.extend({
                 Ember.run.scheduleOnce('afterRender', self, scroll);
                 mixpanel.track("new message");
                 self.get('controllers.channels/channel.messages').pushObject(message);
+                self.get('controllers.channels/channel/topic.model.messages').pushObject(message);
                 Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
               });
             }
