@@ -178,6 +178,18 @@ class TopicViewSet(ModelViewSet):
             queryset = queryset.filter(channel__id=channel_id).filter(title=title)
         return queryset
 
+    def update(self, request, pk):
+        topic = get_object_or_404(Topic, pk=pk)
+        profile = request.user.profile
+        is_locked = request.data['topic'].get('is_locked', None)
+        if profile.is_admin and topic.channel.team in profile.teams.all():
+            topic.is_locked = is_locked
+            topic.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+
     def destroy(self, request, pk):
         topic = get_object_or_404(Topic, pk=pk)
         profile = request.user.profile
@@ -210,6 +222,32 @@ class MessageViewSet(ModelViewSet):
         if self.action == 'list':
             queryset = list(queryset)
         return queryset
+
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            d = serializer.validated_data
+            topic = d['topic']
+            author = d['author']
+            content = d['content']
+            if topic.is_locked:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+            else:
+                message = Message.objects.create(author=author, topic=topic, content=content)
+                return Response(
+                    {"message":
+                        {
+                        "pubdate": message.pubdate,
+                        "content": message.content,
+                        "topic_id": message.topic.id,
+                        "seen": True,
+                        "author_id": message.author.id,
+                        "id": message.id
+                        }
+                    }, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         message = Message.objects.get(pk=pk)

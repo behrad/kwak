@@ -75,6 +75,7 @@ class Topic(models.Model):
 
     title = models.CharField('title', max_length=120)
     channel = models.ForeignKey(Channel, related_name='topics')
+    is_locked = models.BooleanField(default=False)
 
     def team(self):
         return self.channel.team

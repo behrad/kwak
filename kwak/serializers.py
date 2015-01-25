@@ -68,7 +68,7 @@ class PmSideloadSerializer(SideloadSerializer):
 class TopicSerializer(ModelSerializer):
     class Meta:
         model = Topic
-        fields = ('id', 'title', 'channel', 'messages')
+        fields = ('id', 'title', 'channel', 'messages', 'is_locked')
         read_only_fields = ('messages',)
 
 class TopicSideloadSerializer(SideloadSerializer):

@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
 
   actions: {
     createMessage: function () {
-      var channel = this.get('model.channel');
+      var channel = this.get('model.topic.channel');
 
       var content = this.get('message');
       if (!content.trim()) { return; }
@@ -32,10 +32,10 @@ export default Ember.Controller.extend({
     },
     deleteTopic: function () {
       this.get('model.topic').destroyRecord();
-      this.transitionToRoute('channels.channel', this.get('model.channel'));
+      this.transitionToRoute('channels.channel', this.get('model.topic.channel'));
     },
     lockTopic: function () {
-      this.get('model.topic').set('is_locked', true).save();
+      this.get('model.topic').set('is_locked', !this.get('model.topic.is_locked')).save();
     },
     markAsRead: function (messageId) {
       var controller = this.get('controllers.channels/channel/mark-as-read');

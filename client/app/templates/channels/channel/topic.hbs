@@ -1,12 +1,12 @@
 {{#if currentUser.is_admin}}
 <div class="pull-right">
-  <button {{action 'lockTopic' }} class="btn btn-info"><i class="glyphicon glyphicon-lock"></i> lock topic</button>
+  <button {{action 'lockTopic' }} class="btn btn-info"><i class="glyphicon glyphicon-lock"></i> {{#if model.topic.is_locked}}un{{/if}}lock topic</button>
   <button {{action 'deleteTopic' }} class="btn btn-danger" onClick="confirm('Are you sure? This is the last time we ask.')"><i class="glyphicon glyphicon-trash"></i> delete topic</button>
 </div>
 {{/if}}
 <div class="message-list">
   {{#each message in model.messages itemController="message"}}
-  <div {{bind-attr class="message.seen:seen :row :message"}} {{bind-attr data-message-id=message.id}}>
+  <div {{bind-attr class="message.seen:seen model.topic.is_locked :row :message"}} {{bind-attr data-message-id=message.id}}>
     <div {{bind-attr class=":col-md-12 message.topic.channel.color"}}>
       <span {{bind-attr class=":channel-color message.topic.channel.color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-minus"></i>{{/view}}</span>
       <div class="message-header">
@@ -28,6 +28,13 @@
   {{/each}}
 </div>
 
+{{#if model.topic.is_locked}}
+<footer class="row footer">
+  <div class="col-xs-12 text-center">
+    <h4>This topic has been locked.</h4>
+  </div>
+</footer>
+{{else}}
 <footer class="row footer">
   <div class="col-xs-12">
     <form {{action 'createMessage' on='submit' id='messageform'}}>
@@ -41,3 +48,4 @@
     </form>
   </div>
 </footer>
+{{/if}}
