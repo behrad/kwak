@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <i class="navbar-toggle glyphicon glyphicon-off" {{action 'invalidateSession'}}></i>
+      {{#link-to 'channels.search'}}<i class="navbar-toggle glyphicon glyphicon-search"></i>{{/link-to}}
       {{#if model.is_admin}}
         {{#link-to 'channels.admin'}}<i class="navbar-toggle glyphicon glyphicon-edit"></i>{{/link-to}}
       {{/if}}
-      <i class="navbar-toggle glyphicon glyphicon-refresh" {{action 'reload'}}></i>
       {{#link-to "channels" classNames="navbar-brand"}}<img src="assets/kwak.png">{{/link-to}}
     </div>
 
@@ -16,6 +16,7 @@
           {{#unless model.hide_tour}}
             <button class="btn btn-primary" {{action 'tour'}}>Take the tour!</button>
           {{/unless}}
+          {{#link-to 'channels.search' class="btn btn-default navbar-search"}}<i class="glyphicon glyphicon-search"></i> Search{{/link-to}}
           {{#if model.is_admin}}
             {{#link-to 'channels.admin' class="btn btn-default admin-panel"}}<i class="glyphicon glyphicon-edit"></i> Admin{{/link-to}}
           {{/if}}

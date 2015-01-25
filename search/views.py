@@ -4,8 +4,8 @@ from forms import MessageSearchForm
 
 def search(request):
     output = []
-    if request.user.is_authenticated():
-        query = request.GET.get('q', '')
+    query = request.GET.get('q', '')
+    if len(query) >= 3 and request.user.is_authenticated():
 
         profile = request.user.profile
         teams = profile.teams.all().values_list('name', flat=True)
@@ -17,7 +17,10 @@ def search(request):
         results = form.search()
         output = [{
             'content': o.text.split("\n", 2),
+            'topic_id': o.topic_id,
             'channel': o.channel,
+            'channel_id': o.channel_id,
+            'channel_color': o.channel_color,
             'url': o.thread_url
         } for o in results if o.team in teams]
 

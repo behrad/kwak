@@ -241,6 +241,11 @@ ul.nav.nav-pills.nav-stacked li a i {
   margin-left: 24px;
 }
 
+.search-form {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
 /* PM */
 .pm > div {
   margin: 0;

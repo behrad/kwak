@@ -33,6 +33,8 @@ Router.map(function () {
 
     this.route('profile');
 
+    this.route('search');
+
     this.route('admin');
 
     this.route('subscribe');
@@ -44,6 +46,7 @@ Router.map(function () {
     this.route('pm', {path: '/pm/:email'});
     this.route("feedback");
     this.route("profile");
+    this.route("search");
   });
 
   this.route("landing");

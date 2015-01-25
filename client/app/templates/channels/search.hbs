@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-sm-12">
+    <form {{action 'search'}} class="search-form">
+      <div class="input-group">
+        {{input id="search" class="form-control" placeholder="Search for..." value=terms}}
+        <span class="input-group-btn">
+          <button class="btn btn-default">Go!</button>
+        </span>
+      </div>
+    </form>
+    {{#if limit}}<p>Your query must consist of at least 3 characters.</p>{{/if}}
+  </div>
+</div>
+
+<div class="message-list">
+  {{#each message in results}}
+  <div class="row message seen">
+    <div {{bind-attr class=":col-md-12 message.channel_color"}}>
+      <span {{bind-attr class=":channel-color message.channel_color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-minus"></i>{{/view}}</span>
+      <div class="message-header">
+        {{#link-to 'channels.channel' message.channel_id message.channel class="channel-name"}}
+          {{message.channel}}
+        {{/link-to}}
+        <span class="glyphicon glyphicon-chevron-right"></span>
+          {{#link-to 'channels.channel.topic' message.channel_id message.channel message.topic_id message.topic class="topic-title"}}
+            {{message.topic}}
+          {{/link-to}}
+      </div>
+      <div class="message-body">
+        <small class="pull-right text-muted">
+          {{format-date message.pubdate}}
+        </small>
+        <h5>{{message.author}}</h5>
+        {{{message.content}}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
