@@ -15,7 +15,7 @@
 <div class="message-list">
   {{#if noResult}}
   <div class="row message seen">
-    <h4>No result, sorry.</h4>
+    <h4>No result for <code>{{terms}}</code>, sorry.</h4>
   </div>
   {{else}}
   {{#each message in results}}
