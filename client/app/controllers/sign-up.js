@@ -36,15 +36,15 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
             self.transitionToRoute('login');
           }, 15000);
         }).fail(function (jqxhr) {
-          if (jqxhr.status === 409) {
-            var errs = JSON.parse(jqxhr.responseText);
-            if (errs.error) {
-              self.set('eidentification', errs.error);
-            } else if (errs.emailError) {
-              self.set('eemail', errs.emailError);
-            } else {
-              self.set('eidentification', 'something bad happened');
-            }
+          var errs = JSON.parse(jqxhr.responseText);
+          if (errs.error) {
+            self.set('eidentification', errs.error);
+          } else if (errs.emailError) {
+            self.set('eemail', errs.emailError);
+          } if (errs.eTeam) {
+            self.set('eteam', errs.eTeam);
+          } else {
+            self.set('eidentification', 'something bad happened');
           }
         });
       }).catch(function () {

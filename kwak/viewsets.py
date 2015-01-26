@@ -378,12 +378,15 @@ class CreateUserView(APIView):
             try:
                 team = Team.objects.get(uid=request.data['user[uid]'])
             except Team.DoesNotExist:
-                return Response({'error' : 'team does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'eTeam' : 'team does not exist'}, status=status.HTTP_400_BAD_REQUEST)
         elif 'user[team]' in request.data:
             is_admin = True
-            team = Team.objects.create(name=request.data['user[team]'])
+            try:
+                team = Team.objects.create(name=request.data['user[team]'])
+            except IntegrityError:
+                return Response({'eTeam' : 'This team already exists. If you\'d like to join it, ask its admins to give you a special sign-up link.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error' : 'either join a team or create one'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'eTeam' : 'either join a team or create one'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user_group = Group.objects.get(name='user')
@@ -662,7 +665,7 @@ class Search(APIView):
             output = [{'error': 'no auth'}]
         elif len(query) >= 3:
             profile = request.user.profile
-            teams = profile.teams.all().values_list('name', flat=True)
+            teams = profile.teams.all().values_list('id', flat=True)
 
             # we retrieve the query to display it in the template
             form = MessageSearchForm(request.GET)
@@ -676,7 +679,7 @@ class Search(APIView):
                 'channel_id': o.channel_id,
                 'channel_color': o.channel_color,
                 'url': o.thread_url
-            } for o in results if o.team in teams]
+            } for o in results if o.team_id in teams]
         else:
             output = [{'error': 'query too short'}]
         return HttpResponse(json.dumps({'results': output}), content_type='application/json')

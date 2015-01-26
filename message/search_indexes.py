@@ -6,10 +6,10 @@ from django.utils import timezone
 
 class MessageIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    topic_id = indexes.CharField(model_attr='topic__id')
-    team = indexes.CharField(model_attr='topic__team')
+    topic_id = indexes.IntegerField(model_attr='topic__id')
+    team_id = indexes.IntegerField(model_attr='topic__channel__team__id')
     channel = indexes.CharField(model_attr='topic__channel')
-    channel_id = indexes.CharField(model_attr='topic__channel__id')
+    channel_id = indexes.IntegerField(model_attr='topic__channel__id')
     channel_color = indexes.CharField(model_attr='topic__channel__color')
     pubdate = indexes.DateTimeField(model_attr='pubdate')
     thread_url = indexes.CharField(model_attr='get_thread_url')
