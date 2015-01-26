@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
+from django.http import HttpResponse
 import json
 import datetime
 from collections import defaultdict
@@ -20,6 +21,7 @@ from kwak.serializers import ProfileSideloadSerializer, ChannelSideloadSerialize
 from kwak.serializers import TopicSideloadSerializer, MessageSideloadSerializer
 from kwak.serializers import PmSideloadSerializer, TeamSerializer
 
+from forms import MessageSearchForm
 
 class ProfileViewSet(ModelViewSet):
     model = Profile
@@ -649,3 +651,32 @@ class SubscriptionsCancel(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class Search(APIView):
+    model = User
+
+    def get(self, request):
+        query = request.GET.get('q', '')
+        if not request.user.is_authenticated():
+            output = [{'error': 'no auth'}]
+        elif len(query) >= 3:
+            profile = request.user.profile
+            teams = profile.teams.all().values_list('name', flat=True)
+
+            # we retrieve the query to display it in the template
+            form = MessageSearchForm(request.GET)
+
+            # we call the search method from the MessageSearchForm. Haystack do the work!
+            results = form.search()
+            output = [{
+                'content': o.text.split("\n", 2),
+                'topic_id': o.topic_id,
+                'channel': o.channel,
+                'channel_id': o.channel_id,
+                'channel_color': o.channel_color,
+                'url': o.thread_url
+            } for o in results if o.team in teams]
+        else:
+            output = [{'error': 'query too short'}]
+        return HttpResponse(json.dumps({'results': output}), content_type='application/json')
