@@ -12,7 +12,9 @@ export default Ember.Controller.extend({
     }
   },
 
+  terms: '',
   limit: false,
+  noResult: false,
 
   actions: {
     search: function () {
@@ -21,10 +23,13 @@ export default Ember.Controller.extend({
         var converter = new window.Showdown.converter({ extensions: ['github'] });
         return converter.makeHtml(raw);
       };
-      if (self.get('terms.length') < 3) {
+      if (self.get('terms') === '') {
+        self.set('results', []);
+      } else if (self.get('terms.length') < 3) {
         self.set('limit', true);
         self.set('results', []);
       } else {
+        self.set('limit', false);
         Ember.$.get('/api/search?q='+this.get('terms'), function(data) {
           data = data['results'];
           var results = [];
@@ -41,6 +46,7 @@ export default Ember.Controller.extend({
               pubdata: data[i]['pubdate'],
             });
           }
+          self.set('noResult', results.length === 0);
           self.set('results', results);
         });
       }

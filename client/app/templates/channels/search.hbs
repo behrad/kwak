@@ -13,6 +13,11 @@
 </div>
 
 <div class="message-list">
+  {{#if noResult}}
+  <div class="row message seen">
+    <h4>No result, sorry.</h4>
+  </div>
+  {{else}}
   {{#each message in results}}
   <div class="row message seen">
     <div {{bind-attr class=":col-md-12 message.channel_color"}}>
@@ -36,4 +41,5 @@
     </div>
   </div>
   {{/each}}
+  {{/if}}
 </div>
