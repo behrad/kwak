@@ -24,8 +24,12 @@ export default Ember.View.extend({
           topicTitle = '';
         }
         var channelId = $topic.attr('data-channel-id');
-        // pre-fill messagebox select and input
-        this.get('controller').send('setupMessagebox', topicTitle, channelId);
+        if ($target.parents('.row').hasClass('is-locked')) {
+          this.get('controller.flashes').warning('Topic is locked!');
+        } else {
+          // pre-fill messagebox select and input
+          this.get('controller').send('setupMessagebox', topicTitle, channelId);
+        }
       }
     }
   },
