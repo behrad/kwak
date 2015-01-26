@@ -33,6 +33,9 @@
 
 <footer class="row footer">
   <div class="col-xs-12">
+    {{#each flash in flashes.content}}
+      {{flash-message flash=flash}}
+    {{/each}}
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
         {{view "select" id="channel-select" content=controllers.channels.subscribed class="form-control" value=channel optionValuePath="content.id" optionLabelPath="content.name"}}

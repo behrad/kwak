@@ -28,6 +28,9 @@
 
 <footer class="row footer">
   <div class="col-xs-12">
+    {{#each flash in flashes.content}}
+      {{flash-message flash=flash}}
+    {{/each}}
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
         <span class="input-group-addon" id="addon-chevron-right">{{channel.name}} <i class="glyphicon glyphicon-chevron-right"></i></span>

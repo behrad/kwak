@@ -25,12 +25,12 @@ export default Ember.ArrayController.extend({
     },
     createMessage: function () {
       var content = this.get('message');
-      if (!content.trim()) { return; }
+      if (!content.trim()) { this.get('flashes').warning('Please enter a message'); return; }
 
       var channelId = this.get('channel');
 
       var topicTitle = this.get('topicTitle');
-      if (!topicTitle.trim()) { return; }
+      if (!topicTitle.trim()) { this.get('flashes').warning('Please enter a topic'); return; }
 
       var self = this;
       this.store.find('topic', {title: topicTitle, channel_id: channelId}).then(function (topics) {
@@ -57,6 +57,7 @@ export default Ember.ArrayController.extend({
                 author: self.get('currentUser.model')
               }).save().then(function (message) {
                 mixpanel.track("new message");
+                self.get('flashes').success('Message posted!');
                 message.set('seen', true);
                 self.set('topicCreated', topic.get('id'));
                 Ember.run.scheduleOnce('afterRender', self, scroll);
@@ -79,6 +80,7 @@ export default Ember.ArrayController.extend({
                 author: self.get('currentUser.model')
               }).save().then(function (message) {
                 mixpanel.track("new message");
+                self.get('flashes').success('Message posted!');
                 message.set('seen', true);
                 Ember.run.scheduleOnce('afterRender', self, scroll);
                 Ember.run.scheduleOnce('afterRender', self, messageAfterRender);

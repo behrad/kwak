@@ -15,12 +15,13 @@ export default Ember.Controller.extend({
       var channel = this.get('model.topic.channel');
 
       var content = this.get('message');
-      if (!content.trim()) { return; }
+      if (!content.trim()) { this.get('flashes').warning('Please enter a message'); return; }
 
       var topicTitle = this.get('topicTitle');
-      if (!topicTitle.trim()) { return; }
+      if (!topicTitle.trim()) { this.get('flashes').warning('Please enter a topic'); return; }
 
       mixpanel.track("new message");
+      this.get('flashes').success('Message posted!');
 
       this.get('controllers.channels/channel/message-create').send(
         'createMessage',

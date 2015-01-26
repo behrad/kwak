@@ -33,6 +33,7 @@ export default Ember.ObjectController.extend({
                 message.set('seen', true);
                 Ember.run.scheduleOnce('afterRender', self, scroll);
                 mixpanel.track("new message");
+                self.get('flashes').success('Message posted!');
                 self.get('controllers.channels/channel.messages').pushObject(message);
                 self.get('controllers.channels/channel/topic.model.messages').pushObject(message);
                 Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
@@ -55,6 +56,7 @@ export default Ember.ObjectController.extend({
               message.get('topic').then(function (topic) {
                 Ember.run.scheduleOnce('afterRender', self, scroll);
                 mixpanel.track("new message");
+                self.get('flashes').success('Message posted!');
                 self.get('controllers.channels/channel.messages').pushObject(message);
                 Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
                 self.transitionToRoute('channels.channel.topic', topic);

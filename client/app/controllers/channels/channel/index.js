@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
   needs: ['profiles', 'channels/channel/message-create', 'channels/channel/mark-as-read'],
-  topicTitle: Ember.computed.oneWay('model.title'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
   _init: function () {
@@ -13,17 +12,21 @@ export default Ember.ObjectController.extend({
     Ember.run.scheduleOnce('afterRender', this, scroll);
   }.observes('model.[]'),
 
+  topicTitle: '',
+
   actions: {
     createMessage: function () {
       var channel = this.get('channel');
 
       var content = this.get('message');
-      if (!content.trim()) { return; }
+      if (!content.trim()) { this.get('flashes').warning('Please enter a message'); return; }
 
       var topicTitle = this.get('topicTitle');
-      if (!topicTitle.trim()) { return; }
+      console.log(this.get('model'));
+      if (!topicTitle.trim()) { this.get('flashes').warning('Please enter a topic'); return; }
 
       mixpanel.track("new message");
+      this.get('flashes').success('Message posted!');
 
       this.get('controllers.channels/channel/message-create').send(
         'createMessage',
