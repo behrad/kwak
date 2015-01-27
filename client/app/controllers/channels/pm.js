@@ -20,7 +20,9 @@ export default Ember.ArrayController.extend({
   },
 
   _scroll: function () {
-    Ember.run.scheduleOnce('afterRender', this, scroll);
+    Ember.run(function () {
+      Ember.run.scheduleOnce('afterRender', this, scroll);
+    });
   }.observes('model.[]').on('init'),
 
   actions: {
