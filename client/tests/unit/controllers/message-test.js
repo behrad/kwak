@@ -5,7 +5,7 @@ import {
 
 moduleFor('controller:message', 'MessageController', {
   // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['controller:profile']
 });
 
 // Replace this with your real tests.

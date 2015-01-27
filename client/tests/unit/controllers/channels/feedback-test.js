@@ -5,7 +5,7 @@ import {
 
 moduleFor('controller:channels/feedback', 'ChannelsFeedbackController', {
   // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: [ 'controller:profile', 'controller:channels/channel/mark-as-read', 'controller:profiles', 'controller:channels' ]
 });
 
 // Replace this with your real tests.

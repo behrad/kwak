@@ -5,7 +5,7 @@ import {
 
 moduleFor('controller:channels/channel/mark-as-read', 'ChannelsChannelMarkAsReadController', {
   // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['controller:profile', 'controller:profiles', 'controller:channels']
 });
 
 // Replace this with your real tests.

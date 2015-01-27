@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('controller:channels/admin', 'ChannelsAdminController', {
+moduleFor('controller:channels/channel', 'ChannelsChannelController', {
   // Specify the other units that are required for this test.
-  needs: ['controller:profile', 'controller:channels', 'controller:channels/channel/mark-as-read', 'controller:profiles']
+  // needs: ['controller:foo']
 });
 
 // Replace this with your real tests.

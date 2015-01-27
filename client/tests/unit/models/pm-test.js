@@ -5,7 +5,7 @@ import {
 
 moduleForModel('pm', 'Pm', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:profile', 'model:team']
 });
 
 test('it exists', function() {

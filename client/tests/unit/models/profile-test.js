@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('topic', 'Topic', {
+moduleForModel('profile', 'Profile', {
   // Specify the other units that are required for this test.
-  needs: ['model:message', 'model:team', 'model:channel', 'model:profile']
+  needs: ['model:team']
 });
 
 test('it exists', function() {
