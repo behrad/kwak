@@ -3,6 +3,5 @@ Someone just mentionned you on kwak:
 {{author}} wrote:
 
 {{text}}
->
 
-{{url}}
+Source: {{url}}

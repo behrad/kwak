@@ -3,4 +3,3 @@ You received a new private message on kwak:
 {{author}} wrote:
 
 {{text}}
->
