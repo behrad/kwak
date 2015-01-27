@@ -5,6 +5,7 @@ from django.db.models.signals import pre_save, post_save
 import requests
 import re
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from uuid import uuid4
 import urllib
 
@@ -190,16 +191,24 @@ def broadcast_message(sender, instance, **kw):
         try:
             mentionned = Profile.objects.get(name=mention)
             if mentionned.email_on_mention:
+                text_content = render_to_string('emails/mention.txt', {
+                    'author': message_author.name,
+                    'text': message.content.lstrip(),
+                    'url': message.get_thread_url(),
+                })
+                html_content = render_to_string('emails/mention.html', {
+                    'message': message,
+                    'text': message.content,
+                    'url': message.get_thread_url(),
+                })
+
                 send_mail(
                     'new mention on kwak',
-                    u'Someone just mentionned you on kwak:\n\n{} wrote:\n{}\n>\n\n{}'.format(
-                        message_author.name,
-                        '> '.join(('\n'+message.content.lstrip()).splitlines(True)),
-                        message.get_thread_url()
-                    ),
+                    text_content,
                     'noreply@kwak.io',
                     [mentionned.email],
-                    fail_silently=True)
+                    fail_silently=True,
+                    html_message=html_content)
         except Profile.DoesNotExist:
             pass
 post_save.connect(broadcast_message, sender=Message)
@@ -232,12 +241,21 @@ def broadcast_pm(sender, instance, **kw):
     pm_author = Profile.objects.get(pk=pm.author.id)
 
     if pm.penpal.email_on_pm:
+        text_content = render_to_string('emails/pm.txt', {
+            'author': pm_author.name,
+            'text': pm.content.lstrip(),
+        })
+        html_content = render_to_string('emails/pm.html', {
+            'message': pm,
+            'text': pm.content,
+        })
         send_mail(
             'new pm on kwak',
-            u'Someone sent you a private message on kwak:\n\n{} wrote:\n{}\n> '.format(pm_author.name, '> '.join(('\n'+pm.content.lstrip()).splitlines(True))),
+            text_content,
             'noreply@kwak.io',
             [pm.penpal.email],
-            fail_silently=True)
+            fail_silently=True,
+            html_message=html_content)
 post_save.connect(broadcast_pm, sender=Pm)
 
 

@@ -41,7 +41,7 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
             self.set('eidentification', errs.error);
           } else if (errs.emailError) {
             self.set('eemail', errs.emailError);
-          } if (errs.eTeam) {
+          } else if (errs.eTeam) {
             self.set('eteam', errs.eTeam);
           } else {
             self.set('eidentification', 'something bad happened');

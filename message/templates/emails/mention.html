@@ -1,0 +1,27 @@
+<div style="margin: auto; max-width: 700px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">
+  <div style="background-color: #f8f8f8; border-color: #e7e7e7; height: 51px; padding: 0 5px; margin-bottom: 10px">
+    <img src="https://kwak.io/static/kwak.png" height="24px;" style="margin-top: 15px; float:right">
+    <h5 style="display: inline-block; font-size: 16px; font-weight: 700; margin-top: 15px;">New mention on kwak!</h5>
+  </div>
+
+  <div style="clear: both; border-left: 2px solid black; border-bottom: 2px solid black;">
+    <span style="width: 18px; height: 20px; margin-right: 6px; display: inline-block; background-color: black; float:left;">&nbsp;</span>
+    <div style="margin-left: 15px">
+      <a href="{{url}}" style="text-decoration: none; color: rgb(51, 122, 183); cursor: pointer;">{{message.topic.channel.name}}
+      <span style="color: black">»</span>
+      {{message.topic.title}}</a>
+    </div>
+    <div style="margin-left: 24px;">
+      <small style="float: right; color: #777; font-size: 85%;">
+        {{message.pubdate}}
+      </small>
+      <h5 style="font-size: 14px; font-weight: 700; margin-top: 10px; margin-bottom: 10px;">{{message.author.name}}</h5>
+      <p>{{text}}</p>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 10px;">
+    <small style="font-size: 85%;">
+      <a style="color: #777; text-decoration:none;" href="https://kwak.io/channels/profile">Unsubscribe</a>
+    </small>
+  </div>
+</div>
