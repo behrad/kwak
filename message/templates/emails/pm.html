@@ -11,7 +11,7 @@
         {{message.pubdate}}
       </small>
       <h5 style="font-size: 14px; font-weight: 700; margin-top: 10px; margin-bottom: 10px;">{{message.author.name}}</h5>
-      <p>{{text}}</p>
+      {{text|safe}}
     </div>
   </div>
   <div style="text-align: center; margin-top: 10px;">

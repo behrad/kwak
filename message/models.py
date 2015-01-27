@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save
 import requests
 import re
+import markdown
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from uuid import uuid4
@@ -190,7 +191,7 @@ def broadcast_message(sender, instance, **kw):
     for mention in mentions:
         try:
             mentionned = Profile.objects.get(name=mention)
-            if mentionned.email_on_mention:
+            if message_author != mentionned and mentionned.email_on_mention:
                 text_content = render_to_string('emails/mention.txt', {
                     'author': message_author.name,
                     'text': message.content.lstrip(),
@@ -198,7 +199,8 @@ def broadcast_message(sender, instance, **kw):
                 })
                 html_content = render_to_string('emails/mention.html', {
                     'message': message,
-                    'text': message.content,
+                    'text': markdown.markdown(message.content, extensions=['extra'],
+                                         safe_mode='escape', output_format='html5'),
                     'url': message.get_thread_url(),
                 })
 
@@ -247,7 +249,8 @@ def broadcast_pm(sender, instance, **kw):
         })
         html_content = render_to_string('emails/pm.html', {
             'message': pm,
-            'text': pm.content,
+            'text': markdown.markdown(pm.content, extensions=['extra'],
+                            safe_mode='escape', output_format='html5'),
         })
         send_mail(
             'new pm on kwak',
@@ -257,9 +260,3 @@ def broadcast_pm(sender, instance, **kw):
             fail_silently=True,
             html_message=html_content)
 post_save.connect(broadcast_pm, sender=Pm)
-
-
-# def user_inactive_by_default(sender, instance, **kw):
-#     if instance.pk is None and not instance.is_superuser:
-#         instance.is_active = False
-# pre_save.connect(user_inactive_by_default, sender=User)
