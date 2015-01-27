@@ -8,7 +8,8 @@ export default DS.Model.extend({
   contentHtml: function () {
     var converter = new window.Showdown.converter({ extensions: ['github'] });
     // re colorize whenever we recompute the value
-    return converter.makeHtml(this.get('content'));
+    var raw = this.get('content').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return converter.makeHtml(raw);
   }.property('content'),
   seen: DS.attr('boolean', {defaultValue: false}),
 });

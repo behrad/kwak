@@ -21,6 +21,7 @@ export default Ember.Controller.extend({
       var self = this;
       var formatHtml = function (raw) {
         var converter = new window.Showdown.converter({ extensions: ['github'] });
+        raw = raw.replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return converter.makeHtml(raw);
       };
       if (self.get('terms') === '') {
