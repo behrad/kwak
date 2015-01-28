@@ -20,6 +20,9 @@ Ember.Router.reopen({
 
 Router.map(function () {
   this.route('landing');
+  this.route('terms-of-service');
+  this.route('privacy-policy');
+  this.route('impressum');
 
   this.route('login');
   this.route('sign-up');
@@ -48,8 +51,6 @@ Router.map(function () {
     this.route("profile");
     this.route("search");
   });
-
-  this.route("landing");
 });
 
 export default Router;

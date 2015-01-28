@@ -133,6 +133,10 @@ section h2 {
   font-size: 3em;
 }
 
+section a {
+  color: white;
+}
+
 section.success {
   color: #fff;
   background: #18bc9c;
