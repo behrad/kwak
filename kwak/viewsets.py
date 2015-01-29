@@ -86,9 +86,9 @@ class ChannelViewSet(ModelViewSet):
     serializer_class = ChannelSideloadSerializer
 
     def get_queryset(self):
-        queryset = Channel.objects.filter(team__members__in=[self.request.user])
+        queryset = Channel.objects.filter(team__members=self.request.user.profile)
 
-        subscribed = Channel.objects.filter(readers__in=[self.request.user])
+        subscribed = Channel.objects.filter(readers=self.request.user.profile)
 
         new_queryset = []
         for channel in list(queryset.order_by('name')):
@@ -216,7 +216,7 @@ class MessageViewSet(ModelViewSet):
             queryset = queryset.filter(topic__id=topic_id)
 
         for message in queryset:
-            if message.seen_by.filter(user_id=self.request.user.id) or message.author.pk == self.request.user.profile.pk:
+            if message.seen_by.filter(user_id=self.request.user.profile.id) or message.author.pk == self.request.user.profile.pk:
                 message.seen = True
             else:
                 message.seen = False
@@ -280,7 +280,7 @@ class PmViewSet(ModelViewSet):
         queryset = Pm.objects.filter(Q(author=self.request.user.profile, penpal=penpal) | Q(penpal=self.request.user.profile, author=penpal))
 
         for message in queryset:
-            if message.seen_by.filter(user_id=self.request.user.id) or message.author.pk == self.request.user.profile.pk:
+            if message.seen_by.filter(user_id=self.request.user.profile.id) or message.author.pk == self.request.user.profile.pk:
                 message.seen = True
             else:
                 message.seen = False
@@ -339,7 +339,7 @@ class LastMessage(RetrieveAPIView):
         if self.request.user.is_authenticated():
             message = Message.objects.filter(topic__channel__readers=self.request.user.profile).order_by('-id')[0]
 
-            if message.seen_by.filter(user_id=self.request.user.id) or message.author.pk == self.request.user.profile.pk:
+            if message.seen_by.filter(user_id=self.request.user.profile.id) or message.author.pk == self.request.user.profile.pk:
                 message.seen = True
             else:
                 message.seen = False
