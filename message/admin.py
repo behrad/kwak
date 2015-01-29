@@ -32,7 +32,7 @@ class PmAdmin(admin.ModelAdmin):
     list_display = ('author', 'penpal')
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'user')
+    list_display = ('name', 'user', 'is_admin')
 
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = ('team', 'plan', 'quantity', 'status', 'cancel_at_period_end', 'same_card', 'current_period_start', 'current_period_end', 'subscription_id')
