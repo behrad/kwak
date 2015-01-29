@@ -12,7 +12,6 @@ export default Ember.Controller.extend({
 
   messages: function () {
     var self = this;
-    console.log('refilter', self.get('model.topic'));
     return this.get('model.messages').filter(function (message) {
       return message.get('topic.id') === self.get('model.topic.id');
     });

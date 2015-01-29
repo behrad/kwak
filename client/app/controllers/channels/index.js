@@ -161,7 +161,6 @@ export default Ember.ArrayController.extend({
               }
 
               var channelsChannelTopic = self.get('controllers.channels/channel/topic.model.messages');
-              console.log(channelsChannelTopic);
               if (channelsChannelTopic) {
                 channelsChannelTopic.pushObject(message);
               }
