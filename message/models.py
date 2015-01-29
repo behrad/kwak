@@ -170,7 +170,7 @@ def create_profile(sender, **kw):
         profile.email = user.email
         profile.name = u"{} {}".format(user.first_name, user.last_name)
         profile.save()
-post_save.connect(create_profile, sender=User, dispatch_uid="users-profilecreation-signal")
+post_save.connect(create_profile, sender=User)
 
 
 def broadcast_message(sender, instance, **kw):

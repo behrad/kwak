@@ -86,9 +86,9 @@ class ChannelViewSet(ModelViewSet):
     serializer_class = ChannelSideloadSerializer
 
     def get_queryset(self):
-        queryset = Channel.objects.filter(team__members=self.request.user)
+        queryset = Channel.objects.filter(team__members__in=[self.request.user])
 
-        subscribed = Channel.objects.filter(readers=self.request.user)
+        subscribed = Channel.objects.filter(readers__in=[self.request.user])
 
         new_queryset = []
         for channel in list(queryset.order_by('name')):
