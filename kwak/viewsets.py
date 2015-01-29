@@ -172,7 +172,7 @@ class TopicViewSet(ModelViewSet):
     serializer_class = TopicSideloadSerializer
 
     def get_queryset(self):
-        queryset = Topic.objects.all()
+        queryset = Topic.objects.filter(channel__team__in=self.request.user.profile.teams.all())
         title = self.request.QUERY_PARAMS.get('title', None)
         channel_id = self.request.QUERY_PARAMS.get('channel_id', None)
         if title and channel_id:
