@@ -16,7 +16,7 @@ export default Ember.ObjectController.extend({
 
             if (+topic.id === last_topic_posted_in && +self.get('currentUser.model.id') === last_message_posted_by) {
               // append to last message
-              var message = self.store.find('message', data['message']['id']);
+              var message = self.store.getById('message', data['message']['id']);
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
                 Ember.run.scheduleOnce('afterRender', self, scroll);
