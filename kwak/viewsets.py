@@ -43,7 +43,6 @@ class ProfileViewSet(ModelViewSet):
         try:
             profile = Profile.objects.filter(pk=pk, teams__in=self.request.user.profile.teams.all()).distinct()[0]
         except IndexError:
-            print Profile.objects.filter(pk=pk, teams__in=self.request.user.profile.teams.all()).distinct()
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         modified = False
