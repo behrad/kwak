@@ -5,7 +5,7 @@
 </div>
 {{/if}}
 <div class="message-list">
-  {{#each message in model.messages itemController="message"}}
+  {{#each message in messages itemController="message"}}
   <div {{bind-attr class="message.seen:seen model.topic.is_locked :row :message"}} {{bind-attr data-message-id=message.id}}>
     <div {{bind-attr class=":col-md-12 message.topic.channel.color"}}>
       <span {{bind-attr class=":channel-color message.topic.channel.color"}}>{{#view "toggle-message"}}<i class="glyphicon glyphicon-minus"></i>{{/view}}</span>

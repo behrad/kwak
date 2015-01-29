@@ -13,10 +13,9 @@ export default Ember.ObjectController.extend({
   }.observes('model.[]'),
 
   messages: function () {
-    console.log('refilter', this.get('model.channel'));
     var self = this;
     return this.get('model.messages').filter(function (message) {
-      return message.get('topic.id') === self.get('model.channel.id');
+      return message.get('topic.channel.id') === self.get('model.channel.id');
     });
   }.property('model.messages.[]'),
 
