@@ -326,7 +326,7 @@ class CurrentProfile(RetrieveAPIView):
 
     def get_object(self):
         if self.request.user.is_authenticated():
-            return Profile.objects.get(pk=self.request.user.pk)
+            return Profile.objects.get(pk=self.request.user.profile.pk)
         else:
             raise Exception("User does not exist")
 
