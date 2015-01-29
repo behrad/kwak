@@ -42,7 +42,7 @@ export default Ember.ArrayController.extend({
 
             if (+topic.id === last_topic_posted_in && +self.get('currentUser.model.id') === last_message_posted_by) {
               // append to last message
-              var message = topic.get('messages.lastObject');
+              var message = self.store.find('message', data['message']['id']);
               message.set('content', message.get('content') + "\n\n" + content);
               message.save().then(function (message) {
                 mixpanel.track("edit message");
