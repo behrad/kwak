@@ -22,7 +22,6 @@ export default Ember.ObjectController.extend({
       if (!content.trim()) { this.get('flashes').warning('Please enter a message'); return; }
 
       var topicTitle = this.get('topicTitle');
-      console.log(this.get('model'));
       if (!topicTitle.trim()) { this.get('flashes').warning('Please enter a topic'); return; }
 
       mixpanel.track("new message");

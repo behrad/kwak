@@ -136,7 +136,7 @@ export default Ember.Controller.extend({
       };
 
       Ember.$.post('api/subscriptions/cancel', JSON.stringify(payload), function () {
-        var subscription = self.store.getById('subscription', id); console.log(subscription);
+        var subscription = self.store.getById('subscription', id);
         subscription.set('cancel_at_period_end', true);
       }).fail(function () {
 

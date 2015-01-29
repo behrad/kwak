@@ -47,7 +47,6 @@ export default Ember.Controller.extend({
       });
     },
     updateName: function (name) {
-      console.log(name);
       var profile = this.get('model.profile');
       profile.set('name', name);
       profile.save();
