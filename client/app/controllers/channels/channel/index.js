@@ -12,6 +12,14 @@ export default Ember.ObjectController.extend({
     Ember.run.scheduleOnce('afterRender', this, scroll);
   }.observes('model.[]'),
 
+  messages: function () {
+    console.log('refilter', this.get('model.channel'));
+    var self = this;
+    return this.get('model.messages').filter(function (message) {
+      return message.get('topic.id') === self.get('model.channel.id');
+    });
+  }.property('model.messages.[]'),
+
   topicTitle: '',
 
   actions: {

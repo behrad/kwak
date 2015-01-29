@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  needs: ['profile', 'application', 'profiles', 'channels', 'channels/pm', 'channels/channel/index', 'channels/channel/mark-as-read'],
+  needs: ['profile', 'application', 'profiles', 'channels', 'channels/pm', 'channels/channel/index', 'channels/channel/topic', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
   profiles: Ember.computed.alias('controllers.profiles'),
 
@@ -150,9 +150,20 @@ export default Ember.ArrayController.extend({
                 author: author
               });
 
-              var channelIndex = self.get('controllers.channels/channel/index.messages');
-              if (channelIndex) {
-                channelIndex.pushObject(message);
+              var channelsIndex = self.get('model');
+              if (channelsIndex) {
+                channelsIndex.pushObject(message);
+              }
+
+              var channelsChannelIndex = self.get('controllers.channels/channel/index.model.messages');
+              if (channelsChannelIndex) {
+                channelsChannelIndex.pushObject(message);
+              }
+
+              var channelsChannelTopic = self.get('controllers.channels/channel/topic.model.messages');
+              console.log(channelsChannelTopic);
+              if (channelsChannelTopic) {
+                channelsChannelTopic.pushObject(message);
               }
 
               var controller = self.get('controllers.channels/channel/mark-as-read');
