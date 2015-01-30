@@ -1,0 +1,5 @@
+Dear Sir or Madam,
+
+{{profile.name}} is asking you to join her/his team *{{team.name}}* on kwak.io.
+
+The kwak.io Team

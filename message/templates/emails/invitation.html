@@ -1,22 +1,17 @@
 <div style="margin: auto; max-width: 700px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">
   <div style="background-color: #f8f8f8; border-color: #e7e7e7; height: 51px; padding: 0 5px; margin-bottom: 10px">
     <a href="https://kwak.io"><img src="https://kwak.io/static/kwak.png" height="24px;" style="margin-top: 15px; float:right"></a>
-    <h5 style="display: inline-block; font-size: 16px; font-weight: 700; margin-top: 15px;">New private message on kwak!</h5>
+    <h5 style="display: inline-block; font-size: 16px; font-weight: 700; margin-top: 15px;">You have been asked to join <em>{{team.name}}</em> on kwak.io</h5>
   </div>
 
   <div style="clear: both; border-left: 2px solid black; border-bottom: 2px solid black;">
     <span style="width: 18px; height: 20px; margin-right: 6px; display: inline-block; background-color: black; float:left;">&nbsp;</span>
-    <div style="margin-left: 24px;">
-      <small style="float: right; color: #777; font-size: 85%;">
-        {{message.pubdate}}
-      </small>
-      <h5 style="font-size: 14px; font-weight: 700; margin-top: 10px; margin-bottom: 10px;">{{message.author.name}}</h5>
-      {{text|safe}}
+    <div style="margin-left: 15px">
+      Invitation to join a private team on kwak.io, chat for teams with a twist:
     </div>
-  </div>
-  <div style="text-align: center; margin-top: 10px;">
-    <small style="font-size: 85%;">
-      <a style="color: #777; text-decoration:none;" href="https://kwak.io/channels/profile">Unsubscribe</a>
-    </small>
+    <div style="margin-left: 24px;">
+      <h5 style="font-size: 14px; font-weight: 700; margin-top: 10px; margin-bottom: 10px;">{{profile.name}} is inviting you to join her/his team on kwak.io.</h5>
+      Please use the following link to create your account : <a style="text-decoration: none; color: rgb(51, 122, 183); cursor: pointer;" href="https://kwak.io/sign-up/{{team.uid}}">{{team.name}}</a>.
+    </div>
   </div>
 </div>

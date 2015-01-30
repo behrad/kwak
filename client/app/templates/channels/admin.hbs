@@ -75,17 +75,6 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-sm-12">
-            {{#if hasMultipleTeams}}
-              {{#each team in teams}}
-                <p>
-                  For team "{{team.name}}", user sign-up form is available at : {{#link-to 'sign-up' team.uid}}/sign-up/{{team.uid}}{{/link-to}}
-                </p>
-              {{/each}}
-            {{else}}
-              <p>
-                User sign-up form for your team is available at : {{#link-to 'sign-up' team.uid}}/sign-up/{{team.uid}}{{/link-to}}
-              </p>
-            {{/if}}
             <p><strong>{{userError}}</strong></p>
           </div>
         </div>
@@ -102,6 +91,51 @@
             <h5>Active</h5>
               {{#each profile in controller.actives}}
               <div class="checkbox"><label><input type="checkbox" checked="checked" {{action 'toggleActive' profile.id  profile.is_active}}> {{profile.name}}</label></div>
+              {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Invite People</h3>
+        <small>Invite people to join your team</small>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <p><strong>By sharing a special sign-up link:</strong></p>
+            {{#if hasMultipleTeams}}
+              {{#each team in teams}}
+                <p>
+                  For team "{{team.name}}", user sign-up form is available at : {{#link-to 'sign-up' team.uid}}/sign-up/{{team.uid}}{{/link-to}}
+                </p>
+              {{/each}}
+            {{else}}
+              <p>
+                User sign-up form for your team is available at : {{#link-to 'sign-up' team.uid}}/sign-up/{{team.uid}}{{/link-to}}
+              </p>
+            {{/if}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            {{#each team in teams}}
+              {{#if hasMultipleTeams}}For team "{{team.name}}": {{/if}}
+              <p><strong>By sending an invitation email:</strong><br><small>One email address per line</small></p>
+              {{textarea class="form-control vert" rows="3" value=invitationEmails}}
+              <ul>
+              {{#each email in invalids}}
+                <li>{{email}}&nbsp;is not a valid email address</li>
+              {{/each}}
+              {{#each email in invited}}
+                <li>{{email}}&nbsp;has been successfully invited</li>
+              {{/each}}
+              </ul>
+              <button class="btn btn-primary" {{action 'invite' team.id}}>Invite these people</button>
               {{/each}}
           </div>
         </div>

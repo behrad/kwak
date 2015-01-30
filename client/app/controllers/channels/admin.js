@@ -126,6 +126,7 @@ export default Ember.Controller.extend({
           subscription_id: data['subscription_id'],
         });
       }).fail(function () {
+        //TODO : display this in admin.hbs
         this.set('error', 'The backend denied your request. Please contact inquiry@kwak.io.');
       });
     },
@@ -138,9 +139,31 @@ export default Ember.Controller.extend({
       Ember.$.post('api/subscriptions/cancel', JSON.stringify(payload), function () {
         var subscription = self.store.getById('subscription', id);
         subscription.set('cancel_at_period_end', true);
-      }).fail(function () {
-
       });
-    }
+    },
+    invite: function (team_id) {
+      var self = this;
+      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var _validate = function (email) {
+        return re.test(email);
+      };
+      var emails = this.get('invitationEmails').split('\n');
+      var valids = [], invalids = [];
+      Ember.$(emails).each(function(index, el) {
+        if (_validate(el)) {
+          valids.push(el);
+        } else {
+          invalids.push(el);
+        }
+      });
+      this.set('valids', valids);
+      this.set('invalids', invalids);
+      if (!invalids.length) {
+        Ember.$.post('api/invite', JSON.stringify({team: team_id, emails: valids}), function () {
+          self.set('invitationEmails', '');
+          self.set('invited', valids);
+        });
+      }
+    },
   }
 });

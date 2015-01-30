@@ -6,7 +6,7 @@ from kwak.viewsets import MessageViewSet, PmViewSet
 from kwak.viewsets import CurrentProfile, LastMessage, MarkMessageRead
 from kwak.viewsets import CreateUserView, FeedbackView, TeamView, PmUnreadView
 from kwak.viewsets import Subscriptions, SubscriptionsCheckout, SubscriptionsCancel
-from kwak.viewsets import Search
+from kwak.viewsets import Search, InviteView
 
 from message.views import ResetPasswordRequestView, PasswordResetConfirmView
 
@@ -20,6 +20,7 @@ router.register(r'pms', PmViewSet)
 
 
 urlpatterns = patterns('',
+    url(r'^api/invite', InviteView.as_view()),
     url(r'^api/feedback', FeedbackView.as_view()),
     url(r'^api/users', CreateUserView.as_view()),
     url(r'^api/teams', TeamView.as_view()),

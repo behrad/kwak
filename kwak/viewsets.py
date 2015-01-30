@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 import json
 import datetime
 from collections import defaultdict
@@ -449,6 +450,28 @@ class FeedbackView(APIView):
             ['feedback@kwak.io'],
             fail_silently=True)
         return Response(status=status.HTTP_201_CREATED)
+
+
+class InviteView(APIView):
+    model = Message
+
+    def post(self, request):
+        payload = json.loads(request.body)
+        team = get_object_or_404(Team, pk=payload['team'])
+        if request.user.profile.is_admin and team in request.user.profile.teams.all():
+            for email in payload['emails']:
+                send_mail(
+                    u'You have been asked to join "{}" on kwak.io'.format(team.name),
+                    render_to_string('emails/invitation.txt', {
+                        'team': team, 'profile': request.user.profile}),
+                    'noreply@kwak.io',
+                    [email],
+                    html_message=render_to_string('emails/invitation.html', {
+                        'team': team, 'profile': request.user.profile}),
+                    fail_silently=True)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class TeamView(RetrieveAPIView):

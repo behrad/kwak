@@ -33,7 +33,7 @@ module.exports = function(environment) {
     };
 
     ENV.stripe = {
-      key: "pk_test_SIubmGF3AYwB6a10XyNvOdSP"
+      key: "pk_test_GR5qG7MfRJieWy6mXQZC2ktm"
     };
   }
 
