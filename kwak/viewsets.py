@@ -514,6 +514,8 @@ class SubscriptionsCheckout(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
+        if not request.user.is_authenticated():
+            return Response(status=status.HTTP_403_FORBIDDEN)
         stripe.api_key = settings.STRIPE_KEY
 
         payload = json.loads(request.body)
