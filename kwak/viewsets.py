@@ -511,6 +511,7 @@ class Subscriptions(APIView):
 
 class SubscriptionsCheckout(APIView):
     model = User
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         stripe.api_key = settings.STRIPE_KEY
@@ -531,7 +532,7 @@ class SubscriptionsCheckout(APIView):
         else:
             error = True
         if error or factor*price*users_number != amount:
-            return Response({'error': 'Sum mismatch.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Plan or sum mismatch.'}, status=status.HTTP_400_BAD_REQUEST)
 
         profile = get_object_or_404(Profile, pk=request.user.profile.id)
         team = get_object_or_404(Team, pk=payload['team'])
@@ -555,7 +556,7 @@ class SubscriptionsCheckout(APIView):
                     current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
                     profile=self.request.user.profile,
                 )
-            else:
+            else: # new card
                 subscription = customer.subscriptions.create(
                     card=payload['token']['id'],
                     plan=plan,
@@ -573,7 +574,7 @@ class SubscriptionsCheckout(APIView):
                     current_period_end=datetime.datetime.fromtimestamp(subscription.current_period_end),
                     profile=self.request.user.profile,
                 )
-        else:
+        else: # create a customer
             customer = stripe.Customer.create(
               card=payload['token']['id'],
               plan=plan,
