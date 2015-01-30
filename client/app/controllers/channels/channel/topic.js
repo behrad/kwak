@@ -27,9 +27,6 @@ export default Ember.Controller.extend({
       var topicTitle = this.get('topicTitle');
       if (!topicTitle.trim()) { this.get('flashes').warning('Please enter a topic'); return; }
 
-      mixpanel.track("new message");
-      this.get('flashes').success('Message posted!');
-
       this.get('controllers.channels/channel/message-create').send(
         'createMessage',
         channel,
