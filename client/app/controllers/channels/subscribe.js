@@ -15,9 +15,13 @@ export default Ember.ObjectController.extend({
         name: name.trim(),
         color: self.get('color'),
         team: self.store.getById('team', self.get('selectedTeam'))
-      }).save().then(function () {
+      }).save().then(function (channel) {
         mixpanel.track("new channel");
         self.set('name', '');
+
+        self.socket.emit('join', channel.id);
+        channel.set('subscribed', true);
+        channel.save();
 
         var controller = self.get('controllers.channels/channel/mark-as-read');
         if (controller) {
