@@ -11,6 +11,7 @@ export default Ember.View.extend(BindScroll, {
   didInsertElement: function () {
     this._super();
     this.bindScrolling();
+    this.messageSeen();
   },
   willRemoveElement: function () {
     this._super();
