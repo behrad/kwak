@@ -54,5 +54,5 @@ export default Ember.Controller.extend({
         controller.send('recountUnread');
       }
     },
-  }
+  },
 });

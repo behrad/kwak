@@ -118,7 +118,7 @@ export default Ember.ArrayController.extend({
         }
         if (!self.store.hasRecordForId('topic', data.id)) {
           self.store.find('channel', data.channel).then(function (channel) {
-            self.store.createRecord('topic', {
+            self.store.push('topic', {
               id: data.id,
               title: data.title,
               channel: channel
@@ -143,8 +143,9 @@ export default Ember.ArrayController.extend({
         } else {
           self.store.find('topic', data.topic).then(function (topic) {
             self.store.find('profile', data.author).then(function (author) {
-              var message = self.store.createRecord('message', {
+              var message = self.store.push('message', {
                 id: data.id,
+                pubdate: data.pubdate,
                 content: data.content,
                 topic: topic,
                 author: author

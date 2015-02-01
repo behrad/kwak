@@ -57,5 +57,5 @@ export default Ember.ObjectController.extend({
     setupMessagebox: function(topicTitle) {
       this.set('topicTitle', topicTitle);
     }
-  }
+  },
 });
