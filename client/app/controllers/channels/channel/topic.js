@@ -14,6 +14,8 @@ export default Ember.Controller.extend({
     var self = this;
     return this.get('model.messages').filter(function (message) {
       return message.get('topic.id') === self.get('model.topic.id');
+    }).sort(function (a, b) {
+      return +a.get('id') > +b.get('id');
     });
   }.property('model.messages.[]'),
 

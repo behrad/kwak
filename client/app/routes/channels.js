@@ -24,7 +24,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     this.controllerFor('application').set('model', model.profile);
 
     // put messages on channels index, this way they don't ever get reloaded
-    this.controllerFor('channels/index').set('model', model.messages);
+    this.controllerFor('channels/index').set('model', model);
   },
 
   afterModel: function (model) {

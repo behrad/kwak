@@ -1,23 +1,19 @@
 import Ember from 'ember';
 
-export default Ember.ArrayController.extend({
+export default Ember.Controller.extend({
   needs: ['profile', 'application', 'profiles', 'channels', 'channels/pm', 'channels/channel/index', 'channels/channel/topic', 'channels/channel/mark-as-read'],
   currentUser: Ember.computed.alias('controllers.profile'),
   profiles: Ember.computed.alias('controllers.profiles'),
-
-  sortProperties: ['id'],
-  sortAscending: true,
-  sortFunction: function (a, b) {
-    return +a > +b ? 1 : -1;
-  },
 
   _scroll: function () {
     Ember.run.scheduleOnce('afterRender', this, scroll);
   }.observes('model.[]'),
 
   subscribed: function () {
-    return this.get('arrangedContent').filterBy('topic.channel.subscribed', true);
-  }.property('model.@each.topic.channel.subscribed'),
+    return this.get('model.messages').filterBy('topic.channel.subscribed', true).sort(function (a, b) {
+      return +a.get('id') > +b.get('id');
+    });
+  }.property('model.channels.[]', 'model.messages.[]'),
 
   actions: {
     tour: function () {
