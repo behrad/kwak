@@ -95,6 +95,53 @@ blockquote {
   font-size: 14px;
 }
 
+/* MATERIAL */
+.panel {
+  border-radius: 2px;
+  border: 0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+}
+.panel > .panel-heading,
+.panel-default > .panel-heading {
+  background-color: #ececec;
+}
+.panel-black > .panel-heading {
+  background-color: #000000;
+}
+.panel-white > .panel-heading {
+  background-color: #ffffff;
+}
+.panel-inverse > .panel-heading {
+  background-color: #3f51b5;
+}
+.panel-primary > .panel-heading {
+  background-color: #009587;
+}
+.panel-success > .panel-heading {
+  background-color: #0f9d58;
+}
+.panel-info > .panel-heading {
+  background-color: #03a9f4;
+}
+.panel-warning > .panel-heading {
+  background-color: #ff5722;
+}
+.panel-danger > .panel-heading {
+  background-color: #f44336;
+}
+[class*="panel-"] > .panel-heading {
+  color: rgba(255, 255, 255, 0.84);
+  border: 0;
+}
+.panel-default > .panel-heading,
+.panel:not([class*="panel-"]) > .panel-heading {
+  color: rgba(0, 0, 0, 0.84);
+}
+.panel-footer {
+  background-color: #ececec;
+}
+
+
 /* topmenu */
 .navbar-collapse.collapse, .navbar-collapse.collapsing {
   margin-left: 20px !important;
@@ -146,6 +193,12 @@ ul.nav.nav-pills.nav-stacked li a i {
 
 .channels .nav>li>a {
   padding: 5px 15px;
+}
+
+.channels .nav > li {
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+     -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
 }
 
 .help {
@@ -228,6 +281,9 @@ ul.nav.nav-pills.nav-stacked li a i {
 .message {
   margin: 0 0 10px 0;
   font-size: 15px;
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+     -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
 }
 
 .message.seen {
