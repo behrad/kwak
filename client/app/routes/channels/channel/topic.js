@@ -6,7 +6,7 @@ export default Ember.Route.extend({
       messages: this.modelFor('channels').messages.filter(function (message) {
         return message.get('topic.id') === params.topic_id;
       }).sort(function (a, b) {
-        return +a.get('id') > +b.get('id') ? 1 : -1;
+        return +a.get('id') - +b.get('id');
       }),
       topic: this.store.find('topic', params.topic_id),
     });

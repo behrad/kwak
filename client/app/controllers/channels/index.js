@@ -11,7 +11,8 @@ export default Ember.Controller.extend({
 
   subscribed: function () {
     return this.get('model.messages').filterBy('topic.channel.subscribed', true).sort(function (a, b) {
-      return +a.get('id') > +b.get('id');
+
+      return +a.get('id') - +b.get('id');
     });
   }.property('model.channels.[]', 'model.messages.[]'),
 
