@@ -60,4 +60,55 @@ export default Ember.ObjectController.extend({
       this.set('topicTitle', topicTitle);
     }
   },
+
+  sockets: {
+    topic: function (data) {
+      var self = this;
+      setTimeout(function () {
+        if (data.id === self.get('topicCreated')) {
+          // It's my own topic coming back like a boomerang
+          return;
+        }
+        if (!self.store.hasRecordForId('topic', data.id)) {
+          self.store.find('channel', data.channel).then(function (channel) {
+            self.store.push('topic', {
+              id: data.id,
+              title: data.title,
+              channel: channel
+            });
+          });
+        }
+      }, 1000);
+    },
+
+    message: function (data) {
+      var self = this;
+      setTimeout(function () {
+        if (data.author === self.get('currentUser.id')) {
+          // It's my own message coming back like a boomerang
+          return;
+        }
+        if (self.store.hasRecordForId('message', data.id)) {
+          var message = self.store.getById('message', data.id);
+          message.set('content', data.content);
+        } else {
+          self.store.find('topic', data.topic).then(function (topic) {
+            self.store.find('profile', data.author).then(function (author) {
+              var message = self.store.push('message', {
+                id: data.id,
+                pubdate: data.pubdate,
+                content: data.content,
+                topic: topic,
+                author: author
+              });
+              if (self.get('model')) {
+                self.get('model.messages').pushObject(message);
+              }
+            });
+          });
+        }
+        Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
+      }, 2000);
+    },
+  },
 });

@@ -11,6 +11,8 @@ var Socket = EmberSockets.extend({
     port: 8444,
     controllers: [
         'channels/index',
+        'channels/channel/index',
+        'channels/channel/topic'
     ],
     autoConnect: true
 });

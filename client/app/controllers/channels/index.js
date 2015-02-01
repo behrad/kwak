@@ -125,8 +125,6 @@ export default Ember.Controller.extend({
     },
 
     message: function (data) {
-      var now = new Date();
-      window.localStorage['timestamp'] = now.getTime();
       var self = this;
       setTimeout(function () {
         if (data.author === self.get('currentUser.id')) {
@@ -139,28 +137,13 @@ export default Ember.Controller.extend({
         } else {
           self.store.find('topic', data.topic).then(function (topic) {
             self.store.find('profile', data.author).then(function (author) {
-              var message = self.store.push('message', {
+              self.store.push('message', {
                 id: data.id,
                 pubdate: data.pubdate,
                 content: data.content,
                 topic: topic,
                 author: author
               });
-
-              var channelsIndex = self.get('model');
-              if (channelsIndex) {
-                channelsIndex.pushObject(message);
-              }
-
-              var channelsChannelIndex = self.get('controllers.channels/channel/index.model.messages');
-              if (channelsChannelIndex) {
-                channelsChannelIndex.pushObject(message);
-              }
-
-              var channelsChannelTopic = self.get('controllers.channels/channel/topic.model.messages');
-              if (channelsChannelTopic) {
-                channelsChannelTopic.pushObject(message);
-              }
 
               var controller = self.get('controllers.channels/channel/mark-as-read');
               if (controller) {
