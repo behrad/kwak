@@ -10,8 +10,8 @@
       <div class="form-box">
         <h4><span class="label label-danger">{{loginErrorMessage}}</span></h4>
         <form method="post" {{action 'authenticate' on='submit'}}>
-          {{input class='form-control' placeholder='email' value=identification}}
-          {{input class='form-control' placeholder='password' type='password' value=password}}
+          {{input class='form-control form-control-top' placeholder='email' value=identification}}
+          {{input class='form-control form-control-bottom' placeholder='password' type='password' value=password}}
           <button class="btn btn-info btn-block login" type="submit">Login</button>
           <p class="forgot"><a href="/api/reset_password">Forgot your password?</a></p>
         </form>

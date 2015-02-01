@@ -33,11 +33,11 @@
     {{/each}}
     <form {{action 'createMessage' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
-        <span class="input-group-addon" id="addon-chevron-right">{{channel.name}} <i class="glyphicon glyphicon-chevron-right"></i></span>
-        {{input type="text" id="topic" value=topicTitle placeholder="topic" class="form-control"}}
+        <span class="input-group-addon form-control-top-left" id="addon-chevron-right">{{channel.name}} <i class="glyphicon glyphicon-chevron-right"></i></span>
+        {{input type="text" id="topic" value=topicTitle placeholder="topic" class="form-control form-control-top-right"}}
       </div>
       <div class="form-group">
-        {{message-box id="messagebox" class="form-control vert" value=message profiles=profiles}}
+        {{message-box id="messagebox" class="form-control form-control-bottom vert" value=message profiles=profiles}}
       </div>
     </form>
   </div>

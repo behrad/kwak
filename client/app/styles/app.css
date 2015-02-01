@@ -36,6 +36,22 @@ img {
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
+.form-control-top {
+  border-radius: 4px 4px 0 0 !important;
+}
+.form-control-top-left {
+  border-radius: 4px 0 0 0 !important;
+}
+.form-control-top-right {
+  border-radius: 0 4px 0 0 !important;
+}
+.form-control-middle {
+  border-radius: 0 !important;
+}
+.form-control-bottom {
+  border-radius: 0 0 4px 4px !important;
+}
+
 .footer {
   position: fixed;
   left: 214px;

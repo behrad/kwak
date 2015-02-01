@@ -8,11 +8,11 @@
     {{else}}
     <form {{action 'sendFeedback' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
-        <span class="input-group-addon" id="addon-chevron-right">{{currentUser.content.email}} <i class="glyphicon glyphicon-chevron-right"></i></span>
-        <span class="form-control" id="pm-penpal">Feedback <small class="text-muted">(feedback@kwak.io)</small></span>
+        <span class="input-group-addon form-control-top-left" id="addon-chevron-right">{{currentUser.content.email}} <i class="glyphicon glyphicon-chevron-right"></i></span>
+        <span class="form-control form-control-top-right" id="pm-penpal">Feedback <small class="text-muted">(feedback@kwak.io)</small></span>
       </div>
       <div class="form-group">
-        {{textarea id="messagebox" class="form-control vert" rows="10" value=feedbackMessage}}
+        {{textarea id="messagebox" class="form-control form-control-bottom vert" rows="10" value=feedbackMessage}}
       </div>
       <button class="btn btn-primary">Send feedback</button>
     </form>

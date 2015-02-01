@@ -22,11 +22,11 @@
   <div class="col-xs-12">
     <form {{action 'createPM' on='submit' id='messageform'}}>
       <div class="input-group input-group-lg">
-        <span class="input-group-addon" id="addon-chevron-right">Private Message <i class="glyphicon glyphicon-chevron-right"></i></span>
+        <span class="input-group-addon form-control-top-left" id="addon-chevron-right">Private Message <i class="glyphicon glyphicon-chevron-right"></i></span>
         <span class="form-control" id="pm-penpal">{{penpal.name}} <small class="text-muted">({{penpal.email}})</small></span>
       </div>
       <div class="form-group">
-        {{message-box id="messagebox" class="form-control vert" value=message profiles=profiles}}
+        {{message-box id="messagebox" class="form-control form-control-bottom vert" value=message profiles=profiles}}
       </div>
     </form>
   </div>
