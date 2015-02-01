@@ -15,9 +15,6 @@ function messageAfterRender () {
       $this.children('div').css('border-bottom', 0);
       $this.css('margin', '0');
       $this.css('margin-bottom', '2px');
-      $this.css('-webkit-box-shadow', 'none');
-      $this.css('-moz-box-shadow', 'none');
-      $this.css('box-shadow', 'none');
     }
   });
 }
