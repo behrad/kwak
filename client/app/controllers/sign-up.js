@@ -28,13 +28,15 @@ export default Ember.Controller.extend(EmberValidations.Mixin, {
           if (data['team']) {
             mixpanel.track("team created");
             mixpanel.track("account created");
+            self.set('teamCreated', true);
+            setTimeout(function () {
+              self.transitionToRoute('login');
+            }, 15000);
           } else {
             mixpanel.track("account created");
+            self.set('accountCreated', true);
           }
           self.set('success', true);
-          setTimeout(function () {
-            self.transitionToRoute('login');
-          }, 15000);
         }).fail(function (jqxhr) {
           var errs = JSON.parse(jqxhr.responseText);
           if (errs.error) {

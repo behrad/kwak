@@ -3,9 +3,14 @@
   <div class="login-container">
     <img src="assets/kwak.png" class="logo">
     {{#if success}}
-    <h2><span class="label label-success">Success!</span></h2>
-    <p>Please wait while we redirect you to the login form.</p>
-    <p><a href="/login" class="btn btn-default">I don't want to wait</a></p>
+      {{#if teamCreated}}
+      <h2><span class="label label-success">Success!</span></h2>
+      <p>Please wait while we redirect you to the login form.</p>
+      <p><a href="/login" class="btn btn-default">I don't want to wait</a></p>
+      {{else}}
+      <h2><span class="label label-success">Success!</span></h2>
+      <p>Your team admins have been notified. It's now up to them to activate your accound.</p>
+      {{/if}}
     {{else}}
     <div class="form-box">
       <form method="post" {{action 'signUp' on='submit'}}>
