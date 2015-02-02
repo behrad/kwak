@@ -38,6 +38,9 @@ export default Ember.Controller.extend({
       this.set('message', '');
     },
     deleteTopic: function () {
+      this.get('messages').forEach(function (item) {
+        item.destroyRecord();
+      });
       this.get('model.topic').destroyRecord();
       this.transitionToRoute('channels.channel', this.get('model.topic.channel'));
     },
