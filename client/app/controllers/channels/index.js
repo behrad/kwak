@@ -10,11 +10,19 @@ export default Ember.Controller.extend({
   }.observes('model.[]'),
 
   subscribed: function () {
-    return this.get('model.messages').filterBy('topic.channel.subscribed', true).sort(function (a, b) {
-
-      return +a.get('id') - +b.get('id');
+    return this.get('model.messages').filterBy('topic.channel.subscribed', true).toArray().sort(function (a, b) {
+      var aId = +a.get('id');
+      var bId = +b.get('id');
+      if (!aId) {
+        aId = Infinity;
+      }
+      if (!bId) {
+        bId = Infinity;
+      }
+      console.log(aId, bId);
+      return aId - bId;
     });
-  }.property('model.channels.[]', 'model.messages.[]'),
+  }.property('model.messages.[]', 'model.channels.[]'),
 
   unreadPms: function () {
     return window.unreadPms;

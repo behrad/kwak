@@ -42,7 +42,7 @@ export default Ember.Controller.extend({
         item.destroyRecord();
       });
       this.get('model.topic').destroyRecord();
-      this.transitionToRoute('channels.channel', this.get('model.topic.channel'));
+      this.transitionToRoute('channels');
     },
     lockTopic: function () {
       this.get('model.topic').set('is_locked', !this.get('model.topic.is_locked')).save();

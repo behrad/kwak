@@ -62,13 +62,10 @@ export default Ember.ObjectController.extend({
               author: self.get('currentUser.model'),
             }).save().then(function (message) {
               message.set('seen', true);
-              message.get('topic').then(function (topic) {
-                Ember.run.scheduleOnce('afterRender', self, scroll);
-                mixpanel.track("new message");
-                self.get('flashes').success('Message posted!');
-                Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
-                self.transitionToRoute('channels.channel.topic', topic);
-              });
+              Ember.run.scheduleOnce('afterRender', self, scroll);
+              mixpanel.track("new message");
+              self.get('flashes').success('Message posted!');
+              Ember.run.scheduleOnce('afterRender', self, messageAfterRender);
             });
           });
         }
