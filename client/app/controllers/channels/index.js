@@ -16,6 +16,10 @@ export default Ember.Controller.extend({
     });
   }.property('model.channels.[]', 'model.messages.[]'),
 
+  unreadPms: function () {
+    return window.unreadPms;
+  }.observes('window.unreadPms').property(),
+
   actions: {
     tour: function () {
       this.get('controllers.application').send('tour');
@@ -166,6 +170,7 @@ export default Ember.Controller.extend({
       var activeProfiles = profiles.filter(function (profile) {
         var alreadyAdded = (Ember.$.inArray(profile.email, activeEmails) !== -1);
         if (!alreadyAdded) {
+          profile.unreadPm = self.get('unreadPms')[profile.email];
           activeEmails.push(profile.email);
           return profile.email !== self.get('currentUser.model.email');
         } else {

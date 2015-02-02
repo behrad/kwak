@@ -10,8 +10,6 @@ export default Ember.ObjectController.extend({
       var self = this;
       if (messageId) {
         self.store.find(type, messageId).then(function (message) {
-          var currentUser = self.get('controllers.profile.model');
-          currentUser.set('cursor', messageId);
           window.saveRead = window.saveRead || [];
           window.saveRead.push({
             'id': messageId,
@@ -59,6 +57,7 @@ export default Ember.ObjectController.extend({
 
       $.getJSON('/api/pms/unread', function (unreadPms) {
         $(profiles).each(function (idx, el) {
+          window.unreadPms = window.unreadPms || [];
           var count = 0;
           if (unreadPms.hasOwnProperty(el.get('id'))) {
             count = unreadPms[el.get('id')];
@@ -74,6 +73,7 @@ export default Ember.ObjectController.extend({
           } else {
             el.set('unreadPm', '');
           }
+          window.unreadPms[el.get('email')] = count || '';
           totalPm = totalPm + count;
 
           if (totalMsgs === totalPm && totalPm === 0) {

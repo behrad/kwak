@@ -36,7 +36,7 @@
     {{#if hasProfiles}}
       {{#each profile in activeProfiles}}
       <li {{bind-attr class=":list-group-item :active profile.is_active:enable:disabled"}} {{action 'pm' profile}}>
-        <span class="label label-default pull-right unread-pm-counter" {{bind-attr data-profile-id=profile.id}}>{{profile.unreadPm}}</span>
+        <span class="label label-warning pull-right unread-pm-counter" {{bind-attr data-profile-id=profile.id}}>{{profile.unreadPm}}</span>
         {{profile.name}}
       </li>
       {{/each}}
