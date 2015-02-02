@@ -99,7 +99,9 @@ blockquote {
 .panel {
   border-radius: 2px;
   border: 0;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+     -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
 }
 .panel > .panel-heading,
 .panel-default > .panel-heading {
@@ -281,6 +283,12 @@ ul.nav.nav-pills.nav-stacked li a i {
 .message {
   margin: 0 0 10px 0;
   font-size: 15px;
+}
+
+.message-list > .group {
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+     -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
 }
 
 .message.seen {

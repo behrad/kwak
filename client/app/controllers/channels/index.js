@@ -19,7 +19,6 @@ export default Ember.Controller.extend({
       if (!bId) {
         bId = Infinity;
       }
-      console.log(aId, bId);
       return aId - bId;
     });
   }.property('model.messages.[]', 'model.channels.[]'),
